@@ -28,7 +28,6 @@ RSpec.describe 'Merchant Endpoints' do
     end
     it 'Can Create a Merchant' do
       post "/api/v1/merchants", params: { merchant: { name: "Random Merchant" } }
-      puts response.body
       expect(response).to be_successful
 
       merchant_data = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -44,6 +43,23 @@ RSpec.describe 'Merchant Endpoints' do
     
       expect(merchant_attributes).to have_key(:name)
       expect(merchant_attributes[:name]).to eq("Random Merchant")
+    end
+  end
+  describe 'Error Messages' do
+    it 'returns proper error if there is a duplicate merchant' do
+      post "/api/v1/merchants", params: { merchant: { name: "Randy Savage" } }
+      post "/api/v1/merchants", params: { merchant: { name: "Randy Savage" } }
+      expect(response).to have_http_status(422)
+
+      error_message = JSON.parse(response.body, symbolize_names: true)[:errors][:name]
+      expect(error_message).to eq(["This merchant has already been created"])
+    end
+    it 'returns proper error if there is no merchant name provided' do
+      post "/api/v1/merchants", params: { merchant: { name: "" } }
+      expect(response).to have_http_status(422)
+
+      error_message = JSON.parse(response.body, symbolize_names: true)[:errors][:name]
+      expect(error_message).to eq(["Please enter a merchant name"])
     end
   end
 end
