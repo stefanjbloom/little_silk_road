@@ -6,7 +6,6 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def create
-    options = {}
     merchant = Merchant.create(merchant_params)
     render json: MerchantSerializer.new(merchant), status: 201
   end

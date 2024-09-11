@@ -27,10 +27,23 @@ RSpec.describe 'Merchant Endpoints' do
       end
     end
     it 'Can Create a Merchant' do
-      post "/api/v1/merchants"
+      post "/api/v1/merchants", params: { merchant: { name: "Random Merchant" } }
+      puts response.body
       expect(response).to be_successful
-      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
 
+      merchant_data = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      
+      expect(merchant_data).to have_key(:id)
+      expect(merchant_data[:id]).to be_a(String)
+    
+      expect(merchant_data).to have_key(:type)
+      expect(merchant_data[:type]).to eq("merchant")
+    
+      merchant_attributes = merchant_data[:attributes]
+    
+      expect(merchant_attributes).to have_key(:name)
+      expect(merchant_attributes[:name]).to eq("Random Merchant")
     end
   end
 end

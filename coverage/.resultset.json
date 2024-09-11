@@ -208,6 +208,9 @@
           1,
           1,
           1,
+          null,
+          1,
+          1,
           null
         ]
       },
@@ -221,6 +224,16 @@
       "/Users/stefanbloom/turing_projects/mod2/little_shop/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
           null,
           1,
           1,
@@ -244,6 +257,6 @@
         ]
       }
     },
-    "timestamp": 1726085271
+    "timestamp": 1726096260
   }
 }
