@@ -6,6 +6,7 @@ RSpec.describe 'Merchant Endpoints' do
     @KozeyGroup = Merchant.create!(name: "Kozey Group")
 
   end
+
   describe 'HTTP Methods' do
     it 'Can retreive all merchants' do
       get "/api/v1/merchants"
@@ -39,6 +40,11 @@ RSpec.describe 'Merchant Endpoints' do
       expect(response).to be_successful
       expect(updated_merchant.name).to_not eq(previous_name)
       expect(updated_merchant.name).to eq("Kozey Grove co.")
+    end
+
+    it 'can delete a merchant' do
+      expect{ delete "/api/v1/merchants/#{@MachoMan.id}" }.to change(Merchant, :count).by(-1)
+      expect{ Merchant.find(@MachoMan.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
