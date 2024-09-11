@@ -26,5 +26,19 @@ RSpec.describe 'Merchant Endpoints' do
         expect(merchant[:name]).to be_a(String)
       end
     end
+
+    it 'can update a merchant name' do
+      id = @KozeyGroup.id
+      previous_name = @KozeyGroup.name
+      merchant_params = {name: "Kozey Grove co."}
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
+      updated_merchant = Merchant.find_by(id: id)
+
+      expect(response).to be_successful
+      expect(updated_merchant.name).to_not eq(previous_name)
+      expect(updated_merchant.name).to eq("Kozey Grove co.")
+    end
   end
 end

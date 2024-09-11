@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/environment.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/environment.rb": {
         "lines": [
           null,
           1,
@@ -10,7 +10,7 @@
           1
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/application.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/application.rb": {
         "lines": [
           1,
           null,
@@ -58,7 +58,7 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/boot.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/boot.rb": {
         "lines": [
           1,
           null,
@@ -66,7 +66,7 @@
           1
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/environments/test.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/environments/test.rb": {
         "lines": [
           1,
           null,
@@ -134,7 +134,7 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/initializers/cors.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/initializers/cors.rb": {
         "lines": [
           null,
           null,
@@ -154,7 +154,7 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/initializers/filter_parameter_logging.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/initializers/filter_parameter_logging.rb": {
         "lines": [
           null,
           null,
@@ -166,7 +166,7 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/initializers/inflections.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/initializers/inflections.rb": {
         "lines": [
           null,
           null,
@@ -186,7 +186,7 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/config/routes.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/routes.rb": {
         "lines": [
           1,
           null,
@@ -199,10 +199,13 @@
           null,
           null,
           1,
+          1,
+          null,
+          null,
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/merchant.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/merchant.rb": {
         "lines": [
           1,
           1,
@@ -210,14 +213,14 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/application_record.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
           null,
@@ -225,16 +228,27 @@
           1,
           1,
           null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/application_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/application_controller.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/serializers/merchant_serializer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/serializers/merchant_serializer.rb": {
         "lines": [
           1,
           1,
@@ -243,6 +257,6 @@
         ]
       }
     },
-    "timestamp": 1726084054
+    "timestamp": 1726087599
   }
 }
