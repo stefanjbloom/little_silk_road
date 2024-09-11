@@ -26,5 +26,11 @@ RSpec.describe 'Merchant Endpoints' do
         expect(merchant[:name]).to be_a(String)
       end
     end
+    it 'Can Create a Merchant' do
+      post "/api/v1/merchants"
+      expect(response).to be_successful
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    end
   end
 end
