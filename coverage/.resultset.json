@@ -199,11 +199,16 @@
           null,
           null,
           1,
+          null,
+          1,
+          null,
+          1,
           null
         ]
       },
       "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/merchant.rb": {
         "lines": [
+          1,
           1,
           1,
           1,
@@ -217,9 +222,49 @@
           null
         ]
       },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/customer.rb": {
+        "lines": [
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/item.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/invoice.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/invoice_item.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
       "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
+          null,
+          1,
+          1,
+          1,
+          null,
           null,
           1,
           1,
@@ -241,8 +286,20 @@
           1,
           null
         ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/merchant_customers_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
       }
     },
-    "timestamp": 1726084054
+    "timestamp": 1726099815
   }
 }
