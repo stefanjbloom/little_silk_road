@@ -29,30 +29,34 @@ RSpec.describe 'Item Endpoints' do
       expect{ delete "/api/v1/items/#{@item1.id}" }.to change(Item, :count).by(-1)
       expect{ Item.find(@item1.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
+    it 'can get all items' do
+      get "/api/v1/items"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      items.each do |item|
+
+        expect(item).to have_key(:id)
+        expect(item[:id]).to be_a(String)
+
+        expect(item).to have_key(:type)
+        expect(item[:type]).to eq("item")
+
+        item = item[:attributes]
+
+        expect(item).to have_key(:name)
+        expect(item[:name]).to be_a(String)
+
+        expect(item).to have_key(:description)
+        expect(item[:description]).to be_a(String)
+
+        expect(item).to have_key(:unit_price)
+        expect(item[:unit_price]).to be_a(Float)
+
+        expect(item).to have_key(:merchant_id)
+        expect(item[:merchant_id]).to be_a(Integer)
+      end
+    end
   end
 end
-# These “index” endpoints for items and merchants should:
-
-# render a JSON representation of all records of the requested resource
-# always return an array of data, even if one or zero resources are found
-# NOT include dependent data of the resource (e.g., if you’re fetching merchants, do not send any data about merchant’s items or invoices)
-# follow this pattern: GET /api/v1/
-
-# For “Fetch all” endpoints that have a condition (i.e. sorted, filtered, etc.), the following parameters should be added to the request to indicate what type of condition should be included in the response:
-
-# ?sorted=price on the items index to sort items by price, cheapest first
-
-# Example JSON response for the Item resource:
-
-# {
-#   "data": {
-#     "id": "16",
-#     "type": "item",
-#     "attributes": {
-#       "name": "Widget",
-#       "description": "High quality widget",
-#       "unit_price": 100.99,
-#       "merchant_id": 14
-#     }
-#   }
-# }
