@@ -1,5 +1,9 @@
 class Api::V1::ItemsController < ApplicationController
 
+  def index
+    items = Item.order_by(params[:sorted])
+    render json: ItemSerializer.new(items)
+  end
 
   def update
     updated_item = Item.update(params[:id], item_params)
