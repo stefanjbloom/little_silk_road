@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   get "/api/v1/merchants", to: "api/v1/merchants#index"
+  get "/api/v1/merchants/:id", to: "api/v1/merchants#show"
   post "/api/v1/merchants", to: "api/v1/merchants#create"
+
 end
