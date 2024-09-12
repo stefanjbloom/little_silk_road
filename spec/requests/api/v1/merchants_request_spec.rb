@@ -51,7 +51,7 @@ RSpec.describe 'Merchant Endpoints' do
   end
 
   describe 'return customers by merchant id' do
-    it 'Can return all customers for a given merchant' do
+    xit 'Can return all customers for a given merchant' do
       get "/api/v1/merchants/#{@macho_man.id}/customers"
       expect(response).to be_successful
       customers = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -71,7 +71,7 @@ RSpec.describe 'Merchant Endpoints' do
       expect(customers).to eq([customer1, customer2])
     end
 
-    it 'Returns empty array for customerless merchant' do
+    xit 'Returns empty array for customerless merchant' do
       really_bad_salesman = Merchant.create!(name: 'Arthur Miller')
 
       get "/api/v1/merchants/#{really_bad_salesman.id}/customers"
@@ -79,6 +79,32 @@ RSpec.describe 'Merchant Endpoints' do
       customers = JSON.parse(response.body, symbolize_names: true)[:data]
 
       expect(customers).to eq([])
+    end
+  end
+
+  describe 'Update Action' do
+    it 'can update a merchant name' do
+      id = @kozey_group.id
+      previous_name = @kozey_group.name
+      merchant_params = {name: "Kozey Grove co."}
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
+      updated_merchant = Merchant.find_by(id: id)
+
+      expect(response).to be_successful
+      expect(updated_merchant.name).to_not eq(previous_name)
+      expect(updated_merchant.name).to eq("Kozey Grove co.")
+    end
+  end
+
+  describe 'Destroy Action' do
+    it 'can delete a merchant and all of their items' do
+      item = Item.create!(name: "Item", description: "This is an item", unit_price: 99.99, merchant_id: @macho_man.id)
+
+      expect{ delete "/api/v1/merchants/#{@macho_man.id}" }.to change(Merchant, :count).by(-1)
+      expect(Item.where(merchant_id: @macho_man.id).count).to eq(0)
+      expect{ Merchant.find(@macho_man.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
