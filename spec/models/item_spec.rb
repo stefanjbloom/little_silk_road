@@ -14,7 +14,7 @@ RSpec.describe Item, type: :model do
     it { should validate_numericality_of(:unit_price).is_greater_than_or_equal_to(0).with_message("should be a valid price")}
   end
   describe '?Query Param' do
-    it 'should return items by price, cheapest first, when ?sorted=price' do
+    it 'item?sorted=price should return items by price, cheapest first' do
       @merchant = Merchant.create!(name: "Booze Shop")
 
       @item1 = Item.create!(name: "well whiskey", description: "cheap whiskey", unit_price: 10.00, merchant: @merchant)
