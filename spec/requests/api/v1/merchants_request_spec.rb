@@ -11,8 +11,6 @@ RSpec.describe 'Merchant Endpoints' do
     @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
     @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
   end
-
-  
   describe 'HTTP Methods' do
     it 'Can return all merchants' do
       get "/api/v1/merchants"
@@ -32,8 +30,30 @@ RSpec.describe 'Merchant Endpoints' do
         expect(merchant).to have_key(:name)
         expect(merchant[:name]).to be_a(String)
       end
-    end
 
+      it 'Can return one merchant' do
+        get "/api/v1/merchants/#{@macho_man.id}"
+        expect(response).to be_successful
+        merchant = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(merchant).to have_key(:id)
+        expect(merchant[:id]).to be_a(String)
+
+        expect(merchant).to have_key(:type)
+        expect(merchant[:type]).to eq("merchant")
+
+        merchant = merchant[:attributes]
+
+        expect(merchant).to have_key(:name)
+        expect(merchant[:name]).to be_a(String)
+    end
+  end
+
+
+<<<<<<<<< Temporary merge branch 1
+    it 'Can return one merchant' do
+      get "/api/v1/merchants/#{@macho_man.id}"
+=========
     it 'can update a merchant name' do
       id = @KozeyGroup.id
       previous_name = @KozeyGroup.name
@@ -43,25 +63,10 @@ RSpec.describe 'Merchant Endpoints' do
       patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
       updated_merchant = Merchant.find_by(id: id)
 
+>>>>>>>>> Temporary merge branch 2
       expect(response).to be_successful
       expect(updated_merchant.name).to_not eq(previous_name)
       expect(updated_merchant.name).to eq("Kozey Grove co.")
-
-    it 'Can return one merchant' do
-      get "/api/v1/merchants/#{@macho_man.id}"
-      expect(response).to be_successful
-      merchant = JSON.parse(response.body, symbolize_names: true)[:data]
-
-      expect(merchant).to have_key(:id)
-      expect(merchant[:id]).to be_a(String)
-
-      expect(merchant).to have_key(:type)
-      expect(merchant[:type]).to eq("merchant")
-
-      merchant = merchant[:attributes]
-
-      expect(merchant).to have_key(:name)
-      expect(merchant[:name]).to be_a(String)
     end
 
     it 'can delete a merchant and all of their items' do
