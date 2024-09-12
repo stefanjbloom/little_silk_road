@@ -200,11 +200,19 @@
           null,
           1,
           1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
           null
         ]
       },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/merchant.rb": {
+      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/item.rb": {
         "lines": [
+          1,
+          1,
           1,
           1,
           1,
@@ -221,36 +229,31 @@
           null
         ]
       },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/controllers/api/v1/merchants_controller.rb": {
+      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/merchant.rb": {
         "lines": [
           1,
-          null,
           1,
           1,
           1,
           null,
-          null,
           1,
-          4,
-          4,
-          4,
-          null,
-          null,
-          1,
-          1,
-          4,
-          null,
-          null
-        ]
-      },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/controllers/application_controller.rb": {
-        "lines": [
           1,
           null
         ]
       },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/serializers/merchant_serializer.rb": {
+      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/invoice_item.rb": {
         "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/invoice.rb": {
+        "lines": [
+          1,
+          1,
+          1,
           1,
           1,
           1,
@@ -258,6 +261,6 @@
         ]
       }
     },
-    "timestamp": 1726098831
+    "timestamp": 1726166042
   }
 }

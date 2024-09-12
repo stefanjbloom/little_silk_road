@@ -4,7 +4,6 @@ class Item < ApplicationRecord
 	has_many :invoices
 	has_many :invoices, through: :invoice_items
 
-	validates :name, :description, :unit_price, :merchant_id {message: "is required"}
-	validates :name, :description, :unit_price, comparison: {other_than: "", message: "cannot be blank"}
-	validates :unit_price, numericality: {message: "should be a valid price"}
+	validates :name, :description, :unit_price, :merchant_id, presence: { message: "is required" }
+	validates :unit_price, numericality: { greater_than_or_equal_to: 0, message: "should be a valid price" }
 end
