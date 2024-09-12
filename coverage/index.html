@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-11T18:10:15-06:00">2024-09-11T18:10:15-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-11T21:34:33-06:00">2024-09-11T21:34:33-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -28,8 +28,8 @@
      </span>
      covered at
      <span class="covered_strength">
-       <span class="yellow">
-         1.0
+       <span class="green">
+         1.03
        </span>
     </span> hits/line
     )
@@ -42,8 +42,8 @@
   </div>
 
   <div class="t-line-summary">
-    <b>87</b> relevant lines,
-    <span class="green"><b>87</b> lines covered</span> and
+    <b>88</b> relevant lines,
+    <span class="green"><b>88</b> lines covered</span> and
     <span class="red"><b>0</b> lines missed. </span>
     (<span class="green">
   100.0%
@@ -73,10 +73,10 @@
             <td class="strong t-file__name"><a href="#aa836c7ef5f60600ac2d3ddb5886220f7f2432bb" class="src_link" title="app/controllers/api/v1/merchant_customers_controller.rb">app/controllers/api/v1/merchant_customers_controller.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
             <td class="cell--number">10</td>
-            <td class="cell--number">4</td>
-            <td class="cell--number">4</td>
+            <td class="cell--number">5</td>
+            <td class="cell--number">5</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">1.00</td>
+            <td class="cell--number">1.60</td>
             
           </tr>
         
@@ -136,17 +136,6 @@
           </tr>
         
           <tr class="t-file">
-            <td class="strong t-file__name"><a href="#d3e010f0d9dd2312a154133ffc9c9c56f6fa55df" class="src_link" title="app/models/invoice_item.rb">app/models/invoice_item.rb</a></td>
-            <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">4</td>
-            <td class="cell--number">3</td>
-            <td class="cell--number">3</td>
-            <td class="cell--number">0</td>
-            <td class="cell--number">1.00</td>
-            
-          </tr>
-        
-          <tr class="t-file">
             <td class="strong t-file__name"><a href="#e1bb9808f46af03783264838e7b5f085d5b19a9f" class="src_link" title="app/models/item.rb">app/models/item.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
             <td class="cell--number">5</td>
@@ -163,6 +152,17 @@
             <td class="cell--number">5</td>
             <td class="cell--number">4</td>
             <td class="cell--number">4</td>
+            <td class="cell--number">0</td>
+            <td class="cell--number">1.00</td>
+            
+          </tr>
+        
+          <tr class="t-file">
+            <td class="strong t-file__name"><a href="#d1efe7f1575ae64e554cb1abc01a71cbc4921b94" class="src_link" title="app/serializers/customer_serializer.rb">app/serializers/customer_serializer.rb</a></td>
+            <td class="green strong cell--number t-file__coverage">100.00 %</td>
+            <td class="cell--number">4</td>
+            <td class="cell--number">3</td>
+            <td class="cell--number">3</td>
             <td class="cell--number">0</td>
             <td class="cell--number">1.00</td>
             
@@ -298,8 +298,8 @@
     
 
     <div class="t-line-summary">
-      <b>4</b> relevant lines.
-      <span class="green"><b>4</b> lines covered</span> and
+      <b>5</b> relevant lines.
+      <span class="green"><b>5</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -345,9 +345,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="4">
+          <li class="covered" data-hits="2" data-linenumber="4">
             
-              <span class="hits">1</span>
+              <span class="hits">2</span>
             
 
             
@@ -357,9 +357,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="5">
+          <li class="covered" data-hits="2" data-linenumber="5">
             
-              <span class="hits">1</span>
+              <span class="hits">2</span>
             
 
             
@@ -369,12 +369,14 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="6">
+          <li class="covered" data-hits="2" data-linenumber="6">
+            
+              <span class="hits">2</span>
             
 
             
 
-            <code class="ruby">    render json: MerchantSerializer.new(customers)</code>
+            <code class="ruby">    render json: CustomerSerializer.new(customers)</code>
           </li>
         </div>
       
@@ -384,7 +386,7 @@
 
             
 
-            <code class="ruby">    require &#39;pry&#39;; binding.pry</code>
+            <code class="ruby">    # require &#39;pry&#39;; binding.pry</code>
           </li>
         </div>
       
@@ -752,7 +754,7 @@
 
             
 
-            <code class="ruby">    has_many :invoice</code>
+            <code class="ruby">    has_many :invoices</code>
           </li>
         </div>
       
@@ -871,83 +873,6 @@
       
         <div>
           <li class="never" data-hits="" data-linenumber="7">
-            
-
-            
-
-            <code class="ruby">end</code>
-          </li>
-        </div>
-      
-    </ol>
-  </pre>
-</div>
-
-      
-        <div class="source_table" id="d3e010f0d9dd2312a154133ffc9c9c56f6fa55df">
-  <div class="header">
-    <h3>app/models/invoice_item.rb</h3>
-    <h4>
-      <span class="green">
-  100.0%
-</span>
-
-      lines covered
-    </h4>
-
-    
-
-    <div class="t-line-summary">
-      <b>3</b> relevant lines.
-      <span class="green"><b>3</b> lines covered</span> and
-      <span class="red"><b>0</b> lines missed.</span>
-    </div>
-
-    
-
-  </div>
-
-  <pre>
-    <ol>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="1">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">class InvoiceItem &lt; ApplicationRecord</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="2">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">	belongs_to :invoice</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="3">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">	belongs_to :item</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="4">
             
 
             
@@ -1126,6 +1051,83 @@
       
         <div>
           <li class="never" data-hits="" data-linenumber="5">
+            
+
+            
+
+            <code class="ruby">end</code>
+          </li>
+        </div>
+      
+    </ol>
+  </pre>
+</div>
+
+      
+        <div class="source_table" id="d1efe7f1575ae64e554cb1abc01a71cbc4921b94">
+  <div class="header">
+    <h3>app/serializers/customer_serializer.rb</h3>
+    <h4>
+      <span class="green">
+  100.0%
+</span>
+
+      lines covered
+    </h4>
+
+    
+
+    <div class="t-line-summary">
+      <b>3</b> relevant lines.
+      <span class="green"><b>3</b> lines covered</span> and
+      <span class="red"><b>0</b> lines missed.</span>
+    </div>
+
+    
+
+  </div>
+
+  <pre>
+    <ol>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="1">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">class CustomerSerializer</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="2">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">  include JSONAPI::Serializer</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="3">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">  attributes :first_name, :last_name</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="4">
             
 
             
