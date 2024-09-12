@@ -22,7 +22,9 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def destroy
-    render json: Merchant.delete(params[:id]), status: 204
+    merchant = Merchant.find(params[:id])
+    merchant.destroy  # This will trigger dependent: :destroy and delete associated items
+    head :no_content  # Returns a 204 No Content response
   end
 
   private

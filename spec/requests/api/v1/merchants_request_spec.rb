@@ -43,10 +43,10 @@ RSpec.describe 'Merchant Endpoints' do
     end
 
     it 'can delete a merchant and all of their items' do
-      # item = Item.create!(name: "Item", description: "This is an item", unit_price: 99.99, merchant_id: @MachoMan.id)
+      item = Item.create!(name: "Item", description: "This is an item", unit_price: 99.99, merchant_id: @MachoMan.id)
       # require 'pry'; binding.pry
       expect{ delete "/api/v1/merchants/#{@MachoMan.id}" }.to change(Merchant, :count).by(-1)
-      # expect(Item.where(merchant_id: @MachoMan.id).count).to eq(0)
+      expect(Item.where(merchant_id: @MachoMan.id).count).to eq(0)
       expect{ Merchant.find(@MachoMan.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
