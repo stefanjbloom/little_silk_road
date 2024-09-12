@@ -36,22 +36,13 @@ RSpec.describe 'Merchant Endpoints' do
       get "/api/v1/merchants/#{@macho_man.id}"
       expect(response).to be_successful
       merchant = JSON.parse(response.body, symbolize_names: true)[:data]
-
-      expect(merchant).to have_key(:id)
-      expect(merchant[:id]).to be_a(String)
-
-      expect(merchant).to have_key(:type)
-      expect(merchant[:type]).to eq("merchant")
-
-      merchant = merchant[:attributes]
-
-      expect(merchant).to have_key(:name)
-      expect(merchant[:name]).to be_a(String)
+      expect(merchant[:id]).to eq(@macho_man.id.to_s)
+      expect(merchant[:attributes][:name]).to eq(@macho_man.name)
     end
   end
 
   describe 'return customers by merchant id' do
-    xit 'Can return all customers for a given merchant' do
+    it 'Can return all customers for a given merchant' do
       get "/api/v1/merchants/#{@macho_man.id}/customers"
       expect(response).to be_successful
       customers = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -71,7 +62,7 @@ RSpec.describe 'Merchant Endpoints' do
       expect(customers).to eq([customer1, customer2])
     end
 
-    xit 'Returns empty array for customerless merchant' do
+    it 'Returns empty array for customerless merchant' do
       really_bad_salesman = Merchant.create!(name: 'Arthur Miller')
 
       get "/api/v1/merchants/#{really_bad_salesman.id}/customers"
