@@ -6,6 +6,7 @@ RSpec.describe 'Merchant Endpoints' do
     @KozeyGroup = Merchant.create!(name: "Kozey Group")
   end
 
+  
   describe 'HTTP Methods' do
     it 'Can retreive all merchants' do
       get "/api/v1/merchants"
