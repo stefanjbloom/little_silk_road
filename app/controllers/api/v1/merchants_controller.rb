@@ -16,10 +16,20 @@ class Api::V1::MerchantsController < ApplicationController
     render json: { errors: merchant.errors.messages }, status: 422 unless merchant.persisted?  
   end
 
+  def update
+    updated_merchant = Merchant.update(params[:id], merchant_params)
+    render json: MerchantSerializer.new(updated_merchant)
+  end
+
+  def destroy
+    merchant = Merchant.find(params[:id])
+    merchant.destroy  # This will trigger dependent: :destroy and delete associated items
+    head :no_content  # Returns a 204 No Content response
+  end
+
   private
-  
+
   def merchant_params
     params.require(:merchant).permit(:name)
   end
-  
 end

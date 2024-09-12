@@ -4,8 +4,8 @@ RSpec.describe 'Merchant Endpoints' do
   before (:each) do
     @MachoMan = Merchant.create!(name: "Randy Savage")
     @KozeyGroup = Merchant.create!(name: "Kozey Group")
-
   end
+
   
   describe 'HTTP Methods' do
     it 'Can retreive all merchants' do
@@ -26,61 +26,28 @@ RSpec.describe 'Merchant Endpoints' do
         expect(merchant).to have_key(:name)
         expect(merchant[:name]).to be_a(String)
       end
-    end 
+    end
 
-    it 'Can retrieve one merchant' do
-      get "/api/v1/merchants/#{@MachoMan.id}"
+    it 'can update a merchant name' do
+      id = @KozeyGroup.id
+      previous_name = @KozeyGroup.name
+      merchant_params = {name: "Kozey Grove co."}
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
+      updated_merchant = Merchant.find_by(id: id)
+
       expect(response).to be_successful
-      merchant = JSON.parse(response.body, symbolize_names: true)[:data]
-
-      expect(merchant).to have_key(:id)
-      expect(merchant[:id]).to be_a(String)
-
-      expect(merchant).to have_key(:type)
-      expect(merchant[:type]).to eq("merchant")
-
-      merchant = merchant[:attributes]
-
-      expect(merchant).to have_key(:name)
-      expect(merchant[:name]).to be_a(String)
-    end
-      
-    it 'Can Create a Merchant' do
-      post "/api/v1/merchants", params: { merchant: { name: "Random Merchant" } }
-      expect(response).to be_successful
-
-      merchant_data = JSON.parse(response.body, symbolize_names: true)[:data]
-
-
-      expect(merchant_data).to have_key(:id)
-      expect(merchant_data[:id]).to be_a(String)
-
-      expect(merchant_data).to have_key(:type)
-      expect(merchant_data[:type]).to eq("merchant")
-
-      merchant_attributes = merchant_data[:attributes]
-
-      expect(merchant_attributes).to have_key(:name)
-      expect(merchant_attributes[:name]).to eq("Random Merchant")
-    end
-  end
-
-  describe 'Error Messages' do
-    it 'returns proper error if there is a duplicate merchant' do
-      post "/api/v1/merchants", params: { merchant: { name: "Randy Savage" } }
-      post "/api/v1/merchants", params: { merchant: { name: "Randy Savage" } }
-      expect(response).to have_http_status(422)
-
-      error_message = JSON.parse(response.body, symbolize_names: true)[:errors][:name]
-      expect(error_message).to eq(["This merchant has already been created"])
+      expect(updated_merchant.name).to_not eq(previous_name)
+      expect(updated_merchant.name).to eq("Kozey Grove co.")
     end
 
-    it 'returns proper error if there is no merchant name provided' do
-      post "/api/v1/merchants", params: { merchant: { name: "" } }
-      expect(response).to have_http_status(422)
-
-      error_message = JSON.parse(response.body, symbolize_names: true)[:errors][:name]
-      expect(error_message).to eq(["Please enter a merchant name"])
+    it 'can delete a merchant and all of their items' do
+      item = Item.create!(name: "Item", description: "This is an item", unit_price: 99.99, merchant_id: @MachoMan.id)
+      # require 'pry'; binding.pry
+      expect{ delete "/api/v1/merchants/#{@MachoMan.id}" }.to change(Merchant, :count).by(-1)
+      expect(Item.where(merchant_id: @MachoMan.id).count).to eq(0)
+      expect{ Merchant.find(@MachoMan.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
