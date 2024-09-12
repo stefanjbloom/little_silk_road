@@ -6,6 +6,7 @@ RSpec.describe 'Merchant Endpoints' do
     @KozeyGroup = Merchant.create!(name: "Kozey Group")
 
   end
+  
   describe 'HTTP Methods' do
     it 'Can retreive all merchants' do
       get "/api/v1/merchants"
@@ -63,7 +64,7 @@ RSpec.describe 'Merchant Endpoints' do
       expect(merchant_attributes[:name]).to eq("Random Merchant")
     end
   end
-  
+
   describe 'Error Messages' do
     it 'returns proper error if there is a duplicate merchant' do
       post "/api/v1/merchants", params: { merchant: { name: "Randy Savage" } }
@@ -73,6 +74,7 @@ RSpec.describe 'Merchant Endpoints' do
       error_message = JSON.parse(response.body, symbolize_names: true)[:errors][:name]
       expect(error_message).to eq(["This merchant has already been created"])
     end
+
     it 'returns proper error if there is no merchant name provided' do
       post "/api/v1/merchants", params: { merchant: { name: "" } }
       expect(response).to have_http_status(422)
