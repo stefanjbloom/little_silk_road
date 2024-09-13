@@ -30,10 +30,9 @@ RSpec.describe Merchant, type: :model do
     it '?sorted=age should return ascending by when created' do
       sorted_age = Merchant.sort_by_age("age")
       expect(sorted_age).to eq([@liquor_store, @kozey_group, @macho_man])
-
     end
 
-    xit '?status=returned should return merchants with items on returned invoice' do
+    it '?status=returned should return merchants with items on returned invoice' do
       flustered_merchants = Merchant.status_returned('returned')
       expect(flustered_merchants).to eq([@liquor_store, @macho_man])
     end

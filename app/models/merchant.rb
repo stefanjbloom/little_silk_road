@@ -7,11 +7,16 @@ class Merchant < ApplicationRecord
 	validates :name, uniqueness: { message: "This merchant has already been created" }
 
     def self.sort_by_age(sorted)
-        # require 'pry'; binding.pry
         if sorted == "age"
             order(created_at: :desc)
         else
             all
+        end
+    end
+
+    def self.status_returned(status)
+        if status == "returned"
+            select(:)where("status ILIKE '%#{status}%'")
         end
     end
 end
