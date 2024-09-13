@@ -34,7 +34,7 @@ RSpec.describe Merchant, type: :model do
 
     it '?status=returned should return merchants with items on returned invoice' do
       flustered_merchants = Merchant.status_returned('returned')
-      expect(flustered_merchants).to eq([@liquor_store, @macho_man])
+      expect(flustered_merchants).to eq([@macho_man, @liquor_store])
     end
 
     xit '?count=true returns the store name and a count of its items' do

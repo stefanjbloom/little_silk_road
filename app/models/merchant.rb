@@ -16,7 +16,9 @@ class Merchant < ApplicationRecord
 
     def self.status_returned(status)
         if status == "returned"
-            select(:)where("status ILIKE '%#{status}%'")
+            joins(:items, :invoices).where(invoices: {status: 'returned'}).distinct
+        else
+            all
         end
     end
 end
