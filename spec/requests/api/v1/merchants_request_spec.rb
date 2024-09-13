@@ -48,9 +48,13 @@ RSpec.describe 'Merchant Endpoints' do
       name: "Walter White"
     }
 
-    post "/api/v1/merchants", params: 
+    post "/api/v1/merchants", params: merchant_params, as: :json
 
-    require 'pry'; binding.pry
+    expect(response).to be_successful
+    expect(Merchant.count).to eq(3)
+
+    new_merchant = Merchant.last
+    expect(new_merchant.name).to eq(merchant_params[:name])
   end
 
   describe 'return customers by merchant id' do
