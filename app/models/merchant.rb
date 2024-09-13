@@ -21,4 +21,10 @@ class Merchant < ApplicationRecord
             all
         end
     end
+
+    def self.search(param)
+		all_merchants = Merchant.all
+		merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
+		merchant.first
+	end
 end
