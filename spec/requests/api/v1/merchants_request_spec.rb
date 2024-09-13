@@ -98,4 +98,36 @@ RSpec.describe 'Merchant Endpoints' do
       expect{ Merchant.find(@macho_man.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe "Get all items by merchant id" do
+    it "can render a JSON representation of all records of the requested resource" do
+      get "/api/v1/merchants/#{@macho_man.id}/items"
+      expect(response).to be_successful
+      items = JSON.parse(response.body, symbolize_names: true)[:data]
+      item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+      item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+
+      expect(items).to be_an(Array)
+      expect(items.count).to eq(2)
+      expect(item1).to have_key(:type)
+      expect(item1[:type]).to eq('item')
+
+      expect(item1[:attributes]).to have_key(:name)
+      expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
+      expect(item1[:attributes]).to have_key(:description)
+      expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
+      expect(item1[:attributes]).to have_key(:unit_price)
+      expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)
+      
+      expect(@merchant1.items).to eq([item1, item2])
+
+    end
+
+    it "always return an array of data, even if one or zero resources are found" do
+
+    end
+    it "does NOT include dependent data of the resource (e.g., if you’re fetching merchants, do not send any data about merchant’s items or invoices)" do
+
+    end
+  end
 end
