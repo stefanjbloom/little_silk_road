@@ -41,6 +41,22 @@ RSpec.describe 'Merchant Endpoints' do
     end
   end
 
+  it 'Can create a merchant' do
+    expect(Merchant.count).to eq(2)
+
+    merchant_params = {
+      name: "Walter White"
+    }
+
+    post "/api/v1/merchants", params: merchant_params, as: :json
+
+    expect(response).to be_successful
+    expect(Merchant.count).to eq(3)
+
+    new_merchant = Merchant.last
+    expect(new_merchant.name).to eq(merchant_params[:name])
+  end
+
   describe 'return customers by merchant id' do
     it 'Can return all customers for a given merchant' do
       get "/api/v1/merchants/#{@macho_man.id}/customers"
