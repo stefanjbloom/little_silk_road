@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-12T19:49:46-06:00">2024-09-12T19:49:46-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-13T00:41:42-06:00">2024-09-13T00:41:42-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -42,8 +42,8 @@
   </div>
 
   <div class="t-line-summary">
-    <b>334</b> relevant lines,
-    <span class="green"><b>331</b> lines covered</span> and
+    <b>335</b> relevant lines,
+    <span class="green"><b>332</b> lines covered</span> and
     <span class="red"><b>3</b> lines missed. </span>
     (<span class="green">
   99.1%
@@ -391,9 +391,9 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#1dfab265470a1cc260e80ab250160698dfea327c" class="src_link" title="spec/requests/api/v1/merchants_request_spec.rb">spec/requests/api/v1/merchants_request_spec.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">164</td>
-            <td class="cell--number">112</td>
-            <td class="cell--number">112</td>
+            <td class="cell--number">166</td>
+            <td class="cell--number">113</td>
+            <td class="cell--number">113</td>
             <td class="cell--number">0</td>
             <td class="cell--number">2.04</td>
             
@@ -6147,8 +6147,8 @@
     
 
     <div class="t-line-summary">
-      <b>112</b> relevant lines.
-      <span class="green"><b>112</b> lines covered</span> and
+      <b>113</b> relevant lines.
+      <span class="green"><b>113</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -7339,7 +7339,7 @@
 
             
 
-            <code class="ruby">  describe &quot;Get all items by merchant id&quot; do</code>
+            <code class="ruby">  describe &quot;Get all of a merchant&#39;s items by the merchant&#39;s id&quot; do</code>
           </li>
         </div>
       
@@ -7557,7 +7557,7 @@
 
             
 
-            <code class="ruby">      expect(item2[:attributes][:name]).to eq(@cursed_object.name)</code>
+            <code class="ruby">      expect(item1[:attributes][:description]).to eq(@illicit_goods.description)</code>
           </li>
         </div>
       
@@ -7569,7 +7569,7 @@
 
             
 
-            <code class="ruby">      expect(item1[:attributes][:description]).to eq(@illicit_goods.description)</code>
+            <code class="ruby">      expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)</code>
           </li>
         </div>
       
@@ -7581,7 +7581,7 @@
 
             
 
-            <code class="ruby">      expect(item2[:attributes][:description]).to eq(@cursed_object.description)</code>
+            <code class="ruby">      expect(item2[:attributes][:name]).to eq(@cursed_object.name)</code>
           </li>
         </div>
       
@@ -7593,7 +7593,7 @@
 
             
 
-            <code class="ruby">      expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)</code>
+            <code class="ruby">      expect(item2[:attributes][:description]).to eq(@cursed_object.description)</code>
           </li>
         </div>
       
@@ -7979,17 +7979,19 @@
 
             
 
-            <code class="ruby">    it &quot;does NOT include dependent data of the resource (e.g., if you’re fetching merchants, do not send any data about merchant’s items or invoices)&quot; do</code>
+            <code class="ruby">    context &quot;when fetching a merchant&#39;s items&quot;  do </code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="161">
+          <li class="covered" data-hits="1" data-linenumber="161">
+            
+              <span class="hits">1</span>
             
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      it &quot;the returned data does NOT include any data pertaining to dependants of the merchant&#39;s items&quot; do</code>
           </li>
         </div>
       
@@ -7999,7 +8001,7 @@
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -8009,12 +8011,32 @@
 
             
 
-            <code class="ruby">  end</code>
+            <code class="ruby">      end</code>
           </li>
         </div>
       
         <div>
           <li class="never" data-hits="" data-linenumber="164">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="165">
+            
+
+            
+
+            <code class="ruby">  end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="166">
             
 
             

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Endpoints' do
+RSpec.describe 'Merchant Endpoints:' do
   before (:each) do
     @macho_man = Merchant.create!(name: "Randy Savage")
     @kozey_group = Merchant.create!(name: "Kozey Group")
@@ -101,11 +101,11 @@ RSpec.describe 'Merchant Endpoints' do
     end
   end
 
-  describe "Get all items by merchant id" do
+  describe "Get all of a merchant's items by the merchant's id" do
     before(:each) do 
       
     end
-    it "can render a JSON representation of all records of the requested resource" do
+    it "renders a JSON representation of all records of the requested resource" do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
 
@@ -120,18 +120,18 @@ RSpec.describe 'Merchant Endpoints' do
       expect(item1[:type]).to eq('item')
 
       expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
-      expect(item2[:attributes][:name]).to eq(@cursed_object.name)
       expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
-      expect(item2[:attributes][:description]).to eq(@cursed_object.description)
       expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)
+      expect(item2[:attributes][:name]).to eq(@cursed_object.name)
+      expect(item2[:attributes][:description]).to eq(@cursed_object.description)
       expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
       
       expect(items).to eq([item1, item2])
       expect(items).to_not eq([item1, item2, item3])
     end
 
-    context "it always return an array of data" do
-      it "even if one resource is found" do
+    context "it will always return data in an array" do
+      it "even if only one resource is found" do
         get "/api/v1/merchants/#{@kozey_group.id}/items"
         expect(response).to be_successful
         
@@ -157,8 +157,10 @@ RSpec.describe 'Merchant Endpoints' do
         expect(items.count).to eq(0)
       end
     end
-    it "does NOT include dependent data of the resource (e.g., if you’re fetching merchants, do not send any data about merchant’s items or invoices)" do
-      
+    context "when fetching a merchant's items"  do 
+      it "the returned data does NOT include any data pertaining to dependants of the merchant's items" do
+
+      end
     end
   end
 end
