@@ -149,7 +149,7 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 end
 
-    
+    # POTENTIALLY USEFUL TESTING CODE - DELETE BEFORE SUBMISSION
     # context "it will always return data in an array" do
     #   it "even if only one resource is found" do
     #     get "/api/v1/merchants/#{@kozey_group.id}/items"
