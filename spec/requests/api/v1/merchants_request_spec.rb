@@ -44,7 +44,7 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   it 'Can create a merchant' do
-    expect(Merchant.count).to eq(2)
+    expect(Merchant.count).to eq(3)
 
     merchant_params = {
       name: "Walter White"
@@ -53,7 +53,7 @@ RSpec.describe 'Merchant Endpoints:' do
     post "/api/v1/merchants", params: merchant_params, as: :json
 
     expect(response).to be_successful
-    expect(Merchant.count).to eq(3)
+    expect(Merchant.count).to eq(4)
 
     new_merchant = Merchant.last
     expect(new_merchant.name).to eq(merchant_params[:name])
@@ -144,7 +144,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(items).to_not eq([item1, item2, item3])
     end
     it "returns a 404 error if merchant is not found" do
-      
+
     end
   end
 end
