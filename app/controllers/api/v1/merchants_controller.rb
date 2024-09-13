@@ -1,8 +1,11 @@
 class Api::V1::MerchantsController < ApplicationController
 
   def index
-    merchants = Merchant.all
-    render json: MerchantSerializer.new(merchants)
+    merchants = Merchant.sort_by_age(params[:sorted])
+                        # .status_returned()
+                        # .count_items()
+
+    render json: MerchantSerializer.new(merchants)                    
   end
 
   def show
