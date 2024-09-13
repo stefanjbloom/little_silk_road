@@ -27,6 +27,21 @@ class Api::V1::MerchantsController < ApplicationController
     head :no_content  # Returns a 204 No Content response
   end
 
+  def find
+    merchant = Merchant.search(params[:name])
+    if merchant
+      render json: MerchantSerializer.new(merchant)
+    else
+      render json: {
+        errors: [
+        {
+          status: "404",
+          message: "Merchant not found"
+        }
+      ]}, status: 404
+    end
+  end
+
   private
 
   def merchant_params

@@ -98,4 +98,22 @@ RSpec.describe 'Merchant Endpoints' do
       expect{ Merchant.find(@macho_man.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe "Find Action" do
+    it 'can find the first merchant to meet the params in alphabetical order' do
+      get "/api/v1/merchants/find?name=koZ"
+      data = JSON.parse(response.body, symbolize_names: true)
+      # require 'pry'; binding.pry
+
+      expect(response).to be_successful
+    end
+
+    it 'will handle incorrect searches' do
+      get "/api/v1/merchants/find?name=1234"
+      data = JSON.parse(response.body, symbolize_names: true)
+      # require 'pry'; binding.pry
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+    end
+  end
 end
