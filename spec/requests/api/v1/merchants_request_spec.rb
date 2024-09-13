@@ -4,10 +4,12 @@ RSpec.describe 'Merchant Endpoints' do
   before (:each) do
     @macho_man = Merchant.create!(name: "Randy Savage")
     @kozey_group = Merchant.create!(name: "Kozey Group")
+    @hot_topic = Merchant.create!(name: "Hot Topic")
     @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
     @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')
     @illicit_goods = Item.create!(name: 'Contraband', description: 'Good Stuff', unit_price: 10.99, merchant_id: @macho_man.id)
     @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.66, merchant_id: @macho_man.id)
+    @weed = Item.create!(name: 'Alaskan Thunderfuck', description: 'terpy AF bruh lol', unit_price: 420.00, merchant_id: @kozey_group.id)
     @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
     @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
   end
@@ -100,34 +102,63 @@ RSpec.describe 'Merchant Endpoints' do
   end
 
   describe "Get all items by merchant id" do
+    before(:each) do 
+      
+    end
     it "can render a JSON representation of all records of the requested resource" do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
+
       items = JSON.parse(response.body, symbolize_names: true)[:data]
       item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
       item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+      item3 = items.find {|item| item[:id] == @weed.id.to_s}
 
       expect(items).to be_an(Array)
       expect(items.count).to eq(2)
       expect(item1).to have_key(:type)
       expect(item1[:type]).to eq('item')
 
-      expect(item1[:attributes]).to have_key(:name)
       expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
-      expect(item1[:attributes]).to have_key(:description)
+      expect(item2[:attributes][:name]).to eq(@cursed_object.name)
       expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
-      expect(item1[:attributes]).to have_key(:unit_price)
+      expect(item2[:attributes][:description]).to eq(@cursed_object.description)
       expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)
+      expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
       
-      expect(@merchant1.items).to eq([item1, item2])
-
+      expect(items).to eq([item1, item2])
+      expect(items).to_not eq([item1, item2, item3])
     end
 
-    it "always return an array of data, even if one or zero resources are found" do
+    context "it always return an array of data" do
+      it "even if one resource is found" do
+        get "/api/v1/merchants/#{@kozey_group.id}/items"
+        expect(response).to be_successful
+        
+        items = JSON.parse(response.body, symbolize_names: true)[:data]
+        item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+        item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+        item3 = items.find {|item| item[:id] == @weed.id.to_s}
 
+        expect(items).to be_an(Array)
+        expect(items.count).to eq(1)
+      end
+
+      it "or zero resources are found" do
+        get "/api/v1/merchants/#{@hot_topic.id}/items"
+        expect(response).to be_successful
+        
+        items = JSON.parse(response.body, symbolize_names: true)[:data]
+        item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+        item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+        item3 = items.find {|item| item[:id] == @weed.id.to_s}
+
+        expect(items).to be_an(Array)
+        expect(items.count).to eq(0)
+      end
     end
     it "does NOT include dependent data of the resource (e.g., if you’re fetching merchants, do not send any data about merchant’s items or invoices)" do
-
+      
     end
   end
 end
