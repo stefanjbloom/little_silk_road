@@ -8,6 +8,18 @@ RSpec.describe 'Item Endpoints' do
       unit_price: 42.91,
       merchant_id: @KozeyGroup.id
       )
+
+    @item2 = Item.create!(name: "Item Two",
+      description: "This is item 2.",
+      unit_price: 15.49,
+      merchant_id: @KozeyGroup.id
+      )
+
+    @item3 = Item.create!(name: "Item Three",
+      description: "This is item 3.",
+      unit_price: 100.99,
+      merchant_id: @KozeyGroup.id
+      )
   end
 
   describe 'HTTP Requests' do
@@ -57,6 +69,49 @@ RSpec.describe 'Item Endpoints' do
         expect(item).to have_key(:merchant_id)
         expect(item[:merchant_id]).to be_a(Integer)
       end
+    end
+    it 'can return items sorted by price' do
+      expected = {
+        data: [
+          {
+            id: @item2.id.to_s,
+            type: 'item',
+            attributes: {
+              name: @item2.name,
+              description: @item2.description,
+              unit_price: @item2.unit_price,
+              merchant_id: @item2.merchant_id
+            }
+          },
+          {
+            id: @item1.id.to_s,
+            type: 'item',
+            attributes: {
+              name: @item1.name,
+              description: @item1.description,
+              unit_price: @item1.unit_price,
+              merchant_id: @item1.merchant_id
+            }
+          },
+            {
+              id: @item3.id.to_s,
+              type: 'item',
+              attributes: {
+                name: @item3.name,
+                description: @item3.description,
+                unit_price: @item3.unit_price,
+                merchant_id: @item3.merchant_id
+              }
+            }
+        ]
+      }
+
+      get "/api/v1/items?sorted=price"
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(result).to eq(expected[:data])
     end
   end
 end
