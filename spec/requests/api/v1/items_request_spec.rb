@@ -70,13 +70,16 @@ RSpec.describe 'Item Endpoints' do
         expect(item[:merchant_id]).to be_a(Integer)
       end
     end
+
     it 'Can return one item' do
-      get "/api/v1/items/#{@item1.id}"
+      get "/api/v1/items/#{@item2.id}"
       expect(response).to be_successful
       item = JSON.parse(response.body, symbolize_names: true)[:data]
-      expect(item[:id]).to eq(@item1.id.to_s)
-      expect(item[:attributes][:name]).to eq(@item1.name)
+      expect(item[:id]).to eq(@item2.id.to_s)
+      expect(item[:attributes][:name]).to eq(@item2.name)
+      expect(item[:attributes][:unit_price]).to eq(@item2.unit_price)
     end
+
     it 'can return items sorted by price' do
       expected = {
         data: [

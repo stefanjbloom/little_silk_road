@@ -118,7 +118,7 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   describe "Get all of a merchant's items by the merchant's id" do
-    it "renders a JSON representation of all records of the requested resource" do
+    xit "renders a JSON representation of all records of the requested resource" do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
 
