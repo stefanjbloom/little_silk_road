@@ -83,7 +83,7 @@ RSpec.describe 'Item Endpoints' do
       expect(item[:attributes][:unit_price]).to eq(@item2.unit_price)
     end
 
-    xit 'can return items sorted by price' do
+    it 'can return items sorted by price' do
       expected = {
         data: [
           {
@@ -94,6 +94,16 @@ RSpec.describe 'Item Endpoints' do
               description: @item2.description,
               unit_price: @item2.unit_price,
               merchant_id: @item2.merchant_id
+            }
+          },
+          {
+            id: @item4.id.to_s,
+            type: 'item',
+            attributes: {
+              name: @item4.name,
+              description: @item4.description,
+              unit_price: @item4.unit_price,
+              merchant_id: @item4.merchant_id
             }
           },
           {
@@ -118,12 +128,12 @@ RSpec.describe 'Item Endpoints' do
             }
         ]
       }
-
+      
       get "/api/v1/items?sorted=price"
       expect(response).to be_successful
 
       result = JSON.parse(response.body, symbolize_names: true)[:data]
-
+     
       expect(result).to eq(expected[:data])
     end
   end
