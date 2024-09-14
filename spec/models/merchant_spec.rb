@@ -38,39 +38,45 @@ RSpec.describe Merchant, type: :model do
       expect(flustered_merchants).to eq([@macho_man, @liquor_store])
     end
 
-    xit '?count=true returns the store name and a count of its items' do
-      item_count = Merchant.count_items(true)
+    it '?count=true returns the store name and a count of its items' do
+      item_count = Merchant.count_items("true")
+      item_count_object = item_count.map do |merchant|
+        {
+          id: merchant.id.to_s,
+          type: "merchant",
+          attributes: {
+            name: merchant.name,
+            item_count: merchant.item_count.to_i
+          }
+        }
+      end
       expected = {
-        "data": [
+        data: [
           {
-            "id": "1",
-              "type": "merchant",
-              "attributes": {
-                "name": "Randy Savage",
-                "item_count": 13
+            id: @macho_man.id.to_s,
+              type: "merchant",
+              attributes: {
+                name: @macho_man.name,
+                item_count: 1
               }
           },
           {
-            "id": "2",
-              "type": "merchant",
-              "attributes": {
-                "name": "Kozey Group",
-                "item_count": 0
+            id: @liquor_store.id.to_s,
+              type: "merchant",
+              attributes: {
+                name: @liquor_store.name,
+                item_count: 1
               }
-          },
-          {
-            "id": "3",
-            "type": "merchant",
-            "attributes": {
-              "name": "Liquor Store",
-              "item_count": 1
-            }
           }
         ]
       }
 
-      expect(item_count).to eq(expected)
+      expect(data: item_count_object).to eq(expected)
+    end
+
+    it 'find?name= can search (case-insensitive) for a single merchant and returns the first one' do
+      expect(Merchant.search("Randy")).to eq(@macho_man)
+      expect(Merchant.search("randy")).to eq(@macho_man)
     end
   end
-
 end

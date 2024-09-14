@@ -11,7 +11,7 @@ RSpec.describe 'Merchant Endpoints:' do
     @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.66, merchant_id: @macho_man.id)
     @weed = Item.create!(name: 'Alaskan Thunderfuck', description: 'terpy AF bruh lol', unit_price: 420.00, merchant_id: @kozey_group.id)
     @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
-    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
+    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
   end
   describe 'HTTP Methods' do
     it 'Can return all merchants' do
@@ -180,7 +180,45 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(data[:errors].first[:message]).to eq("Merchant not found")
     end
   end
+
+  describe 'Index Action' do
+    it 'Can sort merchants by age' do
+      get "/api/v1/merchants?sorted=age"
+
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@kozey_group.name)
+      expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
+    end
+    it 'Can display only merchants with invoice status="returned"' do
+      
+      get "/api/v1/merchants?status=returned"
+      
+      expect(response).to be_successful
+      
+      # require "pry";binding.pry
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
+      expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
+    end
+    it 'Can display count of how many items a merchant has' do
+      get "/api/v1/merchants?count=true"
+      
+      expect(response).to be_successful
+      
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      macho_man_response = merchants.find { |merchant| merchant[:id] == @macho_man.id.to_s }
+      item_count = @macho_man.items.count
+      
+      expect(macho_man_response[:attributes][:item_count]).to eq(item_count)
+    end
+  end
 end
+
 
     # POTENTIALLY USEFUL TESTING CODE - DELETE BEFORE SUBMISSION
     # context "it will always return data in an array" do
