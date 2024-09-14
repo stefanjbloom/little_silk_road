@@ -21,15 +21,15 @@ class Merchant < ApplicationRecord
 			all
 		end
 	end
-
+	
 	def self.count_items(count)
 		if count == "true"
-			joins(:items).select('merchants.*, COUNT(items.id) AS item_count').group('merchants.id')
+			joins(:items).select('merchants.*, COUNT(items.id) AS item_count')
+			.group('merchants.id')
 		else
 			all
 		end
 	end
-	# require "pry";binding.pry
 
 	def self.search(param)
 			all_merchants = Merchant.all

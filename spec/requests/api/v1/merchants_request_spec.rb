@@ -9,7 +9,7 @@ RSpec.describe 'Merchant Endpoints' do
     @illicit_goods = Item.create!(name: 'Contraband', description: 'Good Stuff', unit_price: 10.99, merchant_id: @macho_man.id)
     @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.66, merchant_id: @macho_man.id)
     @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
-    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
+    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
   end
   describe 'HTTP Methods' do
     it 'Can return all merchants' do
@@ -157,6 +157,7 @@ RSpec.describe 'Merchant Endpoints' do
       
       expect(response).to be_successful
       
+      # require "pry";binding.pry
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
       expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
@@ -168,9 +169,11 @@ RSpec.describe 'Merchant Endpoints' do
       expect(response).to be_successful
       
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      macho_man_response = merchants.find { |merchant| merchant[:id] == @macho_man.id.to_s }
+      item_count = @macho_man.items.count
       
-      expect(merchants.first[:attributes][:item_count]).to eq(@macho_man.item_count)
+      expect(macho_man_response[:attributes][:item_count]).to eq(item_count)
     end
   end
-  # require "pry";binding.pry
 end
