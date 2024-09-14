@@ -8,6 +8,16 @@ RSpec.describe 'Item Endpoints' do
       unit_price: 42.91,
       merchant_id: @KozeyGroup.id
       )
+    @item2 = Item.create!(name: "Item Two",
+      description: "This is item 2.",
+      unit_price: 80.99,
+      merchant_id: @KozeyGroup.id
+      )
+    @item3 = Item.create!(name: "Sweater",
+      description: "This is a warm, fuzzy sweater.",
+      unit_price: 19.99,
+      merchant_id: @KozeyGroup.id
+      )
   end
 
   describe 'HTTP Requests' do
@@ -57,6 +67,26 @@ RSpec.describe 'Item Endpoints' do
         expect(item).to have_key(:merchant_id)
         expect(item[:merchant_id]).to be_a(Integer)
       end
+    end
+  end
+
+  describe "Find_all Action" do
+    it 'can find all items based on search criteria' do
+      get "/api/v1/items/find_all?name=tEm"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data.first[:id]).to eq(@item1.id.to_s)
+      expect(data.last[:id]).to eq(@item2.id.to_s)
+    end
+
+    it 'can return no errors when a search does not find any items that meet the criteria' do
+      get "/api/v1/items/find_all?name=1234"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+     
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
     end
   end
 end

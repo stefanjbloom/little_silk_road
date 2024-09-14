@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   delete "/api/v1/merchants/:id", to: "api/v1/merchants#destroy"
   get "/api/v1/merchants/:id/customers", to: "api/v1/merchant_customers#index"
   
+  # non-RESTful endpoints
+  get "/api/v1/items/find_all", to: "api/v1/items#find_all"
+
   get "/api/v1/items", to: "api/v1/items#index"
   patch "/api/v1/items/:id", to: "api/v1/items#update"
   delete "/api/v1/items/:id", to: "api/v1/items#destroy"
