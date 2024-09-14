@@ -4,9 +4,10 @@ class Api::V1::MerchantsController < ApplicationController
   def index
     merchants = Merchant.sort_by_age(params[:sorted])
                         .status_returned(params[:status])
-                        # .count_items()
+                        .count_items(params[:count])
 
-    render json: MerchantSerializer.new(merchants)                    
+    render json: MerchantSerializer.new(merchants, {params:{count: params[:count]}})
+    # Pass the params to the render json serializer to include item_count attribute or not.
   end
 
   def show
