@@ -43,7 +43,7 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 
-  it 'Can create a merchant' do
+  it 'Create a merchant' do
     expect(Merchant.count).to eq(3)
 
     merchant_params = {
@@ -59,7 +59,7 @@ RSpec.describe 'Merchant Endpoints:' do
     expect(new_merchant.name).to eq(merchant_params[:name])
   end
 
-  describe 'return customers by merchant id' do
+  describe 'Return customers by merchant id' do
     it 'Can return all customers for a given merchant' do
       get "/api/v1/merchants/#{@macho_man.id}/customers"
       expect(response).to be_successful
@@ -123,15 +123,13 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response).to be_successful
 
       items = JSON.parse(response.body, symbolize_names: true)[:data]
+      puts "Items structure: #{items.inspect}"
       item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
       item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
       item3 = items.find {|item| item[:id] == @weed.id.to_s}
 
       expect(items).to be_an(Array)
       expect(items.count).to eq(2)
-
-      # expect(item1).to have_key(:type)
-      # expect(item1[:type]).to eq('item')
 
       expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
       expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
@@ -143,8 +141,43 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(items).to eq([item1, item2])
       expect(items).to_not eq([item1, item2, item3])
     end
-    it "returns a 404 error if merchant is not found" do
+    xit "returns a 404 error if merchant is not found" do
+      get "/api/v1/merchants/0/items"
+      
+      data = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
 
+      expect(data[:errors]).to be_an(Array)
+      expect(data[:errors][:status]).to eq("404")
+      expect(data[:errors][:message]).to eq("Merchant not found")
+    end
+  end
+
+  describe "Find Action" do
+    it 'can find the first merchant to meet the params in alphabetical order' do
+      store1 = Merchant.create!(name: "Amazon Storefront")
+      store2 = Merchant.create!(name: "Amazing Store")
+
+      get "/api/v1/merchants/find?name=Maz"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data[:id]).to eq(store1.id.to_s)
+      expect(data[:attributes][:name]).to eq(store1.name)
+    end
+
+    it 'will handle incorrect searches' do
+      get "/api/v1/merchants/find?name=1234"
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:message]).to eq("Merchant not found")
     end
   end
 end

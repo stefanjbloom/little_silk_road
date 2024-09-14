@@ -198,6 +198,11 @@
           null,
           null,
           null,
+          null,
+          1,
+          null,
+          1,
+          1,
           1,
           1,
           1,
@@ -205,105 +210,8 @@
           1,
           null,
           1,
-          null,
           1,
           1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/customer.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/models/invoice_item_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          2,
-          2,
-          null,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/invoice_item.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/models/invoice_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          2,
-          2,
-          2,
-          2,
-          2,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/invoice.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/models/item_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          2,
-          2,
-          2,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/item.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/models/merchant_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          2,
-          2,
-          null,
-          null,
           null
         ]
       },
@@ -316,57 +224,9 @@
           null,
           1,
           1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/models/transaction_spec.rb": {
-        "lines": [
-          1,
           null,
-          1,
           1,
           2,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/transaction.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/requests/api/v1/items_request_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          2,
-          2,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
           2,
           2,
           null,
@@ -374,142 +234,46 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/spec/requests/api/v1/merchants_request_spec.rb": {
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/application_record.rb": {
         "lines": [
           1,
-          null,
+          1,
+          null
+        ]
+      },
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/customer.rb": {
+        "lines": [
           1,
           1,
-          2,
-          2,
-          2,
-          2,
-          2,
-          2,
-          2,
-          2,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          null,
-          2,
-          2,
-          null,
-          2,
-          2,
-          null,
-          2,
-          null,
-          2,
-          2,
-          null,
-          null,
-          null,
+          null
+        ]
+      },
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/item.rb": {
+        "lines": [
           1,
           1,
           1,
           1,
           1,
-          1,
-          0,
-          null,
-          null,
           null,
           1,
           1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
           null,
           1,
           0,
-          null,
-          0,
-          0,
           0,
           null,
-          0,
-          null,
-          null,
-          null,
-          1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          null,
-          null,
-          1,
-          1,
-          0,
-          null,
-          0,
-          0,
           0,
           null,
           null,
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/controllers/api/v1/items_controller.rb": {
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/models/invoice.rb": {
         "lines": [
           1,
-          null,
-          null,
           1,
           1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          null,
-          null,
-          1,
-          null,
-          1,
-          1,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/serializers/item_serializer.rb": {
-        "lines": [
           1,
           1,
           1,
@@ -531,27 +295,48 @@
           null,
           null,
           1,
-          0,
-          0,
-          0,
+          1,
+          1,
+          1,
           null,
           null,
           1,
-          0,
-          0,
+          1,
+          1,
           null,
           null,
           1,
-          0,
-          0,
-          0,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          2,
+          2,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           1,
           null,
           1,
-          0,
+          2,
           null,
+          null
+        ]
+      },
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
           null
         ]
       },
@@ -562,8 +347,51 @@
           1,
           null
         ]
+      },
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchant_customers_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          2,
+          2,
+          2,
+          null,
+          null
+        ]
+      },
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/serializers/customer_serializer.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/krrrl/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchant_items_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
       }
     },
-    "timestamp": 1726267839
+    "timestamp": 1726336464
   }
 }
