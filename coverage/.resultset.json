@@ -225,30 +225,37 @@
           1,
           null,
           1,
-          0,
+          1,
           0,
           null,
-          0,
+          1,
           null,
           null,
           null,
           1,
-          0,
+          1,
           0,
           null,
-          0,
+          1,
           null,
           null,
           null,
           1,
-          0,
-          0,
-          0,
+          2,
+          2,
+          2,
           null,
           null
         ]
       },
       "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/application_record.rb": {
+        "lines": [
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/customer.rb": {
         "lines": [
           1,
           1,
@@ -267,37 +274,91 @@
           1,
           null,
           1,
-          2,
-          1,
+          0,
+          0,
           null,
-          1,
+          0,
           null,
           null,
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/items_controller.rb": {
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/models/invoice.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
           null,
           1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          2,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
           2,
           2,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          null,
-          null,
           1,
           null,
           1,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           1,
+          null,
+          1,
+          2,
           null,
           null
         ]
@@ -308,7 +369,27 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/serializers/item_serializer.rb": {
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/serializers/merchant_serializer.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/merchant_customers_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          2,
+          2,
+          2,
+          null,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/serializers/customer_serializer.rb": {
         "lines": [
           1,
           1,
@@ -317,6 +398,6 @@
         ]
       }
     },
-    "timestamp": 1726336025
+    "timestamp": 1726340283
   }
 }
