@@ -225,27 +225,27 @@
           1,
           null,
           1,
-          4,
+          1,
           1,
           null,
-          3,
-          null,
-          null,
-          null,
-          1,
-          4,
-          1,
-          null,
-          3,
+          0,
           null,
           null,
           null,
           1,
-          4,
+          1,
+          1,
+          null,
+          0,
+          null,
+          null,
+          null,
+          1,
+          1,
           1,
           null,
           null,
-          3,
+          0,
           null,
           null,
           null,
@@ -258,13 +258,6 @@
         ]
       },
       "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/customer.rb": {
         "lines": [
           1,
           1,
@@ -303,98 +296,14 @@
           null
         ]
       },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/controllers/api/v1/merchants_controller.rb": {
+      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/customer.rb": {
         "lines": [
           1,
-          null,
-          1,
-          4,
-          null,
-          null,
-          null,
-          4,
-          null,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          2,
-          2,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          1,
-          2,
-          null,
-          null
-        ]
-      },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/controllers/application_controller.rb": {
-        "lines": [
           1,
           null
         ]
       },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/serializers/merchant_serializer.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          11,
-          1,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/controllers/api/v1/merchant_customers_controller.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          2,
-          2,
-          2,
-          null,
-          null
-        ]
-      },
-      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/serializers/customer_serializer.rb": {
+      "/Users/stefanbloom/turing_projects/mod2/little_shop/app/models/invoice_item.rb": {
         "lines": [
           1,
           1,
@@ -403,6 +312,6 @@
         ]
       }
     },
-    "timestamp": 1726340257
+    "timestamp": 1726341160
   }
 }

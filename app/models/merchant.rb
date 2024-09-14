@@ -25,7 +25,7 @@ class Merchant < ApplicationRecord
 	def self.count_items(count)
 		if count == "true"
 			joins(:items).select('merchants.*, COUNT(items.id) AS item_count')
-			.group('merchants.id')
+			.group('merchants.id').order(:id)
 		else
 			all
 		end

@@ -72,5 +72,10 @@ RSpec.describe Merchant, type: :model do
 
       expect(data: item_count_object).to eq(expected)
     end
+
+    it 'find?name= can search (case-insensitive) for a single merchant and returns the first one' do
+      expect(Merchant.search("Randy")).to eq(@macho_man)
+      expect(Merchant.search("randy")).to eq(@macho_man)
+    end
   end
 end
