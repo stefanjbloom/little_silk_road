@@ -297,6 +297,7 @@
       "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
+          1,
           null,
           1,
           1,
@@ -307,15 +308,8 @@
           null,
           null,
           1,
-          null,
-          null,
-          null,
           2,
           1,
-          1,
-          null,
-          null,
-          null,
           null,
           null,
           null,
@@ -349,16 +343,14 @@
           null,
           null,
           null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
           1,
           null,
           1,
           2,
+          null,
+          null,
+          1,
+          1,
           null,
           null
         ]
@@ -396,8 +388,24 @@
           1,
           null
         ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/little_silk_road/app/serializers/error_serializer.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          2,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
       }
     },
-    "timestamp": 1726340283
+    "timestamp": 1726350566
   }
 }

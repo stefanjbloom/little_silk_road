@@ -137,7 +137,7 @@ RSpec.describe 'Merchant Endpoints' do
       expect(response.status).to eq(404)
       expect(data[:errors]).to be_a(Array)
       expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:message]).to eq("Merchant not found")
+      expect(data[:errors].first[:title]).to eq("Merchant not found")
     end
   end
 
