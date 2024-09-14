@@ -140,4 +140,30 @@ RSpec.describe 'Merchant Endpoints' do
       expect(data[:errors].first[:message]).to eq("Merchant not found")
     end
   end
+  describe 'Index Action' do
+    it 'Can sort merchants by age' do
+      get "/api/v1/merchants?sorted=age"
+
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@kozey_group.name)
+      expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
+    end
+    it 'Can display only merchants with invoice status="returned"' do
+      
+      get "/api/v1/merchants?status=returned"
+      
+      expect(response).to be_successful
+      
+      # require "pry";binding.pry
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
+      expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
+    end
+    xit 'Can display count of how many items a merchant has' do
+    end
+  end
 end

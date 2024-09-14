@@ -21,10 +21,10 @@ class Merchant < ApplicationRecord
             all
         end
     end
-
+#class method to return all merchants with an added "item_count" attribute 
     def self.search(param)
-		all_merchants = Merchant.all
-		merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
-		merchant.first
+			all_merchants = Merchant.all
+			merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
+			merchant.first
 	end
 end
