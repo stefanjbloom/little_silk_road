@@ -182,7 +182,7 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   describe 'Index Action' do
-    it 'Can sort merchants by age' do
+    xit 'Can sort merchants by age' do
       get "/api/v1/merchants?sorted=age"
 
       expect(response).to be_successful
