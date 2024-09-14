@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-13T18:17:40-06:00">2024-09-13T18:17:40-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-13T19:40:48-06:00">2024-09-13T19:40:48-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -22,14 +22,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="green">
-  97.78%
+  97.84%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.12
+         1.19
        </span>
     </span> hits/line
     )
@@ -42,11 +42,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>135</b> relevant lines,
-    <span class="green"><b>132</b> lines covered</span> and
+    <b>139</b> relevant lines,
+    <span class="green"><b>136</b> lines covered</span> and
     <span class="red"><b>3</b> lines missed. </span>
     (<span class="green">
-  97.78%
+  97.84%
 </span>
 )
   </div>
@@ -87,7 +87,7 @@
             <td class="cell--number">26</td>
             <td class="cell--number">26</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">1.27</td>
+            <td class="cell--number">1.35</td>
             
           </tr>
         
@@ -149,11 +149,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#df2a1345a70eca6c04e9fd235cc9ccaa37a4dfdd" class="src_link" title="app/models/merchant.rb">app/models/merchant.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">30</td>
-            <td class="cell--number">18</td>
-            <td class="cell--number">18</td>
+            <td class="cell--number">39</td>
+            <td class="cell--number">22</td>
+            <td class="cell--number">22</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">1.50</td>
+            <td class="cell--number">1.82</td>
             
           </tr>
         
@@ -466,9 +466,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="4">
+          <li class="covered" data-hits="4" data-linenumber="4">
             
-              <span class="hits">3</span>
+              <span class="hits">4</span>
             
 
             
@@ -493,7 +493,7 @@
 
             
 
-            <code class="ruby">                        # .count_items()</code>
+            <code class="ruby">                        .count_items(params[:count])</code>
           </li>
         </div>
       
@@ -508,9 +508,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="8">
+          <li class="covered" data-hits="4" data-linenumber="8">
             
-              <span class="hits">3</span>
+              <span class="hits">4</span>
             
 
             
@@ -1545,8 +1545,8 @@
     
 
     <div class="t-line-summary">
-      <b>18</b> relevant lines.
-      <span class="green"><b>18</b> lines covered</span> and
+      <b>22</b> relevant lines.
+      <span class="green"><b>22</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -1601,7 +1601,7 @@
 
             
 
-            <code class="ruby">    has_many :customers, through: :invoices</code>
+            <code class="ruby">  has_many :customers, through: :invoices</code>
           </li>
         </div>
       
@@ -1657,19 +1657,19 @@
 
             
 
-            <code class="ruby">    def self.sort_by_age(sorted)</code>
+            <code class="ruby">	def self.sort_by_age(sorted)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="10">
+          <li class="covered" data-hits="4" data-linenumber="10">
             
-              <span class="hits">3</span>
-            
-
+              <span class="hits">4</span>
             
 
-            <code class="ruby">        if sorted == &quot;age&quot;</code>
+            
+
+            <code class="ruby">		if sorted == &quot;age&quot;</code>
           </li>
         </div>
       
@@ -1681,7 +1681,7 @@
 
             
 
-            <code class="ruby">            order(created_at: :desc)</code>
+            <code class="ruby">			order(created_at: :desc)</code>
           </li>
         </div>
       
@@ -1691,19 +1691,19 @@
 
             
 
-            <code class="ruby">        else</code>
+            <code class="ruby">		else</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="13">
+          <li class="covered" data-hits="3" data-linenumber="13">
             
-              <span class="hits">2</span>
-            
-
+              <span class="hits">3</span>
             
 
-            <code class="ruby">            all</code>
+            
+
+            <code class="ruby">			all</code>
           </li>
         </div>
       
@@ -1713,7 +1713,7 @@
 
             
 
-            <code class="ruby">        end</code>
+            <code class="ruby">		end</code>
           </li>
         </div>
       
@@ -1723,7 +1723,7 @@
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">	end</code>
           </li>
         </div>
       
@@ -1745,19 +1745,19 @@
 
             
 
-            <code class="ruby">    def self.status_returned(status)</code>
+            <code class="ruby">	def self.status_returned(status)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="18">
+          <li class="covered" data-hits="4" data-linenumber="18">
             
-              <span class="hits">3</span>
-            
-
+              <span class="hits">4</span>
             
 
-            <code class="ruby">        if status == &quot;returned&quot;</code>
+            
+
+            <code class="ruby">		if status == &quot;returned&quot;</code>
           </li>
         </div>
       
@@ -1769,7 +1769,7 @@
 
             
 
-            <code class="ruby">            joins(:items, :invoices).where(invoices: {status: &#39;returned&#39;}).distinct</code>
+            <code class="ruby">			joins(:items, :invoices).where(invoices: {status: &#39;returned&#39;}).distinct</code>
           </li>
         </div>
       
@@ -1779,19 +1779,19 @@
 
             
 
-            <code class="ruby">        else</code>
+            <code class="ruby">		else</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="21">
+          <li class="covered" data-hits="3" data-linenumber="21">
             
-              <span class="hits">2</span>
-            
-
+              <span class="hits">3</span>
             
 
-            <code class="ruby">            all</code>
+            
+
+            <code class="ruby">			all</code>
           </li>
         </div>
       
@@ -1801,7 +1801,7 @@
 
             
 
-            <code class="ruby">        end</code>
+            <code class="ruby">		end</code>
           </li>
         </div>
       
@@ -1811,7 +1811,7 @@
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">	end</code>
           </li>
         </div>
       
@@ -1821,7 +1821,7 @@
 
             
 
-            <code class="ruby">#class method to return all merchants with an added &quot;item_count&quot; attribute </code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -1833,12 +1833,110 @@
 
             
 
-            <code class="ruby">    def self.search(param)</code>
+            <code class="ruby">	def self.count_items(count)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="26">
+          <li class="covered" data-hits="4" data-linenumber="26">
+            
+              <span class="hits">4</span>
+            
+
+            
+
+            <code class="ruby">		if count == &quot;true&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="27">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">			joins(:items).select(&#39;merchants.*, COUNT(items.id) AS item_count&#39;).group(&#39;merchants.id&#39;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="28">
+            
+
+            
+
+            <code class="ruby">		else</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="3" data-linenumber="29">
+            
+              <span class="hits">3</span>
+            
+
+            
+
+            <code class="ruby">			all</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="30">
+            
+
+            
+
+            <code class="ruby">		end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="31">
+            
+
+            
+
+            <code class="ruby">	end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="32">
+            
+
+            
+
+            <code class="ruby">	# require &quot;pry&quot;;binding.pry</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="33">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="34">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">	def self.search(param)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="2" data-linenumber="35">
             
               <span class="hits">2</span>
             
@@ -1850,7 +1948,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="27">
+          <li class="covered" data-hits="2" data-linenumber="36">
             
               <span class="hits">2</span>
             
@@ -1862,7 +1960,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="28">
+          <li class="covered" data-hits="2" data-linenumber="37">
             
               <span class="hits">2</span>
             
@@ -1874,7 +1972,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="29">
+          <li class="never" data-hits="" data-linenumber="38">
             
 
             
@@ -1884,7 +1982,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="30">
+          <li class="never" data-hits="" data-linenumber="39">
             
 
             

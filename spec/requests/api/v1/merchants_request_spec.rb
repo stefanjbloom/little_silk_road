@@ -157,13 +157,20 @@ RSpec.describe 'Merchant Endpoints' do
       
       expect(response).to be_successful
       
-      # require "pry";binding.pry
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
       expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
       expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
     end
-    xit 'Can display count of how many items a merchant has' do
+    it 'Can display count of how many items a merchant has' do
+      get "/api/v1/merchants?count=true"
+      
+      expect(response).to be_successful
+      
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:item_count]).to eq(@macho_man.item_count)
     end
   end
+  # require "pry";binding.pry
 end

@@ -1,28 +1,37 @@
 class Merchant < ApplicationRecord
 	has_many :items, dependent: :destroy
 	has_many :invoices, dependent: :destroy
-    has_many :customers, through: :invoices
+  has_many :customers, through: :invoices
 
 	validates :name, presence: { message: "Please enter a merchant name" }
 	validates :name, uniqueness: { message: "This merchant has already been created" }
 
-    def self.sort_by_age(sorted)
-        if sorted == "age"
-            order(created_at: :desc)
-        else
-            all
-        end
-    end
+	def self.sort_by_age(sorted)
+		if sorted == "age"
+			order(created_at: :desc)
+		else
+			all
+		end
+	end
 
-    def self.status_returned(status)
-        if status == "returned"
-            joins(:items, :invoices).where(invoices: {status: 'returned'}).distinct
-        else
-            all
-        end
-    end
-#class method to return all merchants with an added "item_count" attribute 
-    def self.search(param)
+	def self.status_returned(status)
+		if status == "returned"
+			joins(:items, :invoices).where(invoices: {status: 'returned'}).distinct
+		else
+			all
+		end
+	end
+
+	def self.count_items(count)
+		if count == "true"
+			joins(:items).select('merchants.*, COUNT(items.id) AS item_count').group('merchants.id')
+		else
+			all
+		end
+	end
+	# require "pry";binding.pry
+
+	def self.search(param)
 			all_merchants = Merchant.all
 			merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
 			merchant.first
