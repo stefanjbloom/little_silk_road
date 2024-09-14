@@ -6,10 +6,34 @@ class Merchant < ApplicationRecord
 	validates :name, presence: { message: "Please enter a merchant name" }
 	validates :name, uniqueness: { message: "This merchant has already been created" }
 
-	def self.search(param)
-		all_merchants = Merchant.all
-		merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
-		merchant.first
+	def self.sort_by_age(sorted)
+		if sorted == "age"
+			order(created_at: :desc)
+		else
+			all
+		end
 	end
 
+	def self.status_returned(status)
+		if status == "returned"
+			joins(:items, :invoices).where(invoices: {status: 'returned'}).distinct
+		else
+			all
+		end
+	end
+	
+	def self.count_items(count)
+		if count == "true"
+			joins(:items).select('merchants.*, COUNT(items.id) AS item_count')
+			.group('merchants.id').order(:id)
+		else
+			all
+		end
+	end
+
+	def self.search(param)
+			all_merchants = Merchant.all
+			merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
+			merchant.first
+	end
 end

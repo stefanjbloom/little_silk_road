@@ -10,10 +10,15 @@ RSpec.describe 'Item Endpoints' do
       )
     @item2 = Item.create!(name: "Item Two",
       description: "This is item 2.",
-      unit_price: 80.99,
+      unit_price: 15.49,
       merchant_id: @KozeyGroup.id
       )
-    @item3 = Item.create!(name: "Sweater",
+    @item3 = Item.create!(name: "Item Three",
+      description: "This is item 3.",
+      unit_price: 100.99,
+      merchant_id: @KozeyGroup.id
+      )
+    @item4 = Item.create!(name: "Sweater",
       description: "This is a warm, fuzzy sweater.",
       unit_price: 19.99,
       merchant_id: @KozeyGroup.id
@@ -68,6 +73,59 @@ RSpec.describe 'Item Endpoints' do
         expect(item[:merchant_id]).to be_a(Integer)
       end
     end
+
+    it 'Can return one item' do
+      get "/api/v1/items/#{@item2.id}"
+      expect(response).to be_successful
+      item = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(item[:id]).to eq(@item2.id.to_s)
+      expect(item[:attributes][:name]).to eq(@item2.name)
+      expect(item[:attributes][:unit_price]).to eq(@item2.unit_price)
+    end
+
+    xit 'can return items sorted by price' do
+      expected = {
+        data: [
+          {
+            id: @item2.id.to_s,
+            type: 'item',
+            attributes: {
+              name: @item2.name,
+              description: @item2.description,
+              unit_price: @item2.unit_price,
+              merchant_id: @item2.merchant_id
+            }
+          },
+          {
+            id: @item1.id.to_s,
+            type: 'item',
+            attributes: {
+              name: @item1.name,
+              description: @item1.description,
+              unit_price: @item1.unit_price,
+              merchant_id: @item1.merchant_id
+            }
+          },
+            {
+              id: @item3.id.to_s,
+              type: 'item',
+              attributes: {
+                name: @item3.name,
+                description: @item3.description,
+                unit_price: @item3.unit_price,
+                merchant_id: @item3.merchant_id
+              }
+            }
+        ]
+      }
+
+      get "/api/v1/items?sorted=price"
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(result).to eq(expected[:data])
+    end
   end
 
   describe "Find_all Action" do
@@ -91,7 +149,7 @@ RSpec.describe 'Item Endpoints' do
 
       get "/api/v1/items/find_all?max_price=10"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-      
+
       expect(response).to be_successful
       expect(response.status).to eq(200)
       expect(data).to eq([])
@@ -104,25 +162,26 @@ RSpec.describe 'Item Endpoints' do
       expect(response).to be_successful
       expect(response.status).to eq(200)
       expect(data.first[:id]).to eq(@item1.id.to_s)
-      expect(data.last[:id]).to eq(@item2.id.to_s)
+      expect(data.last[:id]).to eq(@item3.id.to_s)
     end
 
     it 'can search by maximum price' do
       get "/api/v1/items/find_all?max_price=30"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-
+      
       expect(response).to be_successful
       expect(response.status).to eq(200)
-      expect(data.first[:id]).to eq(@item3.id.to_s)
+      expect(data.first[:id]).to eq(@item2.id.to_s)
+      expect(data.last[:id]).to eq(@item4.id.to_s)
     end
 
     it 'can search for both a minimum and maximum price together' do
-      get "/api/v1/items/find_all?max_price=30&min_price=10"
+      get "/api/v1/items/find_all?max_price=20.99&min_price=17"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-
+      
       expect(response).to be_successful
-      expect(data.first[:id]).to eq(@item3.id.to_s)
-      expect(data.last[:id]).to eq(@item3.id.to_s)
+      expect(data.first[:id]).to eq(@item4.id.to_s)
+      expect(data.last[:id]).to eq(@item4.id.to_s)
     end
 
     it 'handles searches for names and prices together' do

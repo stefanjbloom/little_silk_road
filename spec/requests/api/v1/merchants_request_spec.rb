@@ -1,15 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant Endpoints' do
+RSpec.describe 'Merchant Endpoints:' do
   before (:each) do
     @macho_man = Merchant.create!(name: "Randy Savage")
     @kozey_group = Merchant.create!(name: "Kozey Group")
+    @hot_topic = Merchant.create!(name: "Hot Topic")
     @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
     @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')
     @illicit_goods = Item.create!(name: 'Contraband', description: 'Good Stuff', unit_price: 10.99, merchant_id: @macho_man.id)
     @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.66, merchant_id: @macho_man.id)
+    @weed = Item.create!(name: 'Alaskan Thunderfuck', description: 'terpy AF bruh lol', unit_price: 420.00, merchant_id: @kozey_group.id)
     @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
-    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
+    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
   end
   describe 'HTTP Methods' do
     it 'Can return all merchants' do
@@ -41,8 +43,8 @@ RSpec.describe 'Merchant Endpoints' do
     end
   end
 
-  it 'Can create a merchant' do
-    expect(Merchant.count).to eq(2)
+  it 'Create a merchant' do
+    expect(Merchant.count).to eq(3)
 
     merchant_params = {
       name: "Walter White"
@@ -51,13 +53,13 @@ RSpec.describe 'Merchant Endpoints' do
     post "/api/v1/merchants", params: merchant_params, as: :json
 
     expect(response).to be_successful
-    expect(Merchant.count).to eq(3)
+    expect(Merchant.count).to eq(4)
 
     new_merchant = Merchant.last
     expect(new_merchant.name).to eq(merchant_params[:name])
   end
 
-  describe 'return customers by merchant id' do
+  describe 'Return customers by merchant id' do
     it 'Can return all customers for a given merchant' do
       get "/api/v1/merchants/#{@macho_man.id}/customers"
       expect(response).to be_successful
@@ -115,6 +117,44 @@ RSpec.describe 'Merchant Endpoints' do
     end
   end
 
+  describe "Get all of a merchant's items by the merchant's id" do
+    xit "renders a JSON representation of all records of the requested resource" do
+      get "/api/v1/merchants/#{@macho_man.id}/items"
+      expect(response).to be_successful
+
+      items = JSON.parse(response.body, symbolize_names: true)[:data]
+      puts "Items structure: #{items.inspect}"
+      item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+      item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+      item3 = items.find {|item| item[:id] == @weed.id.to_s}
+
+      expect(items).to be_an(Array)
+      expect(items.count).to eq(2)
+
+      expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
+      expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
+      expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)
+      expect(item2[:attributes][:name]).to eq(@cursed_object.name)
+      expect(item2[:attributes][:description]).to eq(@cursed_object.description)
+      expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
+      
+      expect(items).to eq([item1, item2])
+      expect(items).to_not eq([item1, item2, item3])
+    end
+    xit "returns a 404 error if merchant is not found" do
+      get "/api/v1/merchants/0/items"
+      
+      data = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      expect(data[:errors]).to be_an(Array)
+      expect(data[:errors][:status]).to eq("404")
+      expect(data[:errors][:message]).to eq("Merchant not found")
+    end
+  end
+
   describe "Find Action" do
     it 'can find the first merchant to meet the params in alphabetical order' do
       store1 = Merchant.create!(name: "Amazon Storefront")
@@ -140,4 +180,75 @@ RSpec.describe 'Merchant Endpoints' do
       expect(data[:errors].first[:message]).to eq("Merchant not found")
     end
   end
+
+  describe 'Index Action' do
+    xit 'Can sort merchants by age' do
+      get "/api/v1/merchants?sorted=age"
+
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@kozey_group.name)
+      expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
+    end
+    it 'Can display only merchants with invoice status="returned"' do
+      
+      get "/api/v1/merchants?status=returned"
+      
+      expect(response).to be_successful
+      
+      # require "pry";binding.pry
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
+      expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
+    end
+    it 'Can display count of how many items a merchant has' do
+      get "/api/v1/merchants?count=true"
+      
+      expect(response).to be_successful
+      
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      macho_man_response = merchants.find { |merchant| merchant[:id] == @macho_man.id.to_s }
+      item_count = @macho_man.items.count
+      
+      expect(macho_man_response[:attributes][:item_count]).to eq(item_count)
+    end
+  end
 end
+
+
+    # POTENTIALLY USEFUL TESTING CODE - DELETE BEFORE SUBMISSION
+    # context "it will always return data in an array" do
+    #   it "even if only one resource is found" do
+    #     get "/api/v1/merchants/#{@kozey_group.id}/items"
+    #     expect(response).to be_successful
+        
+    #     items = JSON.parse(response.body, symbolize_names: true)[:data]
+    #     item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+    #     item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+    #     item3 = items.find {|item| item[:id] == @weed.id.to_s}
+
+    #     expect(items).to be_an(Array)
+    #     expect(items.count).to eq(1)
+    #   end
+
+    #   it "or zero resources are found" do
+    #     get "/api/v1/merchants/#{@hot_topic.id}/items"
+    #     expect(response).to be_successful
+        
+    #     items = JSON.parse(response.body, symbolize_names: true)[:data]
+    #     item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+    #     item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+    #     item3 = items.find {|item| item[:id] == @weed.id.to_s}
+
+    #     expect(items).to be_an(Array)
+    #     expect(items.count).to eq(0)
+    #   end
+    # end
+    # context "when fetching a merchant's items"  do 
+    #   it "the returned data does NOT include any data pertaining to dependants of the merchant's items" do
+
+    #   end
