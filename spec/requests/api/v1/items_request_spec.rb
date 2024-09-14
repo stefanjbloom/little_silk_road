@@ -88,6 +88,13 @@ RSpec.describe 'Item Endpoints' do
       expect(response).to be_successful
       expect(response.status).to eq(200)
       expect(data).to eq([])
+
+      get "/api/v1/items/find_all?max_price=10"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data).to eq([])
     end
 
     it 'can search by minimum price' do
