@@ -81,12 +81,49 @@ RSpec.describe 'Item Endpoints' do
       expect(data.last[:id]).to eq(@item2.id.to_s)
     end
 
-    it 'can return no errors when a search does not find any items that meet the criteria' do
+    it 'returns no errors when a search does not find any items that meet the criteria' do
       get "/api/v1/items/find_all?name=1234"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-     
+   
       expect(response).to be_successful
       expect(response.status).to eq(200)
+      expect(data).to eq([])
+    end
+
+    it 'can search by minimum price' do
+      get "/api/v1/items/find_all?min_price=30"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data.first[:id]).to eq(@item1.id.to_s)
+      expect(data.last[:id]).to eq(@item2.id.to_s)
+    end
+
+    it 'can search by maximum price' do
+      get "/api/v1/items/find_all?max_price=30"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data.first[:id]).to eq(@item3.id.to_s)
+    end
+
+    it 'can search for both a minimum and maximum price together' do
+      get "/api/v1/items/find_all?max_price=30&min_price=10"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(response).to be_successful
+      expect(data.first[:id]).to eq(@item3.id.to_s)
+      expect(data.last[:id]).to eq(@item3.id.to_s)
+    end
+
+    it 'handles searches for names and prices together' do
+      get "/api/v1/items/find_all?max_price=30&min_price=10&name=sweater"
+      data = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to_not be_successful
+      expect(data[:errors].first[:message]).to eq("Cannot search by both name and price")
     end
   end
 end

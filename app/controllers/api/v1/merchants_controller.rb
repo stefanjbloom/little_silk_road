@@ -38,7 +38,7 @@ class Api::V1::MerchantsController < ApplicationController
           status: "404",
           message: "Merchant not found"
         }
-      ]}, status: 404
+      ]}, status: :not_found
     end
   end
 

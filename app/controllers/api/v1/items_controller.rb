@@ -15,8 +15,19 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def find_all
-    items = Item.search_by_params(find_all_params)
-    render json: ItemSerializer.new(items)
+    begin
+      items = Item.search_by_params(find_all_params)
+      render json: ItemSerializer.new(items)
+    rescue StandardError => exception
+      # require 'pry'; binding.pry
+      render json: {
+        errors: [
+        {
+          status: "400",
+          message: exception.message
+        }
+      ]}, status: :bad_request
+    end
   end
 
   private

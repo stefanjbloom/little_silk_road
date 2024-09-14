@@ -16,22 +16,34 @@ class Item < ApplicationRecord
 	end
 
 	def self.search_by_params(param)
-		all_items = Item.all
-		if param[:name]
-			results = filter_by_name(all_items, param[:name])
+		if param[:name] && (param[:min_price] || param[:max_price])
+			raise ArgumentError.new("Cannot search by both name and price")
 		end
-		results
+
+		items = Item.all
+		if param[:name]
+			items = filter_by_name(items, param[:name])
+		end
+
+		if param[:min_price]
+			items = filter_by_min(items, param[:min_price])
+		end
+
+		if param[:max_price]
+			items = filter_by_max(items, param[:max_price])
+		end
+		items
 	end
 
 	def self.filter_by_name(items, name)
 		items.where("name ILIKE ?", "%#{name}%").order(:name)
 	end
 
-	# def self.filter_by_min(posters, min_price)
-	# 		posters.where("price >= #{min_price}")
-	# end
+	def self.filter_by_min(items, min_price)
+			items.where("unit_price >= #{min_price}")
+	end
 
-	# def self.filter_by_max(posters, max_price)
-	# 		posters.where("price <= #{max_price}")
-	# end
+	def self.filter_by_max(items, max_price)
+			items.where("unit_price <= #{max_price}")
+	end
 end
