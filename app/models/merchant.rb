@@ -32,8 +32,6 @@ class Merchant < ApplicationRecord
 	end
 
 	def self.search(param)
-			all_merchants = Merchant.all
-			merchant = all_merchants.where("name ILIKE ?", "%#{param}%")
-			merchant.first
+		self.where("name ILIKE ?", "%#{param}%").order(:name).first
 	end
 end

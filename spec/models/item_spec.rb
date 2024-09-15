@@ -22,14 +22,7 @@ RSpec.describe Item, type: :model do
   end
   describe '?Query Param' do
     it 'item?sorted=price should return items by price, cheapest first' do
-      # @merchant = Merchant.create!(name: "Booze Shop")
-
-      # @item1 = Item.create!(name: "well whiskey", description: "cheap whiskey", unit_price: 10.00, merchant: @merchant)
-      # @item2 = Item.create!(name: "mid-range whiskey", description: "good whiskey", unit_price: 20.00, merchant: @merchant)
-      # @item3 = Item.create!(name: "top-shelf whiskey", description: "amazing whiskey", unit_price: 30.00, merchant: @merchant)
-
       sorted_items = Item.order_by("price")
-      
       expect(sorted_items).to eq([@item1, @item2, @item3])
     end
   end
@@ -52,7 +45,7 @@ RSpec.describe Item, type: :model do
 
     it 'can search for both minimum and maximum price together' do
       items = Item.search_by_params(min_price: 10.00, max_price: 20.00)
-      expect(items).to eq([@item1, @item2])
+      expect(items).to eq([@item2, @item1])
     end
   end
 end

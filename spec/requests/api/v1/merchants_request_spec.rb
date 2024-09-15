@@ -165,8 +165,8 @@ RSpec.describe 'Merchant Endpoints:' do
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
-      expect(data[:id]).to eq(store1.id.to_s)
-      expect(data[:attributes][:name]).to eq(store1.name)
+      expect(data[:id]).to eq(store2.id.to_s)
+      expect(data[:attributes][:name]).to eq(store2.name)
     end
 
     it 'will handle incorrect searches' do
