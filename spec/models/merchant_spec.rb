@@ -19,13 +19,13 @@ RSpec.describe Merchant, type: :model do
       @liquor_store = Merchant.create!(name: "Liquor Store")
       @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
       @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')  
-      @illicit_goods = Item.create!(name: 'Contraband', description: 'Good Stuff', unit_price: 10.99, merchant_id: @macho_man.id)
-      @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.66, merchant_id: @liquor_store.id)  
+      @dice = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: @macho_man.id)
+      @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: @liquor_store.id)  
       @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
       @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
       @invoice3 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @liquor_store.id, status: 'returned')   
-      @invoice_item1 = InvoiceItem.create!(item: @illicit_goods, invoice: @invoice1, quantity: 13, unit_price: 10.99 )
-      @invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: @invoice2, quantity: 1, unit_price: 6.66 )
+      @invoice_item1 = InvoiceItem.create!(item: @dice, invoice: @invoice1, quantity: 13, unit_price: 10.99 )
+      @invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: @invoice2, quantity: 1, unit_price: 6.00 )
     end
 
     it '?sorted=age should return ascending by when created' do
