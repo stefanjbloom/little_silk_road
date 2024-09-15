@@ -118,18 +118,17 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   describe "Get all of a merchant's items by the merchant's id" do
-    xit "renders a JSON representation of all records of the requested resource" do
+    it "renders a JSON representation of all records of the requested resource" do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
 
-      items = JSON.parse(response.body, symbolize_names: true)[:data]
-      puts "Items structure: #{items.inspect}"
-      item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
-      item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
-      item3 = items.find {|item| item[:id] == @weed.id.to_s}
+      merchant_items = JSON.parse(response.body, symbolize_names: true)[:data]
+      item1 = merchant_items.find {|item| item[:id] == @illicit_goods.id.to_s}
+      item2 = merchant_items.find {|item| item[:id] == @cursed_object.id.to_s}
+      item3 = merchant_items.find {|item| item[:id] == @weed.id.to_s}
 
-      expect(items).to be_an(Array)
-      expect(items.count).to eq(2)
+      expect(merchant_items).to be_an(Array)
+      expect(merchant_items.count).to eq(2)
 
       expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
       expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
@@ -138,8 +137,8 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(item2[:attributes][:description]).to eq(@cursed_object.description)
       expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
       
-      expect(items).to eq([item1, item2])
-      expect(items).to_not eq([item1, item2, item3])
+      expect(merchant_items).to eq([item1, item2])
+      expect(merchant_items).to_not eq([item1, item2, item3])
     end
     xit "returns a 404 error if merchant is not found" do
       get "/api/v1/merchants/0/items"
@@ -189,7 +188,7 @@ RSpec.describe 'Merchant Endpoints:' do
 
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
-      expect(merchants.first[:attributes][:name]).to eq(@kozey_group.name)
+      expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
       expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
     end
     it 'Can display only merchants with invoice status="returned"' do
@@ -197,8 +196,7 @@ RSpec.describe 'Merchant Endpoints:' do
       get "/api/v1/merchants?status=returned"
       
       expect(response).to be_successful
-      
-      # require "pry";binding.pry
+
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
       expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
