@@ -27,9 +27,9 @@ class Api::V1::ItemsController < ApplicationController
       items = Item.search_by_params(find_all_params)
       render json: ItemSerializer.new(items)
     rescue ArgumentError => exception
-      render json: ErrorSerializer.format_error(e, "400"), status: :bad_request
+      render json: ErrorSerializer.format_error(exception, "400"), status: :bad_request
     rescue StandardError => exception
-      render json: ErrorSerializer.format_error(e, "404"), status: :not_found
+      render json: ErrorSerializer.format_error(exception, "404"), status: :not_found
     end
   end
 
