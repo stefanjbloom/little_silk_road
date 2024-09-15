@@ -24,7 +24,7 @@ class Api::V1::ItemsController < ApplicationController
       items = Item.search_by_params(find_all_params)
       render json: ItemSerializer.new(items)
     rescue StandardError => exception
-      # require 'pry'; binding.pry
+    
       render json: {
         errors: [
         {

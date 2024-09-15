@@ -1,4 +1,5 @@
 class Api::V1::MerchantsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
 
   def index
     merchants = Merchant.sort_by_age(params[:sorted])
@@ -12,6 +13,11 @@ class Api::V1::MerchantsController < ApplicationController
   def show
     merchant = Merchant.find(params[:id])
     render json: MerchantSerializer.new(merchant)
+    # begin
+    #   render json: MerchantSerializer.new(Merchant.find(params[:id]))
+    # rescue ActiveRecord::RecordNotFound => exception
+    #   render json: ErrorSerializer(exception, "404"), status: :not_found
+    # end
   end
 
   def create
@@ -33,16 +39,10 @@ class Api::V1::MerchantsController < ApplicationController
 
   def find
     merchant = Merchant.search(params[:name])
-    if merchant
+     if merchant
       render json: MerchantSerializer.new(merchant)
     else
-      render json: {
-        errors: [
-        {
-          status: "404",
-          message: "Merchant not found"
-        }
-      ]}, status: :not_found
+      render json: ErrorSerializer.format_error(StandardError.new("Merchant not found"), "404"), status: :not_found
     end
   end
 
@@ -50,5 +50,9 @@ class Api::V1::MerchantsController < ApplicationController
 
   def merchant_params
     params.require(:merchant).permit(:name)
+  end
+
+  def not_found_response(exception)
+    render json: ErrorSerializer.format_error(exception, "404"), status: :not_found
   end
 end
