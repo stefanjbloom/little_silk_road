@@ -122,30 +122,25 @@ RSpec.describe 'Merchant Endpoints:' do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
 
-      merchant_items = JSON.parse(response.body, symbolize_names: true)[:data][:relationships][:items][:data]
+      items = JSON.parse(response.body, symbolize_names: true)[:data]
   
-      item1 = merchant_items.find {|item| item[:id] == @dice.id.to_s}
-      item2 = merchant_items.find {|item| item[:id] == @cursed_object.id.to_s}
-      item3 = merchant_items.find {|item| item[:id] == @weedkiller.id.to_s}
+      item1 = items.find {|item| item[:id] == @dice.id.to_s}
+      item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+      item3 = items.find {|item| item[:id] == @weedkiller.id.to_s}
 
-      item1_details = JSON.parse(response.body, symbolize_names: true)[:included].find { |item| item[:id] == item1[:id] }
-      item2_details = JSON.parse(response.body, symbolize_names: true)[:included].find { |item| item[:id] == item2[:id] }
-      item3_details = JSON.parse(response.body, symbolize_names: true)[:included].find { |item| item[:id] == item2[:id] }
-    
+      expect(items).to be_an(Array)
+      expect(items.count).to eq(2)
 
-      expect(merchant_items).to be_an(Array)
-      expect(merchant_items.count).to eq(2)
+      expect(item1[:attributes][:name]).to eq(@dice.name)
+      expect(item1[:attributes][:description]).to eq(@dice.description)
+      expect(item1[:attributes][:unit_price]).to eq(@dice.unit_price)
 
-      expect(item1_details[:attributes][:name]).to eq(@dice.name)
-      expect(item1_details[:attributes][:description]).to eq(@dice.description)
-      expect(item1_details[:attributes][:unit_price]).to eq(@dice.unit_price)
-
-      expect(item2_details[:attributes][:name]).to eq(@cursed_object.name)
-      expect(item2_details[:attributes][:description]).to eq(@cursed_object.description)
-      expect(item2_details[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
+      expect(item2[:attributes][:name]).to eq(@cursed_object.name)
+      expect(item2[:attributes][:description]).to eq(@cursed_object.description)
+      expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
       
-      expect(merchant_items).to eq([item1, item2])
-      expect(merchant_items).to_not eq([item1, item2, item3])
+      expect(items).to eq([item1, item2])
+      expect(items).to_not eq([item1, item2, item3])
     end
     it "returns a 404 error if merchant is not found" do
       get "/api/v1/merchants/0/items"
@@ -154,10 +149,8 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response.status).to eq(404)
       
       raw_response = response.body
-      puts "Response Body: #{raw_response}"
 
       data = JSON.parse(raw_response, symbolize_names: true)
-      puts "Parsed Data: #{data.inspect}"
 
       expect(data[:errors]).to be_an(Array)
       expect(data[:errors].first[:status]).to eq("404")
