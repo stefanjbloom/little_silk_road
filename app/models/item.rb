@@ -40,10 +40,10 @@ class Item < ApplicationRecord
 	end
 
 	def self.filter_by_min(items, min_price)
-		items.where("unit_price >= #{min_price}")
+		items.where("unit_price >= #{min_price}").order(:name)
 	end
 
 	def self.filter_by_max(items, max_price)
-		items.where("unit_price <= #{max_price}")
+		items.where("unit_price <= #{max_price}").order(:name)
 	end
 end
