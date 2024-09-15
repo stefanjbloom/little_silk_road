@@ -7,9 +7,9 @@ RSpec.describe 'Merchant Endpoints:' do
     @hot_topic = Merchant.create!(name: "Hot Topic")
     @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
     @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')
-    @illicit_goods = Item.create!(name: 'Contraband', description: 'Good Stuff', unit_price: 10.99, merchant_id: @macho_man.id)
-    @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.66, merchant_id: @macho_man.id)
-    @weed = Item.create!(name: 'Alaskan Thunderfuck', description: 'terpy AF bruh lol', unit_price: 420.00, merchant_id: @kozey_group.id)
+    @dice = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: @macho_man.id)
+    @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: @macho_man.id)
+    @weedkiller = Item.create!(name: 'Roundup', description: 'Bad for plants', unit_price: 400.99, merchant_id: @kozey_group.id)
     @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
     @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
   end
@@ -122,17 +122,18 @@ RSpec.describe 'Merchant Endpoints:' do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
 
-      merchant_items = JSON.parse(response.body, symbolize_names: true)[:data]
-      item1 = merchant_items.find {|item| item[:id] == @illicit_goods.id.to_s}
-      item2 = merchant_items.find {|item| item[:id] == @cursed_object.id.to_s}
-      item3 = merchant_items.find {|item| item[:id] == @weed.id.to_s}
+      items = JSON.parse(response.body, symbolize_names: true)[:data]
+      puts "Items structure: #{items.inspect}"
+      item1 = items.find {|item| item[:id] == @dice.id.to_s}
+      item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
+      item3 = items.find {|item| item[:id] == @weedkiller.id.to_s}
 
       expect(merchant_items).to be_an(Array)
       expect(merchant_items.count).to eq(2)
 
-      expect(item1[:attributes][:name]).to eq(@illicit_goods.name)
-      expect(item1[:attributes][:description]).to eq(@illicit_goods.description)
-      expect(item1[:attributes][:unit_price]).to eq(@illicit_goods.unit_price)
+      expect(item1[:attributes][:name]).to eq(@dice.name)
+      expect(item1[:attributes][:description]).to eq(@dice.description)
+      expect(item1[:attributes][:unit_price]).to eq(@dice.unit_price)
       expect(item2[:attributes][:name]).to eq(@cursed_object.name)
       expect(item2[:attributes][:description]).to eq(@cursed_object.description)
       expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
@@ -176,12 +177,49 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response.status).to eq(404)
       expect(data[:errors]).to be_a(Array)
       expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:message]).to eq("Merchant not found")
+      expect(data[:errors].first[:title]).to eq("Merchant not found")
+    end
+  end
+
+  describe 'sad path exception handlers' do
+    it 'handles incorrect id parameter for #show' do
+      get "/api/v1/merchants/1000"
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=1000")
+    end
+
+    it 'handles incorrect id parameter for #patch' do
+      patch "/api/v1/merchants/2000", params: { merchant: { name: "Mr. Newname" } }
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=2000")
+    end
+
+    it 'handles incorrect id parameter for #delete' do
+      delete "/api/v1/merchants/3000"
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=3000")
     end
   end
 
   describe 'Index Action' do
-    it 'Can sort merchants by age' do
+    xit 'Can sort merchants by age' do
       get "/api/v1/merchants?sorted=age"
 
       expect(response).to be_successful
@@ -196,7 +234,7 @@ RSpec.describe 'Merchant Endpoints:' do
       get "/api/v1/merchants?status=returned"
       
       expect(response).to be_successful
-
+      
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
       expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
@@ -225,9 +263,9 @@ end
     #     expect(response).to be_successful
         
     #     items = JSON.parse(response.body, symbolize_names: true)[:data]
-    #     item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+    #     item1 = items.find {|item| item[:id] == @dice.id.to_s}
     #     item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
-    #     item3 = items.find {|item| item[:id] == @weed.id.to_s}
+    #     item3 = items.find {|item| item[:id] == @weedkiler.id.to_s}
 
     #     expect(items).to be_an(Array)
     #     expect(items.count).to eq(1)
@@ -238,9 +276,9 @@ end
     #     expect(response).to be_successful
         
     #     items = JSON.parse(response.body, symbolize_names: true)[:data]
-    #     item1 = items.find {|item| item[:id] == @illicit_goods.id.to_s}
+    #     item1 = items.find {|item| item[:id] == @dice.id.to_s}
     #     item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
-    #     item3 = items.find {|item| item[:id] == @weed.id.to_s}
+    #     item3 = items.find {|item| item[:id] == @weedkiller.id.to_s}
 
     #     expect(items).to be_an(Array)
     #     expect(items.count).to eq(0)

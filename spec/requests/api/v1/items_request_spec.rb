@@ -8,16 +8,19 @@ RSpec.describe 'Item Endpoints' do
       unit_price: 42.91,
       merchant_id: @KozeyGroup.id
       )
-
     @item2 = Item.create!(name: "Item Two",
       description: "This is item 2.",
       unit_price: 15.49,
       merchant_id: @KozeyGroup.id
       )
-
     @item3 = Item.create!(name: "Item Three",
       description: "This is item 3.",
       unit_price: 100.99,
+      merchant_id: @KozeyGroup.id
+      )
+    @item4 = Item.create!(name: "Sweater",
+      description: "This is a warm, fuzzy sweater.",
+      unit_price: 19.99,
       merchant_id: @KozeyGroup.id
       )
   end
@@ -94,6 +97,16 @@ RSpec.describe 'Item Endpoints' do
             }
           },
           {
+            id: @item4.id.to_s,
+            type: 'item',
+            attributes: {
+              name: @item4.name,
+              description: @item4.description,
+              unit_price: @item4.unit_price,
+              merchant_id: @item4.merchant_id
+            }
+          },
+          {
             id: @item1.id.to_s,
             type: 'item',
             attributes: {
@@ -115,13 +128,116 @@ RSpec.describe 'Item Endpoints' do
             }
         ]
       }
-
+      
       get "/api/v1/items?sorted=price"
       expect(response).to be_successful
 
       result = JSON.parse(response.body, symbolize_names: true)[:data]
-
+     
       expect(result).to eq(expected[:data])
+    end
+  end
+
+  describe "Find_all Action" do
+    it 'can find all items based on search criteria' do
+      get "/api/v1/items/find_all?name=tEm"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data.first[:id]).to eq(@item1.id.to_s)
+      expect(data.last[:id]).to eq(@item2.id.to_s)
+    end
+
+    it 'returns no errors when a search does not find any items that meet the criteria' do
+      get "/api/v1/items/find_all?name=1234"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+   
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data).to eq([])
+
+      get "/api/v1/items/find_all?max_price=10"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data).to eq([])
+    end
+
+    it 'can search by minimum price' do
+      get "/api/v1/items/find_all?min_price=30"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data.first[:id]).to eq(@item1.id.to_s)
+      expect(data.last[:id]).to eq(@item3.id.to_s)
+    end
+
+    it 'can search by maximum price' do
+      get "/api/v1/items/find_all?max_price=30"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data.first[:id]).to eq(@item2.id.to_s)
+      expect(data.last[:id]).to eq(@item4.id.to_s)
+    end
+
+    it 'can search for both a minimum and maximum price together' do
+      get "/api/v1/items/find_all?max_price=20.99&min_price=17"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(data.first[:id]).to eq(@item4.id.to_s)
+      expect(data.last[:id]).to eq(@item4.id.to_s)
+    end
+
+    it 'handles searches for names and prices together' do
+      get "/api/v1/items/find_all?max_price=30&min_price=10&name=sweater"
+     
+      data = JSON.parse(response.body, symbolize_names: true)
+      expect(response).to_not be_successful
+      expect(response.status).to eq(400)
+      expect(data[:errors].first[:title]).to eq("Cannot search by both name and price")
+    end
+  end
+
+  describe 'sad path exception handlers' do
+    it 'handles incorrect id parameter for #show' do
+      get "/api/v1/items/4000"
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Item with 'id'=4000")
+    end
+
+    it 'handles incorrect id parameter for #patch' do
+      patch "/api/v1/items/5000", params: { item: { name: "Mrs. Newname" } }
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Item with 'id'=5000")
+    end
+
+    it 'handles incorrect id parameter for #delete' do
+      delete "/api/v1/items/6000"
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Item with 'id'=6000")
     end
   end
 end
