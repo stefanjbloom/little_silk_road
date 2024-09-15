@@ -10,5 +10,3 @@ class Api::V1::ItemsMerchantController < ApplicationController
     end
   end
 end
-# return the merchant associated with an item
-# return a 404 if the item is not found
