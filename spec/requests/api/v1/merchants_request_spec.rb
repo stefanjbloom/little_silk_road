@@ -234,6 +234,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
       expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
     end
+
     it 'Can display only merchants with invoice status="returned"' do
       
       get "/api/v1/merchants?status=returned"
@@ -242,9 +243,10 @@ RSpec.describe 'Merchant Endpoints:' do
       
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
-      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
       expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
+      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
     end
+
     it 'Can display count of how many items a merchant has' do
       get "/api/v1/merchants?count=true"
       
