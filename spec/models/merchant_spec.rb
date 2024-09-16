@@ -27,17 +27,22 @@ RSpec.describe Merchant, type: :model do
       @invoice_item1 = InvoiceItem.create!(item: @dice, invoice: @invoice1, quantity: 13, unit_price: 10.99 )
       @invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: @invoice2, quantity: 1, unit_price: 6.00 )
     end
-
+    
     it '?sorted=age should return ascending by when created' do
       sorted_age = Merchant.sort_by_age("age")
       expect(sorted_age).to eq([@liquor_store, @kozey_group, @macho_man])
     end
-
-    it '?status=returned should return merchants with items on returned invoice' do
-      flustered_merchants = Merchant.status_returned('returned')
-      expect(flustered_merchants).to eq([@macho_man, @liquor_store])
+    
+    it 'returns all merchants if ?sorted= is blank or invalid' do
+      expect(Merchant.sort_by_age(nil)).to eq([@macho_man, @kozey_group, @liquor_store])
+      expect(Merchant.sort_by_age("invalid")).to eq([@macho_man, @kozey_group, @liquor_store])
     end
-
+    
+    it 'returns all merchants if ?status= is blank or invalid' do
+      expect(Merchant.status_returned(nil)).to eq([@macho_man, @kozey_group, @liquor_store])
+      expect(Merchant.status_returned("invalid")).to eq([@macho_man, @kozey_group, @liquor_store])
+    end
+    
     it '?count=true returns the store name and a count of its items' do
       item_count = Merchant.count_items("true")
       item_count_object = item_count.map do |merchant|
@@ -54,29 +59,47 @@ RSpec.describe Merchant, type: :model do
         data: [
           {
             id: @macho_man.id.to_s,
-              type: "merchant",
-              attributes: {
-                name: @macho_man.name,
-                item_count: 1
-              }
+            type: "merchant",
+            attributes: {
+              name: @macho_man.name,
+              item_count: 1
+            }
           },
           {
             id: @liquor_store.id.to_s,
-              type: "merchant",
-              attributes: {
-                name: @liquor_store.name,
-                item_count: 1
-              }
+            type: "merchant",
+            attributes: {
+              name: @liquor_store.name,
+              item_count: 1
+            }
           }
         ]
       }
-
+      
       expect(data: item_count_object).to eq(expected)
     end
-
+    
+    it 'returns all merchants if ?count= is blank or invalid' do
+      expect(Merchant.count_items(nil).size).to eq(3)
+      expect(Merchant.count_items("invalid").size).to eq(3)
+    end
+    
     it 'find?name= can search (case-insensitive) for a single merchant and returns the first one' do
       expect(Merchant.search("Randy")).to eq(@macho_man)
       expect(Merchant.search("randy")).to eq(@macho_man)
+    end
+    
+    it 'returns nil if ?name= does not match any merchant' do
+      expect(Merchant.search("blahblah")).to eq(nil)
+    end
+  end
+
+  describe 'dependent: :destroy' do
+    it 'destroys associated items and invoices when merchant is deleted' do
+      @macho_man = Merchant.create!(name: "Randy Savage")
+      @macho_man.destroy
+      expect(Item.where(merchant_id: @macho_man.id).count).to eq(0)
+      expect(Invoice.where(merchant_id: @macho_man.id).count).to eq(0)
     end
   end
 end

@@ -74,7 +74,7 @@ RSpec.describe 'Item Endpoints' do
       end
     end
 
-    it 'Can return one item' do
+    it 'can return one item' do
       get "/api/v1/items/#{@item2.id}"
       expect(response).to be_successful
       item = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -135,6 +135,34 @@ RSpec.describe 'Item Endpoints' do
       result = JSON.parse(response.body, symbolize_names: true)[:data]
      
       expect(result).to eq(expected[:data])
+    end
+
+    it 'can return a single merchant by an items ID' do
+      id = @item1.id
+      expected = {
+        data: {
+            id: @KozeyGroup.id.to_s,
+            type: "merchant",
+            attributes: {
+                name: @KozeyGroup.name
+            }
+        }
+    }
+      get "/api/v1/items/#{id}/merchant"
+      
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(result).to eq(expected[:data])
+    end
+
+    it 'renders proper 404 response if item id does not exist when returning a single merchant' do
+      get "/api/v1/items/87453487579348534987789234789/merchant"
+
+      expect(response.status).to eq(404)
+      expect(response.body).to eq("{\"error\":\"404: Item Not Found\"}")
+      expect(response).not_to be_successful
     end
   end
 
@@ -200,7 +228,8 @@ RSpec.describe 'Item Endpoints' do
       data = JSON.parse(response.body, symbolize_names: true)
       expect(response).to_not be_successful
       expect(response.status).to eq(400)
-      expect(data[:errors].first[:title]).to eq("Cannot search by both name and price")
+    
+      expect(data[:errors]).to eq(["Cannot search by both name and price"])
     end
   end
 
@@ -212,8 +241,8 @@ RSpec.describe 'Item Endpoints' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Item with 'id'=4000")
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Couldn't find Item with 'id'=4000"])
     end
 
     it 'handles incorrect id parameter for #patch' do
@@ -224,8 +253,8 @@ RSpec.describe 'Item Endpoints' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Item with 'id'=5000")
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Couldn't find Item with 'id'=5000"])
     end
 
     it 'handles incorrect id parameter for #delete' do
@@ -236,8 +265,8 @@ RSpec.describe 'Item Endpoints' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Item with 'id'=6000")
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Couldn't find Item with 'id'=6000"])
     end
   end
 end

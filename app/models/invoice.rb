@@ -5,7 +5,8 @@ class Invoice < ApplicationRecord
 	has_many :invoice_items
 	has_many :items, through: :invoice_items
 
-	validates :status, :customer_id, :merchant_id, presence: { message: "is required" }
+	validates :customer_id, :merchant_id, :status, presence: {message: "is required"}
+	validates :customer_id, :merchant_id, numericality: {only_integer: true, message: "valid id required"}
 
 	def self.filter_by_status(status)
     return all unless status.present?

@@ -149,6 +149,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(items).to eq([item1, item2])
       expect(items).to_not eq([item1, item2, item3])
     end
+
     it "returns a 404 error if merchant is not found" do
       get "/api/v1/merchants/0/items"
 
@@ -158,8 +159,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_an(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=0")
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
     end
   end
 
@@ -184,8 +185,9 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Merchant not found")
+
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Merchant not found"])
     end
   end
 
@@ -197,8 +199,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=1000")
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=1000"])
     end
 
     it 'handles incorrect id parameter for #patch' do
@@ -209,8 +211,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=2000")
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=2000"])
     end
 
     it 'handles incorrect id parameter for #delete' do
@@ -221,8 +223,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=3000")
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=3000"])
     end
   end
 
@@ -237,6 +239,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
       expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
     end
+
     it 'Can display only merchants with invoice status="returned"' do
       
       get "/api/v1/merchants?status=returned"
@@ -245,9 +248,10 @@ RSpec.describe 'Merchant Endpoints:' do
       
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
-      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
       expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
+      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
     end
+
     it 'Can display count of how many items a merchant has' do
       get "/api/v1/merchants?count=true"
       
