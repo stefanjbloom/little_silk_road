@@ -142,19 +142,20 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(items).to eq([item1, item2])
       expect(items).to_not eq([item1, item2, item3])
     end
+
     it "returns a 404 error if merchant is not found" do
       get "/api/v1/merchants/0/items"
 
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
-      
+
       raw_response = response.body
 
       data = JSON.parse(raw_response, symbolize_names: true)
 
       expect(data[:errors]).to be_an(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=0")
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
     end
   end
 
@@ -258,37 +259,3 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 end
-
-
-    # POTENTIALLY USEFUL TESTING CODE - DELETE BEFORE SUBMISSION
-    # context "it will always return data in an array" do
-    #   it "even if only one resource is found" do
-    #     get "/api/v1/merchants/#{@kozey_group.id}/items"
-    #     expect(response).to be_successful
-        
-    #     items = JSON.parse(response.body, symbolize_names: true)[:data]
-    #     item1 = items.find {|item| item[:id] == @dice.id.to_s}
-    #     item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
-    #     item3 = items.find {|item| item[:id] == @weedkiler.id.to_s}
-
-    #     expect(items).to be_an(Array)
-    #     expect(items.count).to eq(1)
-    #   end
-
-    #   it "or zero resources are found" do
-    #     get "/api/v1/merchants/#{@hot_topic.id}/items"
-    #     expect(response).to be_successful
-        
-    #     items = JSON.parse(response.body, symbolize_names: true)[:data]
-    #     item1 = items.find {|item| item[:id] == @dice.id.to_s}
-    #     item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
-    #     item3 = items.find {|item| item[:id] == @weedkiller.id.to_s}
-
-    #     expect(items).to be_an(Array)
-    #     expect(items.count).to eq(0)
-    #   end
-    # end
-    # context "when fetching a merchant's items"  do 
-    #   it "the returned data does NOT include any data pertaining to dependants of the merchant's items" do
-
-    #   end
