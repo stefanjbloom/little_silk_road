@@ -154,10 +154,8 @@ RSpec.describe 'Merchant Endpoints:' do
 
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
-      
-      raw_response = response.body
 
-      data = JSON.parse(raw_response, symbolize_names: true)
+      data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_an(Array)
       expect(data[:errors].first[:status]).to eq("404")
@@ -265,58 +263,72 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   describe "Get all of a merchant's invoices filtered by status" do
-    context "renders a JSON representation of:"
+    context "renders a JSON representation of:" do
       it "all records of a merchant's invoices" do
-      get "/api/v1/merchants/#{@macho_man.id}/invoices"
-      expect(response).to be_successful
-      invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-      invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-      invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-      invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-      invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+        get "/api/v1/merchants/#{@macho_man.id}/invoices"
+        expect(response).to be_successful
+        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
 
-      expect(invoices).to contain_exactly(invoice1, invoice2, invoice4)
-      expect(invoices).to_not include([invoice3])
-    end
+        expect(invoices).to contain_exactly(invoice1, invoice2, invoice4)
+        expect(invoices).to_not include([invoice3])
+      end
 
-    it "all records of a merchant's invoices for shipped orders." do
-      get "/api/v1/merchants/#{@macho_man.id}/invoices?status=shipped"
-      expect(response).to be_successful
-      
-      invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-      invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-      invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-      invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-      invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+      it "all records of a merchant's invoices for shipped orders." do
+        get "/api/v1/merchants/#{@macho_man.id}/invoices?status=shipped"
+        expect(response).to be_successful
 
-      expect(invoices).to contain_exactly(invoice1)
-      expect(invoices).to_not include([invoice2, invoice3, invoice4])
-    end
+        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
 
-    it "all records of a merchant's invoices for returned orders." do
-      get "/api/v1/merchants/#{@macho_man.id}/invoices?status=returned"
-      expect(response).to be_successful
-      invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-      invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-      invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-      invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-      invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+        expect(invoices).to contain_exactly(invoice1)
+        expect(invoices).to_not include([invoice2, invoice3, invoice4])
+      end
 
-      expect(invoices).to contain_exactly(invoice2)
-      expect(invoices).to_not include([invoice1, invoice3, invoice4])
-    end
+      it "all records of a merchant's invoices for returned orders." do
+        get "/api/v1/merchants/#{@macho_man.id}/invoices?status=returned"
+        expect(response).to be_successful
+        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
 
-    it "all records of a merchant's invoices for packaged orders." do
-      get "/api/v1/merchants/#{@macho_man.id}/invoices?status=packaged"
-      expect(response).to be_successful
-      invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-      invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-      invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-      invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-      invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+        expect(invoices).to contain_exactly(invoice2)
+        expect(invoices).to_not include([invoice1, invoice3, invoice4])
+      end
 
-      expect(invoices).to contain_exactly(invoice4)
-      expect(invoices).to_not include([invoice1, invoice2, invoice3])
+      it "all records of a merchant's invoices for packaged orders." do
+        get "/api/v1/merchants/#{@macho_man.id}/invoices?status=packaged"
+        expect(response).to be_successful
+        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+
+        expect(invoices).to contain_exactly(invoice4)
+        expect(invoices).to_not include([invoice1, invoice2, invoice3])
+      end
+
+      it "returns a 404 error if merchant is not found" do
+        get "/api/v1/merchants/0/invoices"
+  
+        expect(response).to_not be_successful
+        expect(response.status).to eq(404) 
+  
+        data = JSON.parse(response.body, symbolize_names: true)
+  
+        expect(data[:errors]).to be_an(Array)
+        expect(data[:errors].first[:status]).to eq("404")
+        expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=0")
+      end
     end
   end
 end
