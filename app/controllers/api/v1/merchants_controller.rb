@@ -7,7 +7,6 @@ class Api::V1::MerchantsController < ApplicationController
                         .count_items(params[:count])
 
     render json: MerchantSerializer.new(merchants, {params:{count: params[:count]}})
-    # Pass the params to the render json serializer to include item_count attribute or not.
   end
 
   def show
@@ -28,8 +27,8 @@ class Api::V1::MerchantsController < ApplicationController
 
   def destroy
     merchant = Merchant.find(params[:id])
-    merchant.destroy  # This will trigger dependent: :destroy and delete associated items
-    head :no_content  # Returns a 204 No Content response
+    merchant.destroy
+    head :no_content
   end
 
   def find
