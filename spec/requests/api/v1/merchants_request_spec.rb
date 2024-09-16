@@ -179,8 +179,9 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Merchant not found")
+
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Merchant not found"])
     end
   end
 
@@ -192,8 +193,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=1000")
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=1000"])
     end
 
     it 'handles incorrect id parameter for #patch' do
@@ -204,8 +205,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=2000")
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=2000"])
     end
 
     it 'handles incorrect id parameter for #delete' do
@@ -216,8 +217,8 @@ RSpec.describe 'Merchant Endpoints:' do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors].first[:status]).to eq("404")
-      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=3000")
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=3000"])
     end
   end
 
