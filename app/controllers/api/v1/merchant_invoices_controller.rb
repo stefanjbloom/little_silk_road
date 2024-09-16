@@ -1,10 +1,12 @@
-class Api::V1::MerchantItemsController < ApplicationController
+class Api::V1::MerchantInvoicesController < ApplicationController
+
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
 
   def index
     merchant = Merchant.find(params[:id])
-    items = merchant.items.distinct
-    render json: ItemSerializer.new(items)
+    invoices = merchant.invoices.distinct
+    invoices = invoices.filter_by_status(params[:status]) if params[:status].present?
+    render json: InvoiceSerializer.new(invoices)
   end
 
   private
