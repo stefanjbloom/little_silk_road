@@ -329,9 +329,9 @@ RSpec.describe 'Merchant Endpoints:' do
   
         data = JSON.parse(response.body, symbolize_names: true)
   
-        expect(data[:errors]).to be_an(Array)
-        expect(data[:errors].first[:status]).to eq("404")
-        expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=0")
+        expect(data[:errors]).to be_a(Array)
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
       end
     end
   end
