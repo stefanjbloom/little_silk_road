@@ -1,4 +1,5 @@
 class ErrorSerializer
+  # include JSONAPI::Serializer
   def self.format_error(exception, status)
     {
       message: 'We could not complete your request, please enter new query.',

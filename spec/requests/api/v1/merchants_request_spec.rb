@@ -118,12 +118,12 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   describe "Get all of a merchant's items by the merchant's id" do
-    xit "renders a JSON representation of all records of the requested resource" do
+    it "renders a JSON representation of all records of the requested resource" do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
 
       items = JSON.parse(response.body, symbolize_names: true)[:data]
-      puts "Items structure: #{items.inspect}"
+  
       item1 = items.find {|item| item[:id] == @dice.id.to_s}
       item2 = items.find {|item| item[:id] == @cursed_object.id.to_s}
       item3 = items.find {|item| item[:id] == @weedkiller.id.to_s}
@@ -134,6 +134,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(item1[:attributes][:name]).to eq(@dice.name)
       expect(item1[:attributes][:description]).to eq(@dice.description)
       expect(item1[:attributes][:unit_price]).to eq(@dice.unit_price)
+
       expect(item2[:attributes][:name]).to eq(@cursed_object.name)
       expect(item2[:attributes][:description]).to eq(@cursed_object.description)
       expect(item2[:attributes][:unit_price]).to eq(@cursed_object.unit_price)
@@ -141,17 +142,19 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(items).to eq([item1, item2])
       expect(items).to_not eq([item1, item2, item3])
     end
-    xit "returns a 404 error if merchant is not found" do
+    it "returns a 404 error if merchant is not found" do
       get "/api/v1/merchants/0/items"
-      
-      data = JSON.parse(response.body, symbolize_names: true)
-      
+
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
+      
+      raw_response = response.body
+
+      data = JSON.parse(raw_response, symbolize_names: true)
 
       expect(data[:errors]).to be_an(Array)
-      expect(data[:errors][:status]).to eq("404")
-      expect(data[:errors][:message]).to eq("Merchant not found")
+      expect(data[:errors].first[:status]).to eq("404")
+      expect(data[:errors].first[:title]).to eq("Couldn't find Merchant with 'id'=0")
     end
   end
 
@@ -220,14 +223,14 @@ RSpec.describe 'Merchant Endpoints:' do
   end
 
   describe 'Index Action' do
-    xit 'Can sort merchants by age' do
+    it 'Can sort merchants by age' do
       get "/api/v1/merchants?sorted=age"
 
       expect(response).to be_successful
 
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
-      expect(merchants.first[:attributes][:name]).to eq(@kozey_group.name)
+      expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
       expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
     end
     it 'Can display only merchants with invoice status="returned"' do
