@@ -7,4 +7,9 @@ class Invoice < ApplicationRecord
 
 	validates :customer_id, :merchant_id, :status, presence: {message: "is required"}
 	validates :customer_id, :merchant_id, numericality: {only_integer: true, message: "valid id required"}
+
+	def self.filter_by_status(status)
+    return all unless status.present?
+    where(status: status)
+	end
 end
