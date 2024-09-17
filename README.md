@@ -17,6 +17,11 @@ This application uses an RSpec testing suite.
 - For Models run: `bundle exec rspec spec/models`
 - For Requests run: `bundle exec rspec spec/requests`
 
+## Wins + Challenges:
+- A significant portion of the hurdles faced with this project was the practice of merging other's code into our branches and resolving merge conflicts. 
+- Its difficult to look at code one did not write, interpret what it does, and how to incorporate your own work into it.
+- A win was seeing everyone looking out for one another and the sum of the labors coming together for a functional full stack application.
+
 ## Contributors:
 Bloom, Stefan
   - [Github](https://github.com/stefanjbloom)
