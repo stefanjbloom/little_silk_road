@@ -12,8 +12,6 @@ Rails.application.routes.draw do
   get "/api/v1/merchants/:id/items", to: "api/v1/merchant_items#index"
   get "/api/v1/merchants/:id/invoices", to: "api/v1/merchant_invoices#index"
   
-
-  # non-RESTful endpoints
   get "/api/v1/items/find_all", to: "api/v1/items#find_all"
 
   get "/api/v1/items", to: "api/v1/items#index"
