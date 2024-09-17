@@ -5,7 +5,6 @@ class Api::V1::MerchantsController < ApplicationController
     merchants = Merchant.sort_by_age(params[:sorted])
                         .status_returned(params[:status])
                         .count_items(params[:count])
-
     render json: MerchantSerializer.new(merchants, {params:{count: params[:count]}})
   end
 
@@ -16,13 +15,20 @@ class Api::V1::MerchantsController < ApplicationController
 
   def create
     merchant = Merchant.create(merchant_params)
-    render json: MerchantSerializer.new(merchant), status: 201 if merchant.persisted?
-    render json: { errors: merchant.errors.messages }, status: 422 unless merchant.persisted?  
+    if merchant.persisted?
+      render json: MerchantSerializer.new(merchant), status: 201
+    else
+      render json: { errors: merchant.errors.messages }, status: 422
+    end
   end
 
   def update
-    updated_merchant = Merchant.update(params[:id], merchant_params)
-    render json: MerchantSerializer.new(updated_merchant)
+    merchant = Merchant.find(params[:id])
+    if merchant.update(merchant_params)
+      render json: MerchantSerializer.new(merchant)
+    else
+      render json: { errors: merchant.errors.messages }, status: 422
+    end
   end
 
   def destroy
@@ -33,7 +39,7 @@ class Api::V1::MerchantsController < ApplicationController
 
   def find
     merchant = Merchant.search(params[:name])
-     if merchant
+    if merchant
       render json: MerchantSerializer.new(merchant)
     else
       render json: ErrorSerializer.format_error(StandardError.new("Merchant not found"), "404"), status: :not_found
