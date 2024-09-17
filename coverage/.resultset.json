@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/environment.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/environment.rb": {
         "lines": [
           null,
           1,
@@ -10,7 +10,7 @@
           1
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/application.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/application.rb": {
         "lines": [
           1,
           null,
@@ -58,7 +58,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/boot.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/boot.rb": {
         "lines": [
           1,
           null,
@@ -66,7 +66,7 @@
           1
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/environments/test.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/environments/test.rb": {
         "lines": [
           1,
           null,
@@ -134,7 +134,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/initializers/cors.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/initializers/cors.rb": {
         "lines": [
           null,
           null,
@@ -154,7 +154,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/initializers/filter_parameter_logging.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/initializers/filter_parameter_logging.rb": {
         "lines": [
           null,
           null,
@@ -166,7 +166,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/initializers/inflections.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/initializers/inflections.rb": {
         "lines": [
           null,
           null,
@@ -186,7 +186,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/config/routes.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/config/routes.rb": {
         "lines": [
           1,
           1,
@@ -214,7 +214,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/customer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/customer.rb": {
         "lines": [
           1,
           1,
@@ -224,14 +224,14 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/application_record.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/application_record.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/models/invoice_item_spec.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/models/invoice_item_spec.rb": {
         "lines": [
           1,
           null,
@@ -245,41 +245,6 @@
           2,
           2,
           2,
-          2,
-          2,
-          2,
-          2,
-          2,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/invoice_item.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          null,
-          null
-        ]
-      },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/models/invoice_spec.rb": {
-        "lines": [
-          1,
-          null,
-          1,
-          1,
-          2,
-          2,
-          2,
-          2,
-          2,
-          null,
-          null,
-          1,
           2,
           2,
           2,
@@ -289,7 +254,42 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/invoice.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/invoice_item.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/models/invoice_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          null,
+          null,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          null,
+          null
+        ]
+      },
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/invoice.rb": {
         "lines": [
           1,
           1,
@@ -308,7 +308,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/models/item_spec.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/models/item_spec.rb": {
         "lines": [
           1,
           null,
@@ -363,7 +363,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/item.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/item.rb": {
         "lines": [
           1,
           1,
@@ -416,7 +416,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/models/merchant_spec.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/models/merchant_spec.rb": {
         "lines": [
           1,
           null,
@@ -525,7 +525,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/merchant.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/merchant.rb": {
         "lines": [
           1,
           1,
@@ -567,7 +567,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/models/transaction_spec.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/models/transaction_spec.rb": {
         "lines": [
           1,
           null,
@@ -578,14 +578,14 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/models/transaction.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/models/transaction.rb": {
         "lines": [
           1,
           1,
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/requests/api/v1/items_request_spec.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/requests/api/v1/items_request_spec.rb": {
         "lines": [
           1,
           null,
@@ -861,7 +861,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/spec/requests/api/v1/merchants_request_spec.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/spec/requests/api/v1/merchants_request_spec.rb": {
         "lines": [
           1,
           null,
@@ -1203,7 +1203,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/api/v1/items_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/items_controller.rb": {
         "lines": [
           1,
           1,
@@ -1254,13 +1254,13 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/application_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/application_controller.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/serializers/item_serializer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/serializers/item_serializer.rb": {
         "lines": [
           1,
           1,
@@ -1269,7 +1269,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/api/v1/items_merchant_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/items_merchant_controller.rb": {
         "lines": [
           1,
           null,
@@ -1285,7 +1285,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/serializers/merchant_serializer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/serializers/merchant_serializer.rb": {
         "lines": [
           1,
           1,
@@ -1300,7 +1300,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/serializers/error_serializer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/serializers/error_serializer.rb": {
         "lines": [
           1,
           1,
@@ -1330,7 +1330,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
           1,
@@ -1386,7 +1386,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/api/v1/merchant_customers_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchant_customers_controller.rb": {
         "lines": [
           1,
           null,
@@ -1398,7 +1398,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/serializers/customer_serializer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/serializers/customer_serializer.rb": {
         "lines": [
           1,
           1,
@@ -1406,7 +1406,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/api/v1/merchant_items_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchant_items_controller.rb": {
         "lines": [
           1,
           1,
@@ -1426,7 +1426,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/controllers/api/v1/merchant_invoices_controller.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/controllers/api/v1/merchant_invoices_controller.rb": {
         "lines": [
           1,
           null,
@@ -1447,7 +1447,7 @@
           null
         ]
       },
-      "/Users/krrrl/turing/2mod/projects/silk_road/little_silk_road/app/serializers/invoice_serializer.rb": {
+      "/Users/renee/turing/2mod/projects/little_silk_road/app/serializers/invoice_serializer.rb": {
         "lines": [
           1,
           1,
@@ -1456,6 +1456,6 @@
         ]
       }
     },
-    "timestamp": 1726528219
+    "timestamp": 1726596296
   }
 }
