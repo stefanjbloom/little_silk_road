@@ -181,11 +181,12 @@ RSpec.describe 'Merchant Endpoints:' do
     it 'will handle incorrect searches' do
       get "/api/v1/merchants/find?name=1234"
       data = JSON.parse(response.body, symbolize_names: true)
-
+     
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
-      expect(data[:errors]).to be_a(Array)
 
+      data = data[:data]
+      expect(data[:errors]).to be_a(Array)
       expect(data[:message]).to eq("We could not complete your request, please enter new query.")
       expect(data[:errors]).to eq(["Merchant not found"])
     end
