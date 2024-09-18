@@ -2,49 +2,31 @@ require 'rails_helper'
 
 RSpec.describe 'Item Endpoints' do
   before (:each) do
-    @KozeyGroup = Merchant.create!(name: "Kozey Group")
+    @kozey_group = Merchant.create!(name: "Kozey Group")
+
     @item1 = Item.create!(name: "Item One",
       description: "This is item 1.",
       unit_price: 42.91,
-      merchant_id: @KozeyGroup.id
+      merchant_id: @kozey_group.id
       )
     @item2 = Item.create!(name: "Item Two",
       description: "This is item 2.",
       unit_price: 15.49,
-      merchant_id: @KozeyGroup.id
+      merchant_id: @kozey_group.id
       )
     @item3 = Item.create!(name: "Item Three",
       description: "This is item 3.",
       unit_price: 100.99,
-      merchant_id: @KozeyGroup.id
+      merchant_id: @kozey_group.id
       )
     @item4 = Item.create!(name: "Sweater",
       description: "This is a warm, fuzzy sweater.",
       unit_price: 19.99,
-      merchant_id: @KozeyGroup.id
+      merchant_id: @kozey_group.id
       )
   end
 
   describe 'HTTP Requests' do
-    it 'can update item attributes' do
-      id = @item1.id
-      previous_name = @item1.name
-      item_params = {name: "New Item Name"}
-      headers = {"CONTENT_TYPE" => "application/json"}
-
-      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
-      updated_item = Item.find_by(id: id)
-
-      expect(response).to be_successful
-      expect(updated_item.name).to_not eq(previous_name)
-      expect(updated_item.name).to eq("New Item Name")
-    end
-
-    it 'can delete an item' do
-      expect{ delete "/api/v1/items/#{@item1.id}" }.to change(Item, :count).by(-1)
-      expect{ Item.find(@item1.id) }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-
     it 'can get all items' do
       get "/api/v1/items"
       expect(response).to be_successful
@@ -75,13 +57,50 @@ RSpec.describe 'Item Endpoints' do
       end
     end
 
-    it 'can return one item' do
+    it 'can get one item' do
       get "/api/v1/items/#{@item2.id}"
       expect(response).to be_successful
       item = JSON.parse(response.body, symbolize_names: true)[:data]
       expect(item[:id]).to eq(@item2.id.to_s)
       expect(item[:attributes][:name]).to eq(@item2.name)
       expect(item[:attributes][:unit_price]).to eq(@item2.unit_price)
+    end
+
+    it "can create a item" do
+      expect(Item.count).to eq(4)
+
+      new_item_params = {name: "iTem", description: "apples", unit_price: 1299.99, merchant_id: "#{@kozey_group.id}".to_i }
+
+      post "/api/v1/items", params: new_item_params, as: :json
+  
+      expect(response).to be_successful
+      expect(Item.count).to eq(5)
+      new_item = Item.last
+
+      expect(new_item.name).to eq(new_item_params[:name])
+      expect(new_item.description).to eq(new_item_params[:description])
+      expect(new_item.unit_price).to eq(new_item_params[:unit_price])
+      expect(new_item.merchant_id).to eq(new_item_params[:merchant_id])
+
+    end
+
+    it 'can update item attributes' do
+      id = @item1.id
+      previous_name = @item1.name
+      item_params = {name: "New Item Name"}
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
+      updated_item = Item.find_by(id: id)
+
+      expect(response).to be_successful
+      expect(updated_item.name).to_not eq(previous_name)
+      expect(updated_item.name).to eq("New Item Name")
+    end
+
+    it 'can destroy an item' do
+      expect{ delete "/api/v1/items/#{@item1.id}" }.to change(Item, :count).by(-1)
+      expect{ Item.find(@item1.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'can return items sorted by price' do
@@ -134,7 +153,7 @@ RSpec.describe 'Item Endpoints' do
       expect(response).to be_successful
 
       result = JSON.parse(response.body, symbolize_names: true)[:data]
-     
+      
       expect(result).to eq(expected[:data])
     end
 
@@ -142,10 +161,10 @@ RSpec.describe 'Item Endpoints' do
       id = @item1.id
       expected = {
         data: {
-            id: @KozeyGroup.id.to_s,
+            id: @kozey_group.id.to_s,
             type: "merchant",
             attributes: {
-                name: @KozeyGroup.name
+                name: @kozey_group.name
             }
         }
     }
@@ -156,14 +175,6 @@ RSpec.describe 'Item Endpoints' do
       result = JSON.parse(response.body, symbolize_names: true)[:data]
 
       expect(result).to eq(expected[:data])
-    end
-
-    it 'renders proper 404 response if item id does not exist when returning a single merchant' do
-      get "/api/v1/items/87453487579348534987789234789/merchant"
-
-      expect(response.status).to eq(404)
-      expect(response.body).to eq("{\"error\":\"404: Item Not Found\"}")
-      expect(response).not_to be_successful
     end
   end
 
@@ -181,7 +192,7 @@ RSpec.describe 'Item Endpoints' do
     it 'returns no errors when a search does not find any items that meet the criteria' do
       get "/api/v1/items/find_all?name=1234"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-   
+    
       expect(response).to be_successful
       expect(response.status).to eq(200)
       expect(data).to eq([])
@@ -225,7 +236,7 @@ RSpec.describe 'Item Endpoints' do
 
     it 'handles searches for names and prices together' do
       get "/api/v1/items/find_all?max_price=30&min_price=10&name=sweater"
-     
+      
       data = JSON.parse(response.body, symbolize_names: true)
       expect(response).to_not be_successful
       expect(response.status).to eq(400)
@@ -265,6 +276,29 @@ RSpec.describe 'Item Endpoints' do
       expect(data[:errors]).to be_a(Array)
       expect(data[:message]).to eq("We could not complete your request, please enter new query.")
       expect(data[:errors]).to eq(["Couldn't find Item with 'id'=6000"])
+    end
+
+    it 'handles nonexistant item_id when returning a single item' do
+      get "/api/v1/items/0/merchant"
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404) 
+
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Item with 'id'=0"])
+    end
+
+    it 'handles incomplete params when creating a new item' do
+      expect(Item.count).to eq(4)
+    
+      invalid_item_params = { name: "" }
+      post "/api/v1/items", params: invalid_item_params, as: :json
+    
+      expect(response.status).to eq(422) 
+      expect(Item.count).to eq(4)
     end
   end
 end

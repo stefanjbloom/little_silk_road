@@ -20,8 +20,8 @@ RSpec.describe 'Merchant Endpoints:' do
 
   end
 
-  describe 'HTTP Methods' do
-    it 'Can return all merchants' do
+  describe "HTTP Methods" do
+    it "Can return all merchants" do
       get "/api/v1/merchants"
       expect(response).to be_successful
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -41,29 +41,48 @@ RSpec.describe 'Merchant Endpoints:' do
       end
     end
 
-    it 'Can return one merchant' do
+    it "Can return one merchant" do
       get "/api/v1/merchants/#{@macho_man.id}"
       expect(response).to be_successful
       merchant = JSON.parse(response.body, symbolize_names: true)[:data]
       expect(merchant[:id]).to eq(@macho_man.id.to_s)
       expect(merchant[:attributes][:name]).to eq(@macho_man.name)
     end
-  end
 
-  it 'Create a merchant' do
-    expect(Merchant.count).to eq(3)
+    it "Can create a merchant" do
+      expect(Merchant.count).to eq(3)
 
-    merchant_params = {
-      name: "Walter White"
-    }
+      merchant_params = {name: "Walter White"}
+      post "/api/v1/merchants", params: merchant_params, as: :json
+  
+      expect(response).to be_successful
+      expect(Merchant.count).to eq(4)
+  
+      new_merchant = Merchant.last
+      expect(new_merchant.name).to eq(merchant_params[:name])
+    end
 
-    post "/api/v1/merchants", params: merchant_params, as: :json
+    it "Can update a merchant's name" do
+      id = @kozey_group.id
+      previous_name = @kozey_group.name
+      merchant_params = {name: "Kozey Grove co."}
+      headers = {"CONTENT_TYPE" => "application/json"}
 
-    expect(response).to be_successful
-    expect(Merchant.count).to eq(4)
+      patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
+      updated_merchant = Merchant.find_by(id: id)
 
-    new_merchant = Merchant.last
-    expect(new_merchant.name).to eq(merchant_params[:name])
+      expect(response).to be_successful
+      expect(updated_merchant.name).to_not eq(previous_name)
+      expect(updated_merchant.name).to eq("Kozey Grove co.")
+    end
+
+    it 'Can delete a merchant and all of their items' do
+      item = Item.create!(name: "Item", description: "This is an item", unit_price: 99.99, merchant_id: @macho_man.id)
+
+      expect{ delete "/api/v1/merchants/#{@macho_man.id}" }.to change(Merchant, :count).by(-1)
+      expect(Item.where(merchant_id: @macho_man.id).count).to eq(0)
+      expect{ Merchant.find(@macho_man.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 
   describe 'Return customers by merchant id' do
@@ -95,32 +114,6 @@ RSpec.describe 'Merchant Endpoints:' do
       customers = JSON.parse(response.body, symbolize_names: true)[:data]
 
       expect(customers).to eq([])
-    end
-  end
-
-  describe 'Update Action' do
-    it 'can update a merchant name' do
-      id = @kozey_group.id
-      previous_name = @kozey_group.name
-      merchant_params = {name: "Kozey Grove co."}
-      headers = {"CONTENT_TYPE" => "application/json"}
-
-      patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
-      updated_merchant = Merchant.find_by(id: id)
-
-      expect(response).to be_successful
-      expect(updated_merchant.name).to_not eq(previous_name)
-      expect(updated_merchant.name).to eq("Kozey Grove co.")
-    end
-  end
-
-  describe 'Destroy Action' do
-    it 'can delete a merchant and all of their items' do
-      item = Item.create!(name: "Item", description: "This is an item", unit_price: 99.99, merchant_id: @macho_man.id)
-
-      expect{ delete "/api/v1/merchants/#{@macho_man.id}" }.to change(Merchant, :count).by(-1)
-      expect(Item.where(merchant_id: @macho_man.id).count).to eq(0)
-      expect{ Merchant.find(@macho_man.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -161,109 +154,6 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(data[:errors]).to be_an(Array)
       expect(data[:message]).to eq("We could not complete your request, please enter new query.")
       expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
-    end
-  end
-
-  describe "Find Action" do
-    it 'can find the first merchant to meet the params in alphabetical order' do
-      store1 = Merchant.create!(name: "Amazon Storefront")
-      store2 = Merchant.create!(name: "Amazing Store")
-
-      get "/api/v1/merchants/find?name=Maz"
-      data = JSON.parse(response.body, symbolize_names: true)[:data]
-
-      expect(response).to be_successful
-      expect(response.status).to eq(200)
-      expect(data[:id]).to eq(store2.id.to_s)
-      expect(data[:attributes][:name]).to eq(store2.name)
-    end
-
-    it 'will handle incorrect searches' do
-      get "/api/v1/merchants/find?name=1234"
-      data = JSON.parse(response.body, symbolize_names: true)
-     
-      expect(response).to_not be_successful
-      expect(response.status).to eq(404)
-
-      data = data[:data]
-      expect(data[:errors]).to be_a(Array)
-      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
-      expect(data[:errors]).to eq(["Merchant not found"])
-    end
-  end
-
-  describe 'sad path exception handlers' do
-    it 'handles incorrect id parameter for #show' do
-      get "/api/v1/merchants/1000"
-      expect(response).to_not be_successful
-      expect(response.status).to eq(404)
-      data = JSON.parse(response.body, symbolize_names: true)
-
-      expect(data[:errors]).to be_a(Array)
-      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
-      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=1000"])
-    end
-
-    it 'handles incorrect id parameter for #patch' do
-      patch "/api/v1/merchants/2000", params: { merchant: { name: "Mr. Newname" } }
-
-      expect(response).to_not be_successful
-      expect(response.status).to eq(404)
-      data = JSON.parse(response.body, symbolize_names: true)
-
-      expect(data[:errors]).to be_a(Array)
-      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
-      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=2000"])
-    end
-
-    it 'handles incorrect id parameter for #delete' do
-      delete "/api/v1/merchants/3000"
-
-      expect(response).to_not be_successful
-      expect(response.status).to eq(404)
-      data = JSON.parse(response.body, symbolize_names: true)
-
-      expect(data[:errors]).to be_a(Array)
-      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
-      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=3000"])
-    end
-  end
-
-  describe 'Index Action' do
-    it 'Can sort merchants by age' do
-      get "/api/v1/merchants?sorted=age"
-
-      expect(response).to be_successful
-
-      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
-      
-      expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
-      expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
-    end
-
-    it 'Can display only merchants with invoice status="returned"' do
-      
-      get "/api/v1/merchants?status=returned"
-      
-      expect(response).to be_successful
-      
-      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
-      
-      expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
-      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
-    end
-
-    it 'Can display count of how many items a merchant has' do
-      get "/api/v1/merchants?count=true"
-      
-      expect(response).to be_successful
-      
-      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
-
-      macho_man_response = merchants.find { |merchant| merchant[:id] == @macho_man.id.to_s }
-      item_count = @macho_man.items.count
-      
-      expect(macho_man_response[:attributes][:item_count]).to eq(item_count)
     end
   end
 
@@ -331,9 +221,137 @@ RSpec.describe 'Merchant Endpoints:' do
         data = JSON.parse(response.body, symbolize_names: true)
   
         expect(data[:errors]).to be_a(Array)
+        expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+        expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
+      end
+    end
+  end
+
+  describe "Find Action" do
+    it 'can find the first merchant to meet the params in alphabetical order' do
+      store1 = Merchant.create!(name: "Amazon Storefront")
+      store2 = Merchant.create!(name: "Amazing Store")
+
+      get "/api/v1/merchants/find?name=Maz"
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data[:id]).to eq(store2.id.to_s)
+      expect(data[:attributes][:name]).to eq(store2.name)
+    end
+
+    it 'will handle incorrect searches' do
+      get "/api/v1/merchants/find?name=1234"
+      data = JSON.parse(response.body, symbolize_names: true)
+     
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      data = data[:data]
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Merchant not found"])
+    end
+  end
+
+  describe 'Index Action' do
+    it 'Can sort merchants by age' do
+      get "/api/v1/merchants?sorted=age"
+
+      expect(response).to be_successful
+
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
+      expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
+    end
+
+    it 'Can display only merchants with invoice status="returned"' do
+      
+      get "/api/v1/merchants?status=returned"
+      
+      expect(response).to be_successful
+      
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
+      expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
+    end
+
+    it 'Can display count of how many items a merchant has' do
+      get "/api/v1/merchants?count=true"
+      
+      expect(response).to be_successful
+      
+      merchants = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      macho_man_response = merchants.find { |merchant| merchant[:id] == @macho_man.id.to_s }
+      item_count = @macho_man.items.count
+      
+      expect(macho_man_response[:attributes][:item_count]).to eq(item_count)
+    end
+  end
+
+  describe 'sad path exception handlers' do
+    it 'handles incorrect id parameter for #show' do
+      get "/api/v1/merchants/0"
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
       expect(data[:message]).to eq('We could not complete your request, please enter new query.')
       expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
-      end
+    end
+
+    it 'handles incorrect id parameter for #patch' do
+      patch "/api/v1/merchants/0", params: { merchant: { name: "Mr. Newname" } }
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
+    end
+
+    it 'handles incorrect id parameter for #delete' do
+      delete "/api/v1/merchants/0"
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
+    end
+
+    it 'handles missing param for #update' do
+      id = @kozey_group.id
+      original_name = @kozey_group.name
+      invalid_params = { name: "" }
+      headers = { "CONTENT_TYPE" => "application/json" }
+    
+      patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({ merchant: invalid_params })
+      
+      updated_merchant = Merchant.find_by(id: id)
+    
+      expect(response.status).to eq(422) 
+      expect(updated_merchant.name).to eq(original_name)
+      data = JSON.parse(response.body)
+    end
+
+    it "handles missing param for #create" do
+      expect(Merchant.count).to eq(3)
+    
+      invalid_merchant_params = { name: "" }
+      post "/api/v1/merchants", params: invalid_merchant_params, as: :json
+    
+      expect(response.status).to eq(422) 
+      expect(Merchant.count).to eq(3)
     end
   end
 end
