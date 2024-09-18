@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Item Endpoints' do
+RSpec.describe 'Item Endpoints:' do
   before (:each) do
     @kozey_group = Merchant.create!(name: "Kozey Group")
 
@@ -26,7 +26,7 @@ RSpec.describe 'Item Endpoints' do
       )
   end
 
-  describe 'HTTP Requests' do
+  describe 'HTTP Requests:' do
     it 'can get all items' do
       get "/api/v1/items"
       expect(response).to be_successful
@@ -178,8 +178,8 @@ RSpec.describe 'Item Endpoints' do
     end
   end
 
-  describe "Find_all Action" do
-    it 'can find all items based on search criteria' do
+  describe "Filter/Sort Items Index:" do
+    it 'can find all items by name' do
       get "/api/v1/items/find_all?name=tEm"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
       
@@ -189,7 +189,7 @@ RSpec.describe 'Item Endpoints' do
       expect(data.last[:id]).to eq(@item2.id.to_s)
     end
 
-    it 'returns no errors when a search does not find any items that meet the criteria' do
+    it 'can returns no errors when a search does not find any items' do
       get "/api/v1/items/find_all?name=1234"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
     
@@ -233,7 +233,9 @@ RSpec.describe 'Item Endpoints' do
       expect(data.first[:id]).to eq(@item4.id.to_s)
       expect(data.last[:id]).to eq(@item4.id.to_s)
     end
+  end
 
+  describe 'Sad Path:' do
     it 'handles searches for names and prices together' do
       get "/api/v1/items/find_all?max_price=30&min_price=10&name=sweater"
       
@@ -243,9 +245,7 @@ RSpec.describe 'Item Endpoints' do
     
       expect(data[:errors]).to eq(["Cannot search by both name and price"])
     end
-  end
 
-  describe 'sad path exception handlers' do
     it 'handles incorrect id parameter for #show' do
       get "/api/v1/items/4000"
       expect(response).to_not be_successful
