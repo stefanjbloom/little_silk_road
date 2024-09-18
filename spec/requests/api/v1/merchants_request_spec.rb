@@ -244,7 +244,7 @@ RSpec.describe 'Merchant Endpoints:' do
     it 'will handle incorrect searches' do
       get "/api/v1/merchants/find?name=1234"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-
+      
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
 
@@ -358,6 +358,17 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(data[:errors]).to eq(["Name is required to create new Merchant"])
 
       expect(Merchant.count).to eq(3)
+
+      invalid_merchant_params = { }
+      post "/api/v1/merchants", params: invalid_merchant_params, as: :json
+      data = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+      expect(Merchant.count).to eq(3)
+      
+      expect(data[:errors]).to be_an(Array)
+      expect(data[:errors]).to eq(["param is missing or the value is empty: merchant"])
     end
   end
 end
