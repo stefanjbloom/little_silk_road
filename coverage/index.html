@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-17T19:42:25-04:00">2024-09-17T19:42:25-04:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-17T19:59:43-04:00">2024-09-17T19:59:43-04:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -22,7 +22,7 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="green">
-  99.72%
+  100.0%
 </span>
 
      </span>
@@ -42,11 +42,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>720</b> relevant lines,
-    <span class="green"><b>718</b> lines covered</span> and
-    <span class="red"><b>2</b> lines missed. </span>
+    <b>725</b> relevant lines,
+    <span class="green"><b>725</b> lines covered</span> and
+    <span class="red"><b>0</b> lines missed. </span>
     (<span class="green">
-  99.72%
+  100.0%
 </span>
 )
   </div>
@@ -192,12 +192,12 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#d4424bb9b7570016eefa934cd56cc7dae2bb5b2a" class="src_link" title="app/models/item.rb">app/models/item.rb</a></td>
-            <td class="green strong cell--number t-file__coverage">93.75 %</td>
-            <td class="cell--number">57</td>
-            <td class="cell--number">32</td>
+            <td class="green strong cell--number t-file__coverage">100.00 %</td>
+            <td class="cell--number">53</td>
             <td class="cell--number">30</td>
-            <td class="cell--number">2</td>
-            <td class="cell--number">3.88</td>
+            <td class="cell--number">30</td>
+            <td class="cell--number">0</td>
+            <td class="cell--number">4.10</td>
             
           </tr>
         
@@ -391,11 +391,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#1cd739ffe163fe10a1171f35f43947eee2b019cd" class="src_link" title="spec/models/item_spec.rb">spec/models/item_spec.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">51</td>
-            <td class="cell--number">34</td>
-            <td class="cell--number">34</td>
+            <td class="cell--number">69</td>
+            <td class="cell--number">41</td>
+            <td class="cell--number">41</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">2.65</td>
+            <td class="cell--number">2.46</td>
             
           </tr>
         
@@ -424,7 +424,7 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#431d315c200c66b302283ba3ede278996fc66b20" class="src_link" title="spec/requests/api/v1/items_request_spec.rb">spec/requests/api/v1/items_request_spec.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">277</td>
+            <td class="cell--number">270</td>
             <td class="cell--number">133</td>
             <td class="cell--number">133</td>
             <td class="cell--number">0</td>
@@ -2952,7 +2952,7 @@
     <h3>app/models/item.rb</h3>
     <h4>
       <span class="green">
-  93.75%
+  100.0%
 </span>
 
       lines covered
@@ -2961,9 +2961,9 @@
     
 
     <div class="t-line-summary">
-      <b>32</b> relevant lines.
+      <b>30</b> relevant lines.
       <span class="green"><b>30</b> lines covered</span> and
-      <span class="red"><b>2</b> lines missed.</span>
+      <span class="red"><b>0</b> lines missed.</span>
     </div>
 
     
@@ -3178,9 +3178,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="11" data-linenumber="19">
+          <li class="covered" data-hits="14" data-linenumber="19">
             
-              <span class="hits">11</span>
+              <span class="hits">14</span>
             
 
             
@@ -3222,24 +3222,26 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="10" data-linenumber="23">
+          <li class="covered" data-hits="13" data-linenumber="23">
             
-              <span class="hits">10</span>
-            
-
+              <span class="hits">13</span>
             
 
-            <code class="ruby">		if param[:min_price].to_f &lt; 0</code>
+            
+
+            <code class="ruby">		if param[:min_price].to_f &lt; 0 || param[:max_price].to_f &lt; 0</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="24">
+          <li class="covered" data-hits="3" data-linenumber="24">
+            
+              <span class="hits">3</span>
             
 
             
 
-            <code class="ruby">			raise ArgumentError.new(&quot;min_price cannot be less than 0&quot;)</code>
+            <code class="ruby">			raise ArgumentError.new(&quot;price parameters cannot be less than 0&quot;)</code>
           </li>
         </div>
       
@@ -3271,54 +3273,12 @@
 
             
 
-            <code class="ruby">		if param[:max_price].to_f &lt; 0</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="28">
-            
-
-            
-
-            <code class="ruby">			raise ArgumentError.new(&quot;max_price cannot be less than 0&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="29">
-            
-
-            
-
-            <code class="ruby">		end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="30">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="10" data-linenumber="31">
-            
-              <span class="hits">10</span>
-            
-
-            
-
             <code class="ruby">		items = Item.all</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="10" data-linenumber="32">
+          <li class="covered" data-hits="10" data-linenumber="28">
             
               <span class="hits">10</span>
             
@@ -3330,7 +3290,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="33">
+          <li class="covered" data-hits="3" data-linenumber="29">
             
               <span class="hits">3</span>
             
@@ -3338,6 +3298,50 @@
             
 
             <code class="ruby">			items = filter_by_name(items, param[:name])</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="30">
+            
+
+            
+
+            <code class="ruby">		end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="31">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="10" data-linenumber="32">
+            
+              <span class="hits">10</span>
+            
+
+            
+
+            <code class="ruby">		if param[:min_price]</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="4" data-linenumber="33">
+            
+              <span class="hits">4</span>
+            
+
+            
+
+            <code class="ruby">			items = filter_by_min(items, param[:min_price])</code>
           </li>
         </div>
       
@@ -3369,19 +3373,19 @@
 
             
 
-            <code class="ruby">		if param[:min_price]</code>
+            <code class="ruby">		if param[:max_price]</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="37">
+          <li class="covered" data-hits="5" data-linenumber="37">
             
-              <span class="hits">4</span>
-            
-
+              <span class="hits">5</span>
             
 
-            <code class="ruby">			items = filter_by_min(items, param[:min_price])</code>
+            
+
+            <code class="ruby">			items = filter_by_max(items, param[:max_price])</code>
           </li>
         </div>
       
@@ -3396,7 +3400,29 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="39">
+          <li class="covered" data-hits="10" data-linenumber="39">
+            
+              <span class="hits">10</span>
+            
+
+            
+
+            <code class="ruby">		items</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="40">
+            
+
+            
+
+            <code class="ruby">	end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="41">
             
 
             
@@ -3406,48 +3432,26 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="10" data-linenumber="40">
+          <li class="covered" data-hits="1" data-linenumber="42">
             
-              <span class="hits">10</span>
-            
-
+              <span class="hits">1</span>
             
 
-            <code class="ruby">		if param[:max_price]</code>
+            
+
+            <code class="ruby">	def self.filter_by_name(items, name)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="5" data-linenumber="41">
+          <li class="covered" data-hits="3" data-linenumber="43">
             
-              <span class="hits">5</span>
-            
-
-            
-
-            <code class="ruby">			items = filter_by_max(items, param[:max_price])</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="42">
+              <span class="hits">3</span>
             
 
             
 
-            <code class="ruby">		end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="10" data-linenumber="43">
-            
-              <span class="hits">10</span>
-            
-
-            
-
-            <code class="ruby">		items</code>
+            <code class="ruby">		items.where(&quot;name ILIKE ?&quot;, &quot;%#{name}%&quot;).order(:name)</code>
           </li>
         </div>
       
@@ -3479,19 +3483,19 @@
 
             
 
-            <code class="ruby">	def self.filter_by_name(items, name)</code>
+            <code class="ruby">	def self.filter_by_min(items, min_price)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="47">
+          <li class="covered" data-hits="4" data-linenumber="47">
             
-              <span class="hits">3</span>
-            
-
+              <span class="hits">4</span>
             
 
-            <code class="ruby">		items.where(&quot;name ILIKE ?&quot;, &quot;%#{name}%&quot;).order(:name)</code>
+            
+
+            <code class="ruby">		items.where(&quot;unit_price &gt;= #{min_price}&quot;).order(:name)</code>
           </li>
         </div>
       
@@ -3523,19 +3527,19 @@
 
             
 
-            <code class="ruby">	def self.filter_by_min(items, min_price)</code>
+            <code class="ruby">	def self.filter_by_max(items, max_price)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="51">
+          <li class="covered" data-hits="5" data-linenumber="51">
             
-              <span class="hits">4</span>
-            
-
+              <span class="hits">5</span>
             
 
-            <code class="ruby">		items.where(&quot;unit_price &gt;= #{min_price}&quot;).order(:name)</code>
+            
+
+            <code class="ruby">		items.where(&quot;unit_price &lt;= #{max_price}&quot;).order(:name)</code>
           </li>
         </div>
       
@@ -3551,50 +3555,6 @@
       
         <div>
           <li class="never" data-hits="" data-linenumber="53">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="54">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">	def self.filter_by_max(items, max_price)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="5" data-linenumber="55">
-            
-              <span class="hits">5</span>
-            
-
-            
-
-            <code class="ruby">		items.where(&quot;unit_price &lt;= #{max_price}&quot;).order(:name)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="56">
-            
-
-            
-
-            <code class="ruby">	end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="57">
             
 
             
@@ -7491,8 +7451,8 @@
     
 
     <div class="t-line-summary">
-      <b>34</b> relevant lines.
-      <span class="green"><b>34</b> lines covered</span> and
+      <b>41</b> relevant lines.
+      <span class="green"><b>41</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -7550,9 +7510,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="13" data-linenumber="5">
+          <li class="covered" data-hits="14" data-linenumber="5">
             
-              <span class="hits">13</span>
+              <span class="hits">14</span>
             
 
             
@@ -7562,9 +7522,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="13" data-linenumber="6">
+          <li class="covered" data-hits="14" data-linenumber="6">
             
-              <span class="hits">13</span>
+              <span class="hits">14</span>
             
 
             
@@ -7574,9 +7534,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="13" data-linenumber="7">
+          <li class="covered" data-hits="14" data-linenumber="7">
             
-              <span class="hits">13</span>
+              <span class="hits">14</span>
             
 
             
@@ -7586,9 +7546,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="13" data-linenumber="8">
+          <li class="covered" data-hits="14" data-linenumber="8">
             
-              <span class="hits">13</span>
+              <span class="hits">14</span>
             
 
             
@@ -8067,12 +8027,206 @@
 
             
 
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="51">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">    it &#39;handles min_price and max_price under 0&#39; do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="52">
+            
+
+            
+
+            <code class="ruby">      # items = Item.search_by_params(min_price: -1.00)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="53">
+            
+
+            
+
+            <code class="ruby">      # require &#39;pry&#39;; binding.pry</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="54">
+            
+
+            
+
+            <code class="ruby">      # items = Item.search_by_params(max_price: 0.00)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="55">
+            
+
+            
+
+            <code class="ruby">      # items = Item.search_by_params(min_price: 0.00, max_price: 0.00)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="56">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect{</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="57">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">        Item.search_by_params(min_price: -1.00)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="58">
+            
+
+            
+
+            <code class="ruby">      }.to raise_error(ArgumentError, &quot;price parameters cannot be less than 0&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="59">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="60">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect{</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="61">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">        Item.search_by_params(max_price: -1.00)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="62">
+            
+
+            
+
+            <code class="ruby">      }.to raise_error(ArgumentError, &quot;price parameters cannot be less than 0&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="63">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="64">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect{</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="65">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">        Item.search_by_params(min_price: -1.00, max_price: -1.00)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="66">
+            
+
+            
+
+            <code class="ruby">      }.to raise_error(ArgumentError, &quot;price parameters cannot be less than 0&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="67">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="68">
+            
+
+            
+
             <code class="ruby">  end</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="51">
+          <li class="never" data-hits="" data-linenumber="69">
             
 
             
@@ -12154,52 +12308,12 @@
 
             
 
-            <code class="ruby">      # params = { name: &quot;Mrs. Newname&quot; }</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="252">
-            
-
-            
-
-            <code class="ruby">      # patch &quot;/api/v1/items/5000&quot;</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="253">
-            
-
-            
-
-            <code class="ruby">      # params = { name: &quot;Mrs. Newname&quot; }</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="254">
-            
-
-            
-
-            <code class="ruby">      # patch &quot;/api/v1/items/5000&quot;, headers: headers, params: JSON.generate({item: params})</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="255">
-            
-
-            
-
             <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="256">
+          <li class="covered" data-hits="1" data-linenumber="252">
             
               <span class="hits">1</span>
             
@@ -12211,7 +12325,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="257">
+          <li class="covered" data-hits="1" data-linenumber="253">
             
               <span class="hits">1</span>
             
@@ -12223,7 +12337,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="258">
+          <li class="covered" data-hits="1" data-linenumber="254">
             
               <span class="hits">1</span>
             
@@ -12235,27 +12349,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="259">
-            
-
-            
-
-            <code class="ruby">    # require &#39;pry&#39;; binding.pry</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="260">
-            
-
-            
-
-            <code class="ruby">      # expect(data[:errors]).to be_a(Array)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="261">
+          <li class="covered" data-hits="1" data-linenumber="255">
             
               <span class="hits">1</span>
             
@@ -12267,22 +12361,92 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="262">
-            
-
-            
-
-            <code class="ruby">      # expect(data[:errors]).to eq([&quot;Couldn&#39;t find Item with &#39;id&#39;=5000&quot;])</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="263">
+          <li class="never" data-hits="" data-linenumber="256">
             
 
             
 
             <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="257">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="258">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">    it &#39;handles incorrect id parameter for #delete&#39; do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="259">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      delete &quot;/api/v1/items/6000&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="260">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="261">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect(response).to_not be_successful</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="262">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect(response.status).to eq(404)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="263">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      data = JSON.parse(response.body, symbolize_names: true)</code>
           </li>
         </div>
       
@@ -12304,7 +12468,7 @@
 
             
 
-            <code class="ruby">    it &#39;handles incorrect id parameter for #delete&#39; do</code>
+            <code class="ruby">      expect(data[:errors]).to be_a(Array)</code>
           </li>
         </div>
       
@@ -12316,92 +12480,12 @@
 
             
 
-            <code class="ruby">      delete &quot;/api/v1/items/6000&quot;</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="267">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="268">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">      expect(response).to_not be_successful</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="269">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">      expect(response.status).to eq(404)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="270">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">      data = JSON.parse(response.body, symbolize_names: true)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="271">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="272">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">      expect(data[:errors]).to be_a(Array)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="273">
-            
-              <span class="hits">1</span>
-            
-
-            
-
             <code class="ruby">      expect(data[:message]).to eq(&quot;We could not complete your request, please enter new query.&quot;)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="274">
+          <li class="covered" data-hits="1" data-linenumber="267">
             
               <span class="hits">1</span>
             
@@ -12413,7 +12497,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="275">
+          <li class="never" data-hits="" data-linenumber="268">
             
 
             
@@ -12423,7 +12507,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="276">
+          <li class="never" data-hits="" data-linenumber="269">
             
 
             
@@ -12433,7 +12517,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="277">
+          <li class="never" data-hits="" data-linenumber="270">
             
 
             

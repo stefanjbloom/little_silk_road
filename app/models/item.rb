@@ -20,12 +20,8 @@ class Item < ApplicationRecord
 			raise ArgumentError.new("Cannot search by both name and price")
 		end
 		
-		if param[:min_price].to_f < 0
-			raise ArgumentError.new("min_price cannot be less than 0")
-		end
-
-		if param[:max_price].to_f < 0
-			raise ArgumentError.new("max_price cannot be less than 0")
+		if param[:min_price].to_f < 0 || param[:max_price].to_f < 0
+			raise ArgumentError.new("price parameters cannot be less than 0")
 		end
 
 		items = Item.all
