@@ -286,19 +286,22 @@ RSpec.describe 'Item Endpoints' do
 
       data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors]).to be_an(Array)
       expect(data[:message]).to eq('We could not complete your request, please enter new query.')
       expect(data[:errors]).to eq(["Couldn't find Item with 'id'=0"])
     end
 
-    it 'handles incomplete params when creating a new item' do
+    it "handles missing params when creating a new item" do
       expect(Item.count).to eq(4)
     
-      invalid_item_params = { name: "" }
+      invalid_item_params = { name: "", description: "nothing", unit_price: 1.00, merchant_id: "#{@kozey_group.id}" }
       post "/api/v1/items", params: invalid_item_params, as: :json
-    
+
+      data = JSON.parse(response.body, symbolize_names: true)
       expect(response.status).to eq(422) 
       expect(Item.count).to eq(4)
+      expect(data[:errors]).to be_an(Array)
+      expect(data[:message]).to eq("All fields must be filled out")
     end
   end
 end

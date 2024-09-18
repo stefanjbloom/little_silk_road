@@ -13,12 +13,25 @@ class Api::V1::MerchantsController < ApplicationController
     render json: MerchantSerializer.new(merchant)
   end
 
+  # def create
+  #   merchant = Merchant.create(merchant_params)
+  #   if merchant.persisted?
+  #     render json: MerchantSerializer.new(merchant), status: 201
+  #   else
+  #     render json: error_response, status: 422
+  #   end
+  # end
   def create
+    puts "Params: #{params.inspect}"
     merchant = Merchant.create(merchant_params)
     if merchant.persisted?
       render json: MerchantSerializer.new(merchant), status: 201
     else
-      render json: { errors: merchant.errors.messages }, status: 422
+      error_response = {
+        message: "Name is required", 
+        errors: merchant.errors.full_messages         
+      }
+      render json: error_response, status: 422
     end
   rescue ActionController::ParameterMissing => error
     render json: { message: "Creation failed", errors: [error.message] }, status: 422
@@ -29,7 +42,11 @@ class Api::V1::MerchantsController < ApplicationController
     if merchant.update(merchant_params)
       render json: MerchantSerializer.new(merchant)
     else
-      render json: { errors: merchant.errors.messages }, status: 422
+      error_response = { errors: merchant.errors.full_messages }
+      error_response = { 
+        message: "Name is required",
+        errors: merchant.errors.full_messages }
+      render json: error_response, status: 422
     end
   end
 
