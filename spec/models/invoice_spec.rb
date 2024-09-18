@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Invoice, type: :model do
-
-
   describe 'relationships' do
     it { should belong_to(:merchant) }
     it { should belong_to(:customer) }
@@ -19,21 +17,21 @@ RSpec.describe Invoice, type: :model do
     it { should validate_numericality_of(:customer_id).with_message("valid id required")}
   end
 
-  describe "model methods" do
-    before(:each) do
-      @macho_man = Merchant.create!(name: "Randy Savage")
-      @kozey_group = Merchant.create!(name: "Kozey Group")
-      @liquor_store = Merchant.create!(name: "Liquor Store")
+  before(:each) do
+    @macho_man = Merchant.create!(name: "Randy Savage")
+    @kozey_group = Merchant.create!(name: "Kozey Group")
+    @liquor_store = Merchant.create!(name: "Liquor Store")
 
-      @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
-      @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')  
+    @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
+    @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')  
 
-      @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
-      @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
-      @invoice3 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
-      @invoice4 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'packaged')
-    end
+    @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
+    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
+    @invoice3 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
+    @invoice4 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'packaged')
+  end
 
+  describe "filtering invoices by status" do
     it 'returns all invoices' do
       invoices = Invoice.filter_by_status(nil)
       expect(invoices).to include(@invoice1, @invoice2, @invoice3)

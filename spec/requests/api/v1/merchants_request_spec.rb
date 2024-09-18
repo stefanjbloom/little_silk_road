@@ -20,7 +20,7 @@ RSpec.describe 'Merchant Endpoints:' do
 
   end
 
-  describe "HTTP Methods" do
+  describe "HTTP Methods:" do
     it "Can return all merchants" do
       get "/api/v1/merchants"
       expect(response).to be_successful
@@ -85,7 +85,7 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 
-  describe 'Return customers by merchant id' do
+  describe 'Merchant_Customers Queries:' do
     it 'Can return all customers for a given merchant' do
       get "/api/v1/merchants/#{@macho_man.id}/customers"
       expect(response).to be_successful
@@ -117,7 +117,7 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 
-  describe "Get all of a merchant's items by the merchant's id" do
+  describe "Merchant Items Index:" do
     it "renders a JSON representation of all records of a merchant's items" do
       get "/api/v1/merchants/#{@macho_man.id}/items"
       expect(response).to be_successful
@@ -142,92 +142,78 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(items).to eq([item1, item2])
       expect(items).to_not eq([item1, item2, item3])
     end
-
-    it "returns a 404 error if merchant is not found" do
-      get "/api/v1/merchants/0/items"
-
-      expect(response).to_not be_successful
-      expect(response.status).to eq(404)
-
-      data = JSON.parse(response.body, symbolize_names: true)
-
-      expect(data[:errors]).to be_an(Array)
-      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
-      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
-    end
-  end
-
-  describe "Get all of a merchant's invoices filtered by status" do
-    context "renders a JSON representation of:" do
-      it "all records of a merchant's invoices" do
-        get "/api/v1/merchants/#{@macho_man.id}/invoices"
-        expect(response).to be_successful
-        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
-
-        expect(invoices).to contain_exactly(invoice1, invoice2, invoice4)
-        expect(invoices).to_not include([invoice3])
-      end
-
-      it "all records of a merchant's invoices for shipped orders." do
-        get "/api/v1/merchants/#{@macho_man.id}/invoices?status=shipped"
-        expect(response).to be_successful
-
-        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
-
-        expect(invoices).to contain_exactly(invoice1)
-        expect(invoices).to_not include([invoice2, invoice3, invoice4])
-      end
-
-      it "all records of a merchant's invoices for returned orders." do
-        get "/api/v1/merchants/#{@macho_man.id}/invoices?status=returned"
-        expect(response).to be_successful
-        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
-
-        expect(invoices).to contain_exactly(invoice2)
-        expect(invoices).to_not include([invoice1, invoice3, invoice4])
-      end
-
-      it "all records of a merchant's invoices for packaged orders." do
-        get "/api/v1/merchants/#{@macho_man.id}/invoices?status=packaged"
-        expect(response).to be_successful
-        invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-        invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-        invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-        invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-        invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
-
-        expect(invoices).to contain_exactly(invoice4)
-        expect(invoices).to_not include([invoice1, invoice2, invoice3])
-      end
-
-      it "returns a 404 error if merchant is not found" do
-        get "/api/v1/merchants/0/invoices"
+    describe "Filtering Merchant Items Index:" do
+      context "renders a JSON representation of:" do
+        it "all records of a merchant's invoices" do
+          get "/api/v1/merchants/#{@macho_man.id}/invoices"
+          expect(response).to be_successful
+          invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
   
-        expect(response).to_not be_successful
-        expect(response.status).to eq(404) 
+          expect(invoices).to contain_exactly(invoice1, invoice2, invoice4)
+          expect(invoices).to_not include([invoice3])
+        end
   
-        data = JSON.parse(response.body, symbolize_names: true)
+        it "all records of a merchant's invoices for shipped orders." do
+          get "/api/v1/merchants/#{@macho_man.id}/invoices?status=shipped"
+          expect(response).to be_successful
   
-        expect(data[:errors]).to be_a(Array)
-        expect(data[:message]).to eq('We could not complete your request, please enter new query.')
-        expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
+          invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+  
+          expect(invoices).to contain_exactly(invoice1)
+          expect(invoices).to_not include([invoice2, invoice3, invoice4])
+        end
+  
+        it "all records of a merchant's invoices for returned orders." do
+          get "/api/v1/merchants/#{@macho_man.id}/invoices?status=returned"
+          expect(response).to be_successful
+          invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+  
+          expect(invoices).to contain_exactly(invoice2)
+          expect(invoices).to_not include([invoice1, invoice3, invoice4])
+        end
+  
+        it "all records of a merchant's invoices for packaged orders." do
+          get "/api/v1/merchants/#{@macho_man.id}/invoices?status=packaged"
+          expect(response).to be_successful
+          invoices = JSON.parse(response.body, symbolize_names: true)[:data]
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+  
+          expect(invoices).to contain_exactly(invoice4)
+          expect(invoices).to_not include([invoice1, invoice2, invoice3])
+        end
+  
+        it "returns a 404 error if merchant is not found" do
+          get "/api/v1/merchants/0/invoices"
+    
+          expect(response).to_not be_successful
+          expect(response.status).to eq(404) 
+    
+          data = JSON.parse(response.body, symbolize_names: true)
+    
+          expect(data[:errors]).to be_a(Array)
+          expect(data[:message]).to eq('We could not complete your request, please enter new query.')
+          expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
+        end
       end
     end
   end
 
-  describe "Find Action" do
+  describe "Find Action:" do
     it 'can find the first merchant to meet the params in alphabetical order' do
       store1 = Merchant.create!(name: "Amazon Storefront")
       store2 = Merchant.create!(name: "Amazing Store")
@@ -241,7 +227,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(data[:attributes][:name]).to eq(store2.name)
     end
 
-    it 'will handle incorrect searches' do
+    it 'can handle incorrect searches' do
       get "/api/v1/merchants/find?name=1234"
       data = JSON.parse(response.body, symbolize_names: true)[:data]
       
@@ -254,8 +240,8 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 
-  describe 'Index Action' do
-    it 'Can sort merchants by age' do
+  describe 'Filter/Sort Merchant Index:' do
+    it 'can sort merchants by age' do
       get "/api/v1/merchants?sorted=age"
 
       expect(response).to be_successful
@@ -266,7 +252,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
     end
 
-    it 'Can display only merchants with invoice status="returned"' do
+    it 'can display only merchants with invoice status="returned"' do
       
       get "/api/v1/merchants?status=returned"
       
@@ -278,7 +264,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
     end
 
-    it 'Can display count of how many items a merchant has' do
+    it 'can display count of how many items a merchant has' do
       get "/api/v1/merchants?count=true"
       
       expect(response).to be_successful
@@ -292,7 +278,7 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 
-  describe 'sad path exception handlers' do
+  describe 'Sad Path' do
     it 'handles incorrect id parameter for #show' do
       get "/api/v1/merchants/0"
       expect(response).to_not be_successful
@@ -369,6 +355,19 @@ RSpec.describe 'Merchant Endpoints:' do
       
       expect(data[:errors]).to be_an(Array)
       expect(data[:errors]).to eq(["param is missing or the value is empty: merchant"])
+    end
+
+    it "handles merchant not found" do
+      get "/api/v1/merchants/0/items"
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_an(Array)
+      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
+      expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
     end
   end
 end
