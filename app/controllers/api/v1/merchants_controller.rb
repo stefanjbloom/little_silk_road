@@ -20,6 +20,8 @@ class Api::V1::MerchantsController < ApplicationController
     else
       render json: { errors: merchant.errors.messages }, status: 422
     end
+  rescue ActionController::ParameterMissing => error
+    render json: { message: "Creation failed", errors: [error.message] }, status: 422
   end
 
   def update
