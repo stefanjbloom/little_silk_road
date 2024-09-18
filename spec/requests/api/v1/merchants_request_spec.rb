@@ -311,7 +311,7 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response.status).to eq(404)
       data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors]).to be_an(Array)
       expect(data[:message]).to eq('We could not complete your request, please enter new query.')
       expect(data[:errors]).to eq(["Couldn't find Merchant with 'id'=0"])
     end
@@ -345,11 +345,18 @@ RSpec.describe 'Merchant Endpoints:' do
 
     it "handles missing param for #create" do
       expect(Merchant.count).to eq(3)
-    
       invalid_merchant_params = { name: "" }
+
       post "/api/v1/merchants", params: invalid_merchant_params, as: :json
-    
-      expect(response.status).to eq(422) 
+      
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+
+      data = JSON.parse(response.body, symbolize_names: true)
+      expect(data[:errors]).to be_an(Array)
+      expect(data[:message]).to eq("Name is required")
+      expect(data[:errors]).to eq(["Name is required to create new Merchant"])
+
       expect(Merchant.count).to eq(3)
     end
   end

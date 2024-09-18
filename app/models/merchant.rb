@@ -4,7 +4,7 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
 	has_many :invoice_items, through: :invoices
 
-	validates :name, presence: { message: "Please enter a merchant name" }
+	validates :name, presence: { message: "is required to create new Merchant" }
 	validates :name, uniqueness: { message: "This merchant has already been created" }
 	
 

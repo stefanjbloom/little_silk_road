@@ -16,7 +16,11 @@ class Api::V1::ItemsController < ApplicationController
     if item.persisted?
       render json: ItemSerializer.new(item), status: 201
     else
-      render json: { errors: item.errors.messages }, status: 422
+      error_response = {
+      message: "All fields must be filled out",
+      errors: item.errors.full_messages
+    }
+    render json: error_response, status: 422
     end
   end
 
