@@ -12,8 +12,14 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def update
-    updated_item = Item.update(params[:id], item_params)
-    render json: ItemSerializer.new(updated_item)
+    begin
+      item = Item.find(params[:id])
+      if item.update(item_params)
+        render json: ItemSerializer.new(item), status: :ok
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "We could not complete your request, please enter new query." }, status: :not_found
+    end
   end
 
   def destroy
