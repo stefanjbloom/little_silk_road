@@ -27,28 +27,6 @@ RSpec.describe 'Item Endpoints' do
   end
 
   describe 'HTTP Requests' do
-<<<<<<< HEAD
-=======
-    it 'can update item attributes' do
-      id = @item1.id
-      previous_name = @item1.name
-      item_params = {name: "New Item Name"}
-      headers = {"CONTENT_TYPE" => "application/json"}
-
-      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
-      updated_item = Item.find_by(id: id)
-
-      expect(response).to be_successful
-      expect(updated_item.name).to_not eq(previous_name)
-      expect(updated_item.name).to eq("New Item Name")
-    end
-
-    it 'can delete an item' do
-      expect{ delete "/api/v1/items/#{@item1.id}" }.to change(Item, :count).by(-1)
-      expect{ Item.find(@item1.id) }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-
->>>>>>> 7a364c64b7634d204a905b19ee7fc9b97538b19b
     it 'can get all items' do
       get "/api/v1/items"
       expect(response).to be_successful
