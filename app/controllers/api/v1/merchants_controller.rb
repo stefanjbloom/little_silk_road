@@ -59,7 +59,7 @@ class Api::V1::MerchantsController < ApplicationController
     if merchant
       render json: MerchantSerializer.new(merchant)
     else
-      render json: ErrorSerializer.format_error(StandardError.new("Merchant not found"), "404"), status: :not_found
+      render json: { data: ErrorSerializer.format_error(StandardError.new("Merchant not found"), "404") }, status: :not_found
     end
   end
 

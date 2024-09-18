@@ -27,6 +27,28 @@ RSpec.describe 'Item Endpoints' do
   end
 
   describe 'HTTP Requests' do
+<<<<<<< HEAD
+=======
+    it 'can update item attributes' do
+      id = @item1.id
+      previous_name = @item1.name
+      item_params = {name: "New Item Name"}
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate({item: item_params})
+      updated_item = Item.find_by(id: id)
+
+      expect(response).to be_successful
+      expect(updated_item.name).to_not eq(previous_name)
+      expect(updated_item.name).to eq("New Item Name")
+    end
+
+    it 'can delete an item' do
+      expect{ delete "/api/v1/items/#{@item1.id}" }.to change(Item, :count).by(-1)
+      expect{ Item.find(@item1.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+>>>>>>> 7a364c64b7634d204a905b19ee7fc9b97538b19b
     it 'can get all items' do
       get "/api/v1/items"
       expect(response).to be_successful
@@ -257,16 +279,13 @@ RSpec.describe 'Item Endpoints' do
       expect(data[:errors]).to eq(["Couldn't find Item with 'id'=4000"])
     end
 
-    it 'handles incorrect id parameter for #patch' do
+    it 'handles incorrect id parameter for #update' do
       patch "/api/v1/items/5000", params: { item: { name: "Mrs. Newname" } }
 
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
       data = JSON.parse(response.body, symbolize_names: true)
-
-      expect(data[:errors]).to be_a(Array)
-      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
-      expect(data[:errors]).to eq(["Couldn't find Item with 'id'=5000"])
+      expect(data[:error]).to eq("We could not complete your request, please enter new query.")
     end
 
     it 'handles incorrect id parameter for #delete' do
