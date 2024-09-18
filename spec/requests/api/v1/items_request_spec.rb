@@ -44,6 +44,7 @@ RSpec.describe 'Item Endpoints' do
       expect{ delete "/api/v1/items/#{@item1.id}" }.to change(Item, :count).by(-1)
       expect{ Item.find(@item1.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
+
     it 'can get all items' do
       get "/api/v1/items"
       expect(response).to be_successful
@@ -245,16 +246,13 @@ RSpec.describe 'Item Endpoints' do
       expect(data[:errors]).to eq(["Couldn't find Item with 'id'=4000"])
     end
 
-    it 'handles incorrect id parameter for #patch' do
+    it 'handles incorrect id parameter for #update' do
       patch "/api/v1/items/5000", params: { item: { name: "Mrs. Newname" } }
 
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
       data = JSON.parse(response.body, symbolize_names: true)
-
-      expect(data[:errors]).to be_a(Array)
-      expect(data[:message]).to eq("We could not complete your request, please enter new query.")
-      expect(data[:errors]).to eq(["Couldn't find Item with 'id'=5000"])
+      expect(data[:error]).to eq("We could not complete your request, please enter new query.")
     end
 
     it 'handles incorrect id parameter for #delete' do

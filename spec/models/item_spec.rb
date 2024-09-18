@@ -47,5 +47,19 @@ RSpec.describe Item, type: :model do
       items = Item.search_by_params(min_price: 10.00, max_price: 20.00)
       expect(items).to eq([@item2, @item1])
     end
+
+    it 'handles min_price and max_price under 0' do
+      expect{
+        Item.search_by_params(min_price: -1.00)
+      }.to raise_error(ArgumentError, "price parameters cannot be less than 0")
+
+      expect{
+        Item.search_by_params(max_price: -1.00)
+      }.to raise_error(ArgumentError, "price parameters cannot be less than 0")
+
+      expect{
+        Item.search_by_params(min_price: -1.00, max_price: -1.00)
+      }.to raise_error(ArgumentError, "price parameters cannot be less than 0")
+    end
   end
 end
