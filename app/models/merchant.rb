@@ -3,6 +3,7 @@ class Merchant < ApplicationRecord
 	has_many :invoices, dependent: :destroy
   has_many :customers, through: :invoices
 	has_many :invoice_items, through: :invoices
+	has_many :coupons
 
 	validates :name, presence: { message: "is required to create new Merchant" }
 	validates :name, uniqueness: { message: "This merchant has already been created" }
