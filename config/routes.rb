@@ -23,5 +23,7 @@ Rails.application.routes.draw do
 
   get "/api/v1/items/:id/merchant", to: "api/v1/items_merchant#index"
 
+  # Routing for Coupon Project
+  get "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#show"
 end
   
