@@ -34,6 +34,17 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
 
         expect(merchant_coupon[:id]).to eq(@coupon1.id.to_s)
       end
+
+      it 'renders proper error if coupon id not found' do
+        get "/api/v1/merchants/#{@merchant_1.id}/coupons/8987678677"
+
+        expect(response).not_to be_successful
+        expect(response.status).to eq 404
+
+        error = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error[:error]).to eq("Coupon not found")
+      end
     end
     
   end

@@ -8,6 +8,6 @@ class Api::V1::CouponsController < ApplicationController
 
     render json: CouponSerializer.new(coupon, { params: { usage_count: used_coupon_count } })
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Coupon not found" }
+    render json: { error: "Coupon not found" }, status: :not_found
   end
 end
