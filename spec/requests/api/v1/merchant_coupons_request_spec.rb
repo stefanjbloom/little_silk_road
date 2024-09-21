@@ -8,12 +8,12 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
     @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
     @real_human2 = Customer.create!(first_name: 'Jack', last_name: 'Parsons')
 
-    @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
-    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
+    @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @merchant_1.id, status: 'shipped')
+    @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @merchant_2.id, status: 'returned')
 
-    @dice = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: @macho_man.id)
-    @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: @macho_man.id)
-    @weedkiller = Item.create!(name: 'Roundup', description: 'Bad for plants', unit_price: 400.99, merchant_id: @kozey_group.id)
+    @dice = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: @merchant_1.id)
+    @cursed_object = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: @merchant_1.id)
+    @weedkiller = Item.create!(name: 'Roundup', description: 'Bad for plants', unit_price: 400.99, merchant_id: @merchant_2.id)
 
     @coupon1 = Coupon.create!(name: "10% Off", code: "Unique1", percent_off: 10, status: "activated", merchant: @merchant_1)
     @coupon2 = Coupon.create!(name: "20% Off", code: "Unique2", percent_off: 20, status: "activated", merchant: @merchant_1)
@@ -24,6 +24,17 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
   end
 
   describe 'HTTP Requests:' do
+    describe '#Show' do
+      it 'Can get one coupon by id from a merchants id' do
+        get "/api/v1/merchants/#{@merchant_1.id}/coupons/#{@coupon1.id}"
+
+        expect(response).to be_successful
+
+        merchant_coupon = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(merchant_coupon[:id]).to eq(@coupon1.id.to_s)
+      end
+    end
     
   end
 end
