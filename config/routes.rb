@@ -26,5 +26,6 @@ Rails.application.routes.draw do
   # Routing for Coupon Project (in order of CRUD Endpoints of BE requirements)
   get "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#show"
   get "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#index"
+  post "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#create"
 end
   

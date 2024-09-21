@@ -20,7 +20,6 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
     @coupon3 = Coupon.create!(name: "30% Off", code: "Unique3", percent_off: 30, status: "activated", merchant: @merchant_1)
     @coupon4 = Coupon.create!(name: "40% Off", code: "Unique4", percent_off: 40, status: "activated", merchant: @merchant_1)
     @coupon5 = Coupon.create!(name: "50% Off", code: "Unique5", percent_off: 50, status: "activated", merchant: @merchant_1)
-    @coupon6 = Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "deactivated", merchant: @merchant_2)
   end
 
   describe 'HTTP Requests:' do
@@ -46,6 +45,7 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
         expect(error[:error]).to eq("Coupon not found")
       end
     end
+
     describe '#Index' do
       it 'Can show all of a merchants coupons w/ correct data and attributes' do
         get "/api/v1/merchants/#{@merchant_1.id}/coupons"
@@ -78,6 +78,41 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
           expect(merchant_coupon).to have_key(:usage_count)
           expect(merchant_coupon[:usage_count]).to be_a(Integer)
         end
+      end
+    end
+
+    describe '#Create' do
+      it 'Can create a new coupon for a merchant' do
+        test_coupon = {
+          name: "Test10",
+          code: "TestTEN",
+          percent_off: 10,
+          status: "activated"
+        }
+
+        headers = {"CONTENT_TYPE" => "application/json"}
+
+        post "/api/v1/merchants/#{@merchant_2.id}/coupons", headers: headers, params: JSON.generate(coupon: test_coupon)
+
+        expect(response).to be_successful
+
+        new_coupon = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(new_coupon[:attributes][:name]).to eq("Test10")
+        expect(new_coupon[:attributes][:code]).to eq("TestTEN")
+        expect(new_coupon[:attributes][:percent_off]).to eq 10
+        expect(new_coupon[:attributes][:status]).to eq("activated")
+      end
+      # Sad Path
+      it 'Will not allow a merchant to have more than 5 active coupons' do
+        @coupon6 = Coupon.create(name: "10% Off", code: "Unique6", percent_off: 10, status: "activated", merchant: @merchant_1)
+
+        expect(@coupon6.valid?).to be(false)
+        expect(@coupon6.errors[:merchant]).to include("can only have 5 active coupons at a time")
+        
+        expect{Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "activated", merchant: @merchant_1)}
+        .to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merchant can only have 5 active coupons at a time")
+
       end
     end
   end

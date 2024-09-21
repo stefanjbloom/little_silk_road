@@ -14,6 +14,11 @@ class Coupon < ApplicationRecord
   validates :status, inclusion: { in: ["activated", "deactivated"] }
   validate :max_coupons_per_merchant
 
+  def self.create_a_coupon(merchant, coupon_params)
+    return {errors: "Merchant can only have 5 active coupons"} if merchant.coupons.count >= 5
+    merchant.coupons.create(coupon_params)
+  end
+
   private
 
   def max_coupons_per_merchant
