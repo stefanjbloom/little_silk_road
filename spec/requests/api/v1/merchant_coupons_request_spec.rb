@@ -35,7 +35,7 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
         expect(merchant_coupon[:id]).to eq(@coupon1.id.to_s)
       end
       # Sad Path Test
-      it 'renders proper error if coupon id not found' do
+      it 'Renders proper error if coupon id not found' do
         get "/api/v1/merchants/#{@merchant_1.id}/coupons/8987678677"
 
         expect(response).not_to be_successful
@@ -46,6 +46,39 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
         expect(error[:error]).to eq("Coupon not found")
       end
     end
-    
+    describe '#Index' do
+      it 'Can show all of a merchants coupons w/ correct data and attributes' do
+        get "/api/v1/merchants/#{@merchant_1.id}/coupons"
+
+        expect(response).to be_successful
+
+        merchant_coupons = JSON.parse(response.body, symbolize_names: true)[:data]
+        
+        merchant_coupons.each do |merchant_coupon|
+          expect(merchant_coupon).to have_key(:id)
+          expect(merchant_coupon[:id]).to be_a(String)
+
+          expect(merchant_coupon).to have_key(:type)
+          expect(merchant_coupon[:type]).to be_a(String)
+          expect(merchant_coupon[:type]).to eq("coupon")
+
+          merchant_coupon = merchant_coupon[:attributes]
+          expect(merchant_coupon).to have_key(:name)
+          expect(merchant_coupon[:name]).to be_a(String)
+
+          expect(merchant_coupon).to have_key(:code)
+          expect(merchant_coupon[:code]).to be_a(String)
+
+          expect(merchant_coupon).to have_key(:percent_off)
+          expect(merchant_coupon[:percent_off]).to be_a(Integer)
+
+          expect(merchant_coupon).to have_key(:status)
+          expect(merchant_coupon[:status]).to be_a(String)
+
+          expect(merchant_coupon).to have_key(:usage_count)
+          expect(merchant_coupon[:usage_count]).to be_a(Integer)
+        end
+      end
+    end
   end
 end
