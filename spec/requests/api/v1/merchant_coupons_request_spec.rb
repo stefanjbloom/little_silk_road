@@ -34,7 +34,7 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
 
         expect(merchant_coupon[:id]).to eq(@coupon1.id.to_s)
       end
-
+      # Sad Path Test
       it 'renders proper error if coupon id not found' do
         get "/api/v1/merchants/#{@merchant_1.id}/coupons/8987678677"
 
