@@ -131,7 +131,7 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
       end
 
       it 'Can change a coupons status from deactivated to activated' do
-        @coupon6 = Coupon.create(name: "10% Off", code: "Unique6", percent_off: 10, status: "deactivated", merchant: @merchant_1)
+        @coupon6 = Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "deactivated", merchant: @merchant_2)
 
         expect(@coupon6.status).to eq("deactivated")
 
