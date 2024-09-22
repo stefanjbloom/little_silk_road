@@ -79,6 +79,25 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
           expect(merchant_coupon[:usage_count]).to be_a(Integer)
         end
       end
+      it 'Query param(?sort=active) returns coupons sorted by status"activated"' do
+        get "/api/v1/merchants/#{@merchant_1.id}/coupons?sorted=active"
+
+        expect(response).to be_successful
+
+        sorted_coupons = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      end
+  
+      it 'Query param(?sort=inactive) returns coupons sorted by status"deactivated"' do
+        get "/api/v1/merchants/#{@merchant_1.id}/coupons?soted=inactive"
+
+        expect(response).to be_successful
+
+        sorted_coupons = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(sorted_coupons)
+      end
+  
     end
 
     describe '#Create' do
