@@ -92,7 +92,8 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
 
         headers = {"CONTENT_TYPE" => "application/json"}
 
-        post "/api/v1/merchants/#{@merchant_2.id}/coupons", headers: headers, params: JSON.generate(coupon: test_coupon)
+        post "/api/v1/merchants/#{@merchant_2.id}/coupons", 
+        headers: headers, params: JSON.generate(coupon: test_coupon)
 
         expect(response).to be_successful
 
@@ -109,10 +110,28 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
 
         expect(@coupon6.valid?).to be(false)
         expect(@coupon6.errors[:merchant]).to include("can only have 5 active coupons at a time")
-        
+
         expect{Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "activated", merchant: @merchant_1)}
         .to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Merchant can only have 5 active coupons at a time")
+      end
+    end
+    
+    describe '#Update' do
+      it 'Can change a coupons status from activated to deactivated' do
+        expect(@coupon1.status).to eq("activated")
 
+        patch "/api/v1/merchants/#{@merchant_1.id}/coupons/#{@coupon1.id}", 
+        headers: { "CONTENT_TYPE" => "application/json" }, params: JSON.generate(coupon: { status: "deactivated" })
+
+        expect(response).to be_successful
+
+        @coupon1.reload
+
+        expect(@coupon1.status).to eq("deactivated")
+      end
+      #Sad Path 
+      it 'Cant deactivate coupon if invoice w/ coupon is pending' do
+        
       end
     end
   end
