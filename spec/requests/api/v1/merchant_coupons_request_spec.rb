@@ -79,6 +79,39 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
           expect(merchant_coupon[:usage_count]).to be_a(Integer)
         end
       end
+      it 'Query param(?sort=active) returns correct # of coupons sorted by status"activated"' do
+        @coupon6 = Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "activated", merchant: @merchant_2)
+        @coupon7 = Coupon.create!(name: "10% Off", code: "Unique7", percent_off: 10, status: "deactivated", merchant: @merchant_2)
+        @coupon8 = Coupon.create!(name: "10% Off", code: "Unique8", percent_off: 10, status: "deactivated", merchant: @merchant_2)
+        @coupon9 = Coupon.create!(name: "10% Off", code: "Unique9", percent_off: 10, status: "activated", merchant: @merchant_2)
+
+        get "/api/v1/merchants/#{@merchant_2.id}/coupons?sorted=active"
+
+        expect(response).to be_successful
+
+        sorted_coupons = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(sorted_coupons.length).to eq(2)
+        expect(sorted_coupons[0][:attributes][:status]).to eq("activated")
+        expect(sorted_coupons[1][:attributes][:status]).to eq("activated")
+      end
+  
+      it 'Query param(?sort=inactive) returns correct # of coupons sorted by status"deactivated"' do
+        @coupon6 = Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "activated", merchant: @merchant_2)
+        @coupon7 = Coupon.create!(name: "10% Off", code: "Unique7", percent_off: 10, status: "deactivated", merchant: @merchant_2)
+        @coupon8 = Coupon.create!(name: "10% Off", code: "Unique8", percent_off: 10, status: "deactivated", merchant: @merchant_2)
+        @coupon9 = Coupon.create!(name: "10% Off", code: "Unique9", percent_off: 10, status: "activated", merchant: @merchant_2)
+
+        get "/api/v1/merchants/#{@merchant_2.id}/coupons?sorted=inactive"
+
+        expect(response).to be_successful
+
+        sorted_coupons = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(sorted_coupons.length).to eq(2)
+        expect(sorted_coupons[0][:attributes][:status]).to eq("deactivated")
+        expect(sorted_coupons[1][:attributes][:status]).to eq("deactivated")
+      end
     end
 
     describe '#Create' do

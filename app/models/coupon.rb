@@ -26,11 +26,20 @@ class Coupon < ApplicationRecord
 
     if coupon.status == "activated"
       coupon.update(status: "deactivated")
-    coupon
     elsif coupon.status == "deactivated"
       coupon.update(status: "activated")
     end
     coupon
+  end
+
+  def self.sort_by_status(sorted)
+    if sorted == "active"
+      where(status: "activated")
+    elsif sorted == "inactive"
+      where(status: "deactivated")
+    else
+      all
+    end
   end
   private
 # Sad Path Business Logic
