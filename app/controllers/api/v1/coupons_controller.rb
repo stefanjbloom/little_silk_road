@@ -23,6 +23,18 @@ class Api::V1::CouponsController < ApplicationController
     coupon.is_a?(Coupon) ? render(json: CouponSerializer.new(coupon), status: :created) : render(json: { errors: coupon[:errors] }, status: :bad_request)  
   end
 
+  def update
+    merchant = Merchant.find(params[:merchant_id])
+    coupon = Coupon.find(params[:id])
+    updated_coupon = Coupon.change_status(merchant, coupon)
+
+    if updated_coupon[:errors]
+      render json: {error: updated_coupon[:errors]}, status: 422
+    else
+      render json: {data: updated_coupon[:coupon]}, status: 200
+    end
+  end
+
   private
   def coupon_params
     params.require(:coupon).permit(:name, :code, :percent_off, :status)

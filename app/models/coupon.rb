@@ -19,8 +19,15 @@ class Coupon < ApplicationRecord
     merchant.coupons.create(coupon_params)
   end
 
+  def self.change_status(merchant, coupon)
+    if coupon.invoices.where(status: "pending").exists?
+      return {errors: "Cannot deactivate coupon if invoice is pending"}
+    end
+    coupon.update(status: "deactivated")
+    coupon
+  end
   private
-
+# Sad Path Business Logic
   def max_coupons_per_merchant
     if merchant && merchant.coupons.active.count >= 5 && status == "activated"
       errors.add(:merchant, "can only have 5 active coupons at a time")
