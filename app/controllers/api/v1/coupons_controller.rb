@@ -13,7 +13,7 @@ class Api::V1::CouponsController < ApplicationController
 
   def index
     merchant = Merchant.find(params[:merchant_id])
-    coupons = merchant.coupons.sort_by_status(params[:status])
+    coupons = merchant.coupons.sort_by_status(params[:sorted])
     render json: CouponSerializer.new(coupons)
   end
 
