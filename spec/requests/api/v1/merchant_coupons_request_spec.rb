@@ -131,7 +131,20 @@ RSpec.describe 'Merchant Coupons Endpoints:' do
       end
       #Sad Path 
       it 'Cant deactivate coupon if invoice w/ coupon is pending' do
-        
+        @pending_invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: @merchant_2.id, status: 'pending')
+        @coupon6 = Coupon.create!(name: "10% Off", code: "Unique6", percent_off: 10, status: "activated", merchant: @merchant_2)
+        @pending_invoice.coupon = @coupon6
+        @pending_invoice.save!
+
+        patch "/api/v1/merchants/#{@merchant_2.id}/coupons/#{@coupon6.id}", 
+        headers: { "CONTENT_TYPE" => "application/json" }, params: JSON.generate(coupon: { status: "deactivated" })
+
+        expect(response).not_to be_successful
+        expect(response.status).to eq 422
+
+        error_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(error_response[:error]).to eq("Cannot deactivate coupon if invoice is pending")
       end
     end
   end
