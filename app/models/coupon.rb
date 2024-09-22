@@ -23,8 +23,12 @@ class Coupon < ApplicationRecord
     if coupon.invoices.where(status: "pending").exists?
       return {errors: "Cannot deactivate coupon if invoice is pending"}
     end
-    coupon.update(status: "deactivated")
+    if merchant.coupon.status == "activated"
+      coupon.update(status: "deactivated")
     coupon
+    else  merchant.coupon.status =="deactivated"
+      coupon update(status: "activated")
+    end
   end
   private
 # Sad Path Business Logic
