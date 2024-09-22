@@ -11,12 +11,12 @@ RSpec.describe Coupon, type: :model do
     # @coupon6 = Coupon.create!(name: "Test 6", code: "Unique6", percent_off: 20, status: "activated", merchant: @merchant)
   end
 
-  describe 'relationships' do
+  describe 'Relationships' do
     it { should belong_to(:merchant) }
     it { should have_many(:invoices) }
   end
 
-  describe 'validations' do
+  describe 'Validations' do
     it { should validate_presence_of(:name).with_message("is required to create new Coupon")}
     it { should validate_presence_of(:code).with_message("is required to create new Coupon")}
     it { should validate_presence_of(:percent_off).with_message("is required to create new Coupon")}
@@ -26,12 +26,34 @@ RSpec.describe Coupon, type: :model do
     it { should validate_inclusion_of(:status).in_array(["activated", "deactivated"])}
   end
 
-  describe 'custom validation' do
+  describe 'Custom Validation' do
     it 'should not allow more than 5 coupons per merchant' do
       @coupon6 = Coupon.new(name: "Test 6", code: "Unique6", percent_off: 20, status: "activated", merchant: @merchant)
 
       expect(@coupon6.valid?).to eq(false)
       expect(@coupon6.errors[:merchant]).to include("can only have 5 active coupons at a time")
+    end
+  end
+
+  describe 'Class Methods' do
+    describe '#create_a_coupon' do
+      it 'can create a coupon object' do
+        @couponMerch = Merchant.create!(name: "HiHeather")
+        coupon_params = {name: "Test 6", code: "Unique6", percent_off: 20, status: "activated", merchant: @couponMerch}
+        created_coupon = Coupon.create_a_coupon(@couponMerch, coupon_params)
+
+        expect(created_coupon[:errors]).to be_nil
+        expect(@couponMerch.coupons.count).to eq 1
+        expect(created_coupon.name).to eq("Test 6")
+      end
+      
+      it 'will not create a coupon and return proper error if merchant has 5 or more active coupons' do
+        coupon_params = {name: "Test6", code: "Unique6", percent_off: 20, status: "activated", merchant: @merchant}
+        created_coupon = Coupon.create_a_coupon(@merchant, coupon_params)
+
+        expect(created_coupon[:errors]).to eq("Merchant can only have 5 active coupons")
+        expect(@merchant.coupons.count).to eq 5
+      end
     end
   end
 end

@@ -9,6 +9,10 @@ class Api::V1::MerchantInvoicesController < ApplicationController
     render json: InvoiceSerializer.new(invoices)
   end
 
+  # def show
+
+  # end
+
 private
 
   def not_found_response(exception)
