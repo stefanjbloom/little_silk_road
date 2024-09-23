@@ -10,7 +10,9 @@ class Api::V1::MerchantInvoicesController < ApplicationController
   end
 
   def show
-
+    merchant = Merchant.find(params[:merchant_id])
+    invoice = merchant.invoices.find(params[:id])
+    render json: InvoiceSerializer.new(invoice)
   end
 private
 

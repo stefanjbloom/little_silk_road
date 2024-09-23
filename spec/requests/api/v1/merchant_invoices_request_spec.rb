@@ -27,8 +27,19 @@ RSpec.describe 'Merchant Invoices' do
 
   describe 'HTTP Requests' do
     describe '#Show' do
-      it 'can return merchants invoices and include coupon id' do
-        
+      it 'can return merchants invoices and include coupon id attribute' do
+        get "/api/v1/merchants/#{@macho_man.id}/invoices/#{@invoice1.id}"
+
+        expect(response).to be_successful
+
+        invoice_w_coupon = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(invoice_w_coupon[:id]).to eq(@invoice1.id.to_s)
+        expect(invoice_w_coupon[:type]).to eq("invoice")
+        expect(invoice_w_coupon[:attributes][:customer_id]).to eq(@real_human1.id)
+        expect(invoice_w_coupon[:attributes][:merchant_id]).to eq(@macho_man.id)
+        expect(invoice_w_coupon[:attributes]).to have_key(:coupon_id)
+        expect(invoice_w_coupon[:attributes][:status]).to eq("shipped")
       end
     end
   end
