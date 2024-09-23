@@ -9,6 +9,8 @@ RSpec.describe Coupon, type: :model do
     @coupon4 = Coupon.create!(name: "Test 4", code: "Unique4", percent_off: 30, status: "activated", merchant: @merchant)
     @coupon5 = Coupon.create!(name: "Test 5", code: "Unique5", percent_off: 50, status: "activated", merchant: @merchant)
     # @coupon6 = Coupon.create!(name: "Test 6", code: "Unique6", percent_off: 20, status: "activated", merchant: @merchant)
+    @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
+
   end
 
   describe 'Relationships' do
@@ -46,13 +48,35 @@ RSpec.describe Coupon, type: :model do
         expect(@couponMerch.coupons.count).to eq 1
         expect(created_coupon.name).to eq("Test 6")
       end
-      
+
       it 'will not create a coupon and return proper error if merchant has 5 or more active coupons' do
         coupon_params = {name: "Test6", code: "Unique6", percent_off: 20, status: "activated", merchant: @merchant}
         created_coupon = Coupon.create_a_coupon(@merchant, coupon_params)
 
         expect(created_coupon[:errors]).to eq("Merchant can only have 5 active coupons")
         expect(@merchant.coupons.count).to eq 5
+      end
+    end
+
+    describe '#change_status' do
+      it 'can change a coupon status from "activated" to "deactivated and back' do
+        Coupon.change_status(@merchant, @coupon1)
+
+        expect(@coupon1.status).to eq("deactivated")
+
+        Coupon.change_status(@merchant, @coupon1)
+
+        expect(@coupon1.status).to eq("activated")
+      end
+
+      it 'will not deactivate coupon status if invoice is pending' do
+        @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @merchant.id, coupon_id: @coupon1, status: 'pending')
+
+        expect(@coupon1.status).to eq("activated")
+
+        Coupon.change_status(@merchant, @coupon1)
+
+        expect(@coupon1.status).to eq("activated")
       end
     end
   end
