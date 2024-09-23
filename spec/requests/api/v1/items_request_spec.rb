@@ -164,7 +164,9 @@ RSpec.describe 'Item Endpoints:' do
             id: @kozey_group.id.to_s,
             type: "merchant",
             attributes: {
-                name: @kozey_group.name
+                name: @kozey_group.name,
+                coupons_count: @kozey_group.coupons.count,
+                invoice_coupon_count: @kozey_group.invoices.where.not(coupon_id: nil).count
             }
         }
     }
