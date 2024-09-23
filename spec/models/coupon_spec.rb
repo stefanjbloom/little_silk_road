@@ -3,12 +3,13 @@ require "rails_helper"
 RSpec.describe Coupon, type: :model do
   before(:each) do
     @merchant = Merchant.create!(name: "Test Merchant")
+    
     @coupon1 = Coupon.create!(name: "Test 1", code: "Unique1", percent_off: 20, status: "activated", merchant: @merchant)
     @coupon2 = Coupon.create!(name: "Test 2", code: "Unique2", percent_off: 10, status: "activated", merchant: @merchant)
     @coupon3 = Coupon.create!(name: "Test 3", code: "Unique3", percent_off: 10, status: "activated", merchant: @merchant)
     @coupon4 = Coupon.create!(name: "Test 4", code: "Unique4", percent_off: 30, status: "activated", merchant: @merchant)
     @coupon5 = Coupon.create!(name: "Test 5", code: "Unique5", percent_off: 50, status: "activated", merchant: @merchant)
-    # @coupon6 = Coupon.create!(name: "Test 6", code: "Unique6", percent_off: 20, status: "activated", merchant: @merchant)
+    
     @real_human1 = Customer.create!(first_name: 'Ross', last_name: 'Ulbricht')
 
   end
