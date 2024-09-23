@@ -79,5 +79,34 @@ RSpec.describe Coupon, type: :model do
         expect(@coupon1.status).to eq("activated")
       end
     end
+
+    describe'#sort_by_status' do
+      it 'can sort status correctly when query param ?sorted=active' do
+        result = Coupon.sort_by_status("active")
+
+        expect(result.count).to eq(5)
+        expect(result).to include(@coupon1, @coupon2, @coupon3, @coupon4, @coupon5)
+      end
+
+      it 'can sort status correctly when query param ?sorted=inactive' do
+        @couponMerch = Merchant.create!(name: "HiHeather")
+        @inactive_coupon = Coupon.create!(name: "Inactive Coupon", code: "HIAbdul", percent_off: 20, status: "deactivated", merchant: @couponMerch)
+
+        result = Coupon.sort_by_status("inactive")
+
+        expect(result.count).to eq(1)
+        expect(result).to include(@inactive_coupon)
+      end
+
+      it 'will return all coupons in absence of query param' do
+        @couponMerch = Merchant.create!(name: "HiHeather")
+        @inactive_coupon = Coupon.create!(name: "Inactive Coupon", code: "HIAbdul", percent_off: 20, status: "deactivated", merchant: @couponMerch)
+
+        result = Coupon.sort_by_status("")
+
+        expect(result.count).to eq(6)
+        expect(result).to include(@coupon1, @coupon2, @coupon3, @coupon4, @coupon5, @inactive_coupon)
+      end
+    end
   end
 end
