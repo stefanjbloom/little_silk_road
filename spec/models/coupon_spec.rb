@@ -70,7 +70,7 @@ RSpec.describe Coupon, type: :model do
       end
 
       it 'will not deactivate coupon status if invoice is pending' do
-        @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @merchant.id, coupon_id: @coupon1, status: 'pending')
+        @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @merchant.id, coupon_id: @coupon1.id, status: 'pending')
 
         expect(@coupon1.status).to eq("activated")
 
