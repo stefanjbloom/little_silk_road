@@ -56,6 +56,12 @@ RSpec.describe 'Merchant Invoices' do
 
         expect(response).to be_successful
 
+        new_invoice = JSON.parse(response.body, symbolize_names: true)[:data]
+
+        expect(new_invoice[:attributes][:customer_id]).to eq(@real_human1.id)
+        expect(new_invoice[:attributes][:merchant_id]).to eq(@macho_man.id)
+        expect(new_invoice[:attributes][:coupon_id]).to eq(@coupon1.id)
+        expect(new_invoice[:attributes][:status]).to eq("shipped")
       end
     end
   end

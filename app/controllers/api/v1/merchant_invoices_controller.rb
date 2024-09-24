@@ -18,6 +18,7 @@ class Api::V1::MerchantInvoicesController < ApplicationController
   def create
     merchant = Merchant.find(params[:merchant_id])
     invoice = Invoice.create_an_invoice(merchant, invoice_params)
+    invoice.is_a?(Invoice) ? render(json: InvoiceSerializer.new(invoice), status: :created) : render(json: { errors: invoice[:errors] }, status: :bad_request)  
   end
 
 private
