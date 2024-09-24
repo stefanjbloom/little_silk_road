@@ -29,6 +29,8 @@ RSpec.describe Invoice, type: :model do
     @invoice2 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')   
     @invoice3 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'returned')
     @invoice4 = Invoice.create!(customer_id: @real_human2.id, merchant_id: @macho_man.id, status: 'packaged')
+
+    @coupon1 = Coupon.create!(name: "Test 1", code: "Unique1", percent_off: 20, status: "activated", merchant: @macho_man)
   end
 
   describe "filtering invoices by status" do
@@ -54,6 +56,19 @@ RSpec.describe Invoice, type: :model do
       expect(packaged_invoices).to include(@invoice4)
       expect(packaged_invoices).to_not include(@invoice1, @invoice2, @invoice3)
       expect(packaged_invoices.count).to eq(1)
+    end
+    # Final Project Method Test
+    it 'can create a new invoice' do
+      new_invoice_params = {customer_id: @real_human1.id, merchant_id: @macho_man.id, coupon_id: @coupon1.id, status: "shipped"}
+
+      Invoice.create_an_invoice(@macho_man, new_invoice_params)
+
+      result = Invoice.last
+
+      expect(result.customer_id).to eq(@real_human1.id)
+      expect(result.merchant_id).to eq(@macho_man.id)
+      expect(result.coupon_id).to eq(@coupon1.id)
+      expect(result.status).to eq("shipped")
     end
   end
 end

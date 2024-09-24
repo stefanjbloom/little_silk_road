@@ -13,4 +13,8 @@ class Invoice < ApplicationRecord
     return all unless status.present?
     where(status: status)
 	end
+
+	def self.create_an_invoice(merchant, invoice_params)
+		merchant.invoices.create(invoice_params)
+	end
 end

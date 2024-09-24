@@ -38,15 +38,28 @@ RSpec.describe 'Merchant Endpoints:' do
 
         expect(merchant).to have_key(:name)
         expect(merchant[:name]).to be_a(String)
+
+        expect(merchant).to have_key(:coupons_count)
+        expect(merchant[:coupons_count]).to be_a(Integer)
+
+        expect(merchant).to have_key(:invoice_coupon_count)
+        expect(merchant[:invoice_coupon_count]).to be_a(Integer)
       end
     end
 
     it "Can return one merchant" do
       get "/api/v1/merchants/#{@macho_man.id}"
       expect(response).to be_successful
+
       merchant = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expected_coupons_count = @macho_man.coupons.count
+      expected_invoice_coupon_count = @macho_man.invoices.where.not(coupon_id: nil).count
+
       expect(merchant[:id]).to eq(@macho_man.id.to_s)
       expect(merchant[:attributes][:name]).to eq(@macho_man.name)
+      expect(merchant[:attributes][:coupons_count]).to eq(expected_coupons_count)
+      expect(merchant[:attributes][:invoice_coupon_count]).to eq(expected_invoice_coupon_count)
     end
 
     it "Can create a merchant" do
@@ -60,6 +73,11 @@ RSpec.describe 'Merchant Endpoints:' do
   
       new_merchant = Merchant.last
       expect(new_merchant.name).to eq(merchant_params[:name])
+
+      merchant_coupons = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+
+      expect(merchant_coupons[:coupons_count]).to eq(0)
+      expect(merchant_coupons[:invoice_coupon_count]).to eq(0)
     end
 
     it "Can update a merchant's name" do
@@ -74,6 +92,11 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response).to be_successful
       expect(updated_merchant.name).to_not eq(previous_name)
       expect(updated_merchant.name).to eq("Kozey Grove co.")
+
+      merchant_coupons = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+
+      expect(merchant_coupons[:coupons_count]).to eq(0)
+      expect(merchant_coupons[:invoice_coupon_count]).to eq(0)
     end
 
     it 'Can delete a merchant and all of their items' do
@@ -225,6 +248,11 @@ RSpec.describe 'Merchant Endpoints:' do
       expect(response.status).to eq(200)
       expect(data[:id]).to eq(store2.id.to_s)
       expect(data[:attributes][:name]).to eq(store2.name)
+
+      merchant_coupons = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+
+      expect(merchant_coupons[:coupons_count]).to eq(0)
+      expect(merchant_coupons[:invoice_coupon_count]).to eq(0)
     end
 
     it 'can handle incorrect searches' do
@@ -249,7 +277,12 @@ RSpec.describe 'Merchant Endpoints:' do
       merchants = JSON.parse(response.body, symbolize_names: true)[:data]
       
       expect(merchants.first[:attributes][:name]).to eq(@hot_topic.name)
+      expect(merchants.first[:attributes][:coupons_count]).to eq(0)
+      expect(merchants.first[:attributes][:invoice_coupon_count]).to eq(0)
+      
       expect(merchants.last[:attributes][:name]).to eq(@macho_man.name)
+      expect(merchants.last[:attributes][:coupons_count]).to eq(0)
+      expect(merchants.last[:attributes][:invoice_coupon_count]).to eq(0)
     end
 
     it 'can display only merchants with invoice status="returned"' do
@@ -262,6 +295,8 @@ RSpec.describe 'Merchant Endpoints:' do
       
       expect(merchants.first[:attributes][:name]).not_to eq([@kozey_group.name])
       expect(merchants.first[:attributes][:name]).to eq(@macho_man.name)
+      expect(merchants.first[:attributes][:coupons_count]).to eq(0)
+      expect(merchants.first[:attributes][:invoice_coupon_count]).to eq(0)
     end
 
     it 'can display count of how many items a merchant has' do

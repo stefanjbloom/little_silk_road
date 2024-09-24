@@ -24,11 +24,13 @@ Rails.application.routes.draw do
   get "/api/v1/items/:id/merchant", to: "api/v1/items_merchant#index"
 
   # Routing for Coupon Project (in order of CRUD Endpoints of BE requirements)
-  get "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#show"
-  get "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#index"
-  post "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#create"
-  patch "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#update"
-  get "/api/v1/merchants/:merchant_id/invoices/:id", to: "api/v1/merchant_invoices#show"
+  get "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#show" #Merchant Coupon Show
+  get "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#index" #Merchant Coupons Index
+  post "/api/v1/merchants/:merchant_id/coupons", to: "api/v1/coupons#create" #Merchant Coupon Create
+  patch "/api/v1/merchants/:merchant_id/coupons/:id", to: "api/v1/coupons#update" #Merchant Coupon Activate/Deactivate
+  # http://localhost:3000/api/v1/merchants/112/coupons?sorted=inactive
+  post "/api/v1/merchants/:merchant_id/invoices", to: "api/v1/merchant_invoices#create" #Merchant Invoice (create an invoice)
+  get "/api/v1/merchants/:merchant_id/invoices/:id", to: "api/v1/merchant_invoices#show" #Merchant Invoice
 
 end
   

@@ -15,7 +15,8 @@ class Coupon < ApplicationRecord
   validate :max_coupons_per_merchant
 
   def self.create_a_coupon(merchant, coupon_params)
-    return {errors: "Merchant can only have 5 active coupons"} if merchant.coupons.count >= 5
+    return {errors: "Merchant can only have 5 active coupons"} if merchant.coupons.active.count >= 5
+    return {errors: "Coupon code must be unique"} if merchant.coupons.exists?(code: coupon_params[:code])
     merchant.coupons.create(coupon_params)
   end
 
@@ -34,9 +35,9 @@ class Coupon < ApplicationRecord
 
   def self.sort_by_status(sorted)
     if sorted == "active"
-      where(status: "activated")
+      where(status: "activated").order(status: :asc)
     elsif sorted == "inactive"
-      where(status: "deactivated")
+      where(status: "deactivated").order(status: :asc)
     else
       all
     end
