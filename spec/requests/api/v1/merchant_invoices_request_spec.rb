@@ -42,5 +42,21 @@ RSpec.describe 'Merchant Invoices' do
         expect(invoice_w_coupon[:attributes][:status]).to eq("shipped")
       end
     end
+
+    describe "Create" do
+      it 'can create an invoice for a merchant' do
+        invoice_params = {
+          customer_id: @real_human1.id,
+          merchant_id: @macho_man.id,
+          coupon_id: @coupon1.id,
+          status: "shipped"
+        }
+
+        post "/api/v1/merchants/#{@macho_man.id}/invoices", params: {invoice: invoice_params}
+
+        expect(response).to be_successful
+
+      end
+    end
   end
 end
