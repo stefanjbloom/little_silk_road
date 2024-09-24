@@ -20,7 +20,7 @@ class Api::V1::CouponsController < ApplicationController
   def create
     merchant = Merchant.find(params[:merchant_id])
     coupon = Coupon.create_a_coupon(merchant, coupon_params)
-    coupon.is_a?(Coupon) ? render(json: CouponSerializer.new(coupon), status: :created) : render(json: { errors: coupon[:errors] }, status: :bad_request)  
+    coupon.is_a?(Coupon) ? render(json: CouponSerializer.new(coupon), status: :created) : render(json: { errors: coupon[:errors] }, status: :unprocessable_entity)  
   end
 
   def update
