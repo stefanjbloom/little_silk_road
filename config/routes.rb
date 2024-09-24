@@ -33,4 +33,13 @@ Rails.application.routes.draw do
   get "/api/v1/merchants/:merchant_id/invoices/:id", to: "api/v1/merchant_invoices#show" #Merchant Invoice
 
 end
-  
+# Postman Body Info
+# {
+#     "coupon": {
+#         "name": "50percent",
+#         "code": "50OFF",
+#         "percent_off": 50,
+#         "status": "activated",
+#         "usage_count": 0
+#     }
+# }
