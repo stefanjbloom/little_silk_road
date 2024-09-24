@@ -3,9 +3,7 @@ class Coupon < ApplicationRecord
   has_many :invoices
 
   scope :active, -> { where(status: "activated") }
-  # simplifies and reuses query logic in AR models
-  # shorthand syntax (lambda) specifies what scope does
-  # this executes a query like SELECT * FROM coupons WHERE status = "activated"
+  # this creates active method thatexecutes a query like SELECT * FROM coupons WHERE status = "activated"
 
   validates :name, :code, :percent_off, :status, presence: { message: "is required to create new Coupon"}
   validates :name, :code, :percent_off, comparison: {other_than: "", message: "cannot be blank"}

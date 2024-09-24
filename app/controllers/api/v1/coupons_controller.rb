@@ -31,7 +31,7 @@ class Api::V1::CouponsController < ApplicationController
     if updated_coupon[:errors]
       render json: {error: updated_coupon[:errors]}, status: 422
     else
-      render json: {data: updated_coupon[:coupon]}, status: 200
+      render json: {message: "Coupon Status Changed"}, status: 200
     end
   end
 
